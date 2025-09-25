@@ -1,0 +1,62 @@
+:host {
+  display: block;
+  height: 100%;  /* ok */
+  background: url('../../../assets/bg_logo.jpeg') no-repeat center center fixed;
+  background-size: cover;
+}
+
+/* ion-content transparent + footer overlap fix */
+ion-content {
+  --background: transparent;
+  /* ❌ padding-bottom ekkuva ivvakandi, only footer size ki chalu */
+  --padding-bottom: 32% !important; /* Ionic way */
+}
+/* ion-list & ion-item transparent */
+ion-list {
+  --background: transparent !important;
+  background: transparent !important;
+}
+
+ion-item {
+  --background: transparent !important;
+  background: transparent !important;
+}
+
+ion-item::part(native) {
+  background: transparent !important;
+}
+ .about-container {
+    padding: 16px;
+    color: #fff;
+    font-size: 16px;
+    line-height: 1.6;
+    text-align: justify;
+
+    p {
+      margin-top: 12px;
+    }
+
+    b {
+      font-weight: bold;
+      color: #ffeb3b;
+    }
+  }
+  .custom-toolbar {
+  text-align: center;
+  width: 100%;
+  color: #fff;
+  margin-top: 12px;
+
+  h1 {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  h2 {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+  }
+}
+

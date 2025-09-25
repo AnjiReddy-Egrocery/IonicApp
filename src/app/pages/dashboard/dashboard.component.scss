@@ -1,0 +1,615 @@
+.dashboard-content {
+  padding: 16px;
+}
+
+.menu-header {
+  text-align: center;
+  margin-bottom: 20px;
+  background: #D3BF96;
+}
+
+.menu-header h2 {
+  margin: 8px 0 4px 0;
+  color: #fff;
+  font-weight: bold;
+}
+
+.menu-header p {
+  color: #fff;
+  font-size: 14px;
+}
+
+/* Bottom icons styling */
+.bottom-icon {
+  width: 40px;
+  height: 40px;
+  margin: auto;
+}
+
+.bottom-text {
+  color: #E41B1B;
+  font-weight: bold;
+  font-size: 16px;
+}
+.custom-toolbar {
+  text-align: center;
+  width: 100%;
+  color: #fff;
+
+  h1 {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  h2 {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+  }
+}
+
+.menu-header {
+  display: flex;
+  flex-direction: column; /* stack vertically */
+  align-items: center;    /* center horizontally */
+  justify-content: center; /* center vertically if needed */
+  padding: -19px 0;
+  background-color: #D3BF96; /* similar to Android background */
+  margin-left: -16px; margin-right: -16px; margin-top: -16px;
+  
+  .header-avatar {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 12px;
+  }
+
+  .header-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #fff;
+    margin: 4px 0;
+    text-align: center;
+  }
+
+  .header-email {
+    font-size: 16px;
+    color: #fff;
+    margin: 0;
+    text-align: center;
+  }
+}
+.custom-footer {
+  --background: #FFF0D1; /* same as Android LinearLayout background */
+}
+
+.bottom-icon {
+  width: 24px; /* adjust size as needed */
+  height: 24px;
+}
+
+.bottom-text {
+  margin: 0;
+  font-weight: bold;
+  color: #E41B1B;
+  font-size: 14px;
+}
+.text-image-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px; /* space between text and image */
+}
+.icon-text-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px; /* spacing between image and text */
+}
+
+.custom-circle {
+  width: 16px;          /* Circle width */
+  height: 16px;         /* Circle height */
+  background-color: #BC0F0F; /* Circle color */
+  border-radius: 50%;   /* Makes it a circle */
+  display: inline-block;
+  margin-right: 10px;   /* Space between circle and text */
+  vertical-align: middle;
+}
+
+ion-item {
+  border-bottom: 1px solid #ccc; /* light grey line */
+}
+
+.container {
+  margin: 12px; /* Matches outer LinearLayout margin */
+}
+
+.anadanam-card {
+  background: #F9F9F9; /* Replace with your @drawable/anadanam_bg color or image */
+  border-radius: 20px;
+  padding: 12px;
+}
+.anadanamno-gap-card {
+  margin: 30px 5px 10px 5px; /* top right bottom left */
+  padding: 0;
+  --background: none; /* optional if you want no default card background */
+}
+
+.anadanamno-gap-card{
+  padding: 0;
+  margin: 0;
+}
+
+.no-gap-card {
+  margin: 0px 0px 5px 0px; /* top right bottom left */
+  padding: 0;
+  --background: none; /* optional if you want no default card background */
+}
+
+/* Remove grid padding */
+.no-gap-grid {
+  padding: 0;
+  margin: 0;
+}
+
+/* Image size */
+.anadanam-img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+}
+
+/* Center text vertically and horizontally */
+.text-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.anadanam-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #000;
+  margin: 6px;
+}
+
+.anadanam-subtitle {  
+  color: #A86565;
+  margin-top: 8px;
+  text-align: center;
+}
+:host {
+  display: block;
+  background: url('../../../assets/bg_logo.jpeg') no-repeat center center;
+  background-size: cover;
+}
+
+/* Ensure ion-content is transparent so bg shows through */
+ion-content {
+  --background: transparent;
+}
+
+.two-card-row ion-card {
+  cursor: pointer;
+ 
+  align-items: center;
+  
+  gap: 12px;
+  margin-top: -30px;
+
+  img {
+    max-width: 90px;
+    max-height: 90px;
+  }
+
+  h2 {
+    font-size: 16px;
+    text-align: center;
+    margin: 0;
+  }
+}
+
+.guru-card {
+  background-color: #FFF0D1;
+  border-top-left-radius: 250px;
+  border-bottom-left-radius: 250px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  margin: 1px;
+
+  .card-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    .guru-img {
+      width: 90px;
+      height: 90px;
+      margin-left: -20px;
+    }
+
+    .guru-title {
+        font-size: 14px; /* 16px నుండి 14px కి తగ్గింపు */
+        font-weight: bold;
+        color: #000;
+        text-align: center;       
+        line-height: 1.2; /* text మరీ దగ్గరగా కనబడకుండా */
+        margin-left: -12px;
+        }
+    }
+  }
+
+
+/* Bhajana Card: rounded right corners */
+.bhajana-card {
+  background-color: #FFF0D1;
+  border-top-right-radius: 250px;
+  border-bottom-right-radius: 250px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  margin: 2px;
+
+  .card-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-direction: row; /* image on right, text left */
+
+    .bhajana-img {
+      width: 90px;
+      height: 90px;
+      margin-right: -20px;
+    }
+
+    .bhajana-title {
+      font-size: 16px;
+      font-weight: bold;
+      color: #000;
+      text-align: center;
+      margin-right: -12px;
+    }
+  }
+}
+
+.nityapooja-card {
+  display: flex;
+  align-items: center;
+  margin: 6px 35px;
+  padding: 8px;
+  border: 3px solid #BC0F0F;
+  border-radius: 10px;
+  background: #fff;
+
+  .nityapooja-img {
+    flex: 1;
+    max-height: 150px;
+    margin: -46px -21px -17px -21px; /* same as android margins */
+    object-fit: contain;
+  }
+
+  .nityapooja-title {
+    flex: 1;
+    font-size: 16px;
+    font-weight: bold;
+    color: #EA0404;
+    text-align: center;
+  }
+}
+
+/* Second Section */
+.below-img {
+  display: flex;
+  justify-content: center;
+  margin-top: -50px;
+
+  ion-img {
+    width: 250px;
+    height: 100px;
+    object-fit: cover;
+  }
+}
+
+/* Third Section */
+.sharanughosha-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -50px;
+
+  .sharanughosha-img {
+    width: 50px;
+    height: 75px;
+    object-fit: contain;
+  }
+
+  .sharanughosha-title {
+    margin-left: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #EA0404;
+  }
+}
+.home-bg {
+  background-color: #FFF0D1;
+  border-bottom-left-radius: 240px;
+  border-bottom-right-radius: 240px;
+
+  /* padding, margin adjust */
+  padding: 2px;
+  margin: -12px;
+
+  /* optional: container card look */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+.calendar-card {
+  margin: 0;              /* gap తొలగించబడుతుంది */
+  border-radius: 8px;
+  overflow: hidden;
+  background: transparent !important;
+  box-shadow: none;
+}
+
+.calendar-row {
+  align-items: center;
+}
+
+.calendar-img-col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.calendar-img {
+  width: 85px;
+  height: 85px;
+}
+
+.calendar-text-col {
+  display: flex;
+  align-items: center;
+}
+
+.calendar-text-bg {
+  background: transparent !important; /* ✅ bg transparent */
+  border: 2px solid #fff;             /* ✅ only border white */
+  border-radius: 18px;
+  padding: 25px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.calendar-title {
+  color: #fff; 
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+  text-align: center;
+}
+
+.poojapetam-card {
+  margin: 12px;
+  border-radius: 8px;
+  background: transparent !important; /* layout_bg_white కి సమానం */
+   border: 2px solid #fff;             /* ✅ only border white */
+  border-radius: 18px;
+}
+
+.poojapetam-img {
+  width: 100px;
+  height: 90px;
+  object-fit: contain;
+  margin-right: 16px; /* Image తర్వాత gap */
+}
+
+.poojapetam-text p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff; /* మీరు XML లో ఇచ్చిన color */
+  text-align: center;
+}
+.poojapetam-grid {
+  margin: -12px;
+  border-radius: 8px;
+ 
+}
+
+.poojapetam-text {
+  padding-left: 0px; /* Image మరియు text మధ్య gap */
+}
+
+.product-card {
+  background-color: #FFF0D1;
+  border-top-left-radius: 250px;
+  border-bottom-left-radius: 250px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  margin: 1px;
+
+  .card-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    .product-img {
+      width: 90px;
+      height: 90px;
+      margin-left: -20px;
+    }
+
+    .product-title {
+        font-size: 14px; /* 16px నుండి 14px కి తగ్గింపు */
+        font-weight: bold;
+        color: #AA0707;
+        text-align: center;
+        margin: 0;
+        line-height: 1.2; /* text మరీ దగ్గరగా కనబడకుండా */
+        margin-left: -12px;
+        }
+    }
+  }
+
+
+/* Bhajana Card: rounded right corners */
+.books-card {
+  background-color: #FFF0D1;
+  border-top-right-radius: 250px;
+  border-bottom-right-radius: 250px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  margin: 2px;
+
+  .card-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-direction: row; /* image on right, text left */
+
+    .books-img {
+      width: 90px;
+      height: 90px;
+      margin-right: -20px;
+    }
+
+    .books-title {
+      font-size: 16px;
+      font-weight: bold;
+      color: #AA0707;
+      text-align: center;
+      margin-right: -12px;
+    }
+  }
+}
+.two-productcard-row ion-card {
+  cursor: pointer; 
+  align-items: center;  
+  gap: 12px;
+  margin-top: -30px;
+
+  img {
+    max-width: 90px;
+    max-height: 90px;
+  }
+
+  h2 {
+    font-size: 16px;
+    text-align: center;
+    margin: 0;
+  }
+}
+
+
+.yatra-card {
+  background-color: #FFF0D1;
+  border-top-left-radius: 250px;
+  border-bottom-left-radius: 250px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  margin: 1px;
+
+  .yatracard-content {
+  display: flex;
+  flex-direction: row;   /* Image left, text right */
+  align-items: center;   /* vertically center */
+    }
+
+    .yatra-img {
+      width: 110px;
+      height: 100px;
+      margin-right: 16px; /* image & text మధ్య gap */
+    }
+
+    .yatra-text {
+      display: flex;
+      flex-direction: column; /* ఒక్కో text కిందకి వస్తుంది */
+    }
+
+    .yatra-text h2 {
+        font-size: 18px;        /* పెద్ద heading */
+        font-weight: bold;      /* bold text */
+        color: #000;            /* నలుపు */
+        margin: 4px 0;
+      }
+
+      .yatra-text h4 {
+        font-size: 16px;        /* మధ్య సైజ్ */
+        font-weight: 500;       /* semi-bold */
+        color: #AEB56B;            /* డార్క్ గ్రే */
+        margin: 4px 0;
+      }
+
+      .yatra-text h6 {
+          display: block;          /* line అంతా occupy అవుతుంది */
+          width: 100%;             /* parent width వరకు background */
+          font-size: 16px;
+          font-weight: normal;
+          color: #fff;
+          background: #FA2323;     /* Red background */
+          margin: 4px 0;
+          padding: 4px 8px;        /* text కి padding ఇవ్వండి */
+          border-radius: 4px;      /* కొంచెం rounded look */
+      }
+  }
+
+  .view-all-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.view-all-btn {
+  --background: #fff;          // Button background
+  --border-radius: 30px;       // Rounded corners
+  --padding-start: 12px;       // Horizontal padding
+  --padding-end: 12px;
+  --min-width: auto;            // Adjust width to text
+  --height: 36px;               // Optional smaller height
+  --color: #6E0303;             // Text color
+}
+
+.news-list-wrapper {  
+  flex-direction: column; // Vertical list  
+  margin-top: -50px;
+}
+
+.news-card {
+  --background: transparent;
+  box-shadow: none;
+  padding: 0;
+
+  ion-card-content.news-card-content {
+    padding: 0;
+    color: #fff;
+  }
+}
+.header-container {
+  display: flex;
+  flex-direction: column;  /* stack vertically */
+  justify-content: center; /* centers content vertically in container */
+  align-items: center;     /* centers content horizontally */
+  padding: 8px 0;
+  gap: 8px;                /* space between icon and title */
+}
+
+.header-icon {
+  width: 200px;  /* adjust as needed */
+  height: 100px;
+  margin-top: -45px;
+}
+
+.header-title {
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  color: #fff;
+}
+

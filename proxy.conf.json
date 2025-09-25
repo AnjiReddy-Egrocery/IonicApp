@@ -1,0 +1,90 @@
+{
+  "/api/users": {
+    "target": "https://www.ayyappatelugu.com/APICalls/Users",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": { "^/api/users": "" },
+    "logLevel": "debug"
+  },
+  "/api/activities": {
+    "target": "https://www.ayyappatelugu.com/APICalls/Activities",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": { "^/api/activities": "" },
+    "logLevel": "debug"
+  },
+  "/api/guruswami": {
+    "target": "https://www.ayyappatelugu.com/APICalls/Guruswami",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": { "^/api/guruswami": "" },
+    "logLevel": "debug"
+  },
+  "/api/bajanamandali": {
+    "target": "https://www.ayyappatelugu.com/APICalls/Bajanamandali",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": { "^/api/bajanamandali": "" },
+    "logLevel": "debug"
+  },
+  "/api/annadhanams": {
+    "target": "https://www.ayyappatelugu.com/APICalls/Annadhanams",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": { "^/api/annadhanams": "" },
+    "logLevel": "debug"
+  },
+  "/api/calendar": {
+  "target": "https://www.ayyappatelugu.com/APICalls/Calendar",
+  "secure": false,
+  "changeOrigin": true,
+  "pathRewrite": { "^/api/calendar": "" },
+  "logLevel": "debug"
+},
+"/api/Books": {
+  "target": "https://www.ayyappatelugu.com/APICalls/Books",
+  "secure": false,
+  "changeOrigin": true,
+  "pathRewrite": { "^/api/Books": "" },
+  "logLevel": "debug"
+},
+"/api/Yatralu": {
+  "target": "https://www.ayyappatelugu.com/APICalls/Yatralu",
+  "secure": false,
+  "changeOrigin": true,
+  "pathRewrite": { "^/api/Yatralu": "" },
+  "logLevel": "debug"
+},
+"/api/Decorators": {
+  "target": "https://www.ayyappatelugu.com/APICalls/Decorators",
+  "secure": false,
+  "changeOrigin": true,
+  "pathRewrite": { "^/api/Decorators": "" },
+  "logLevel": "debug"
+},
+"/api/Products": {
+  "target": "https://www.ayyappatelugu.com/APICalls/Products",
+  "secure": false,
+  "changeOrigin": true,
+  "pathRewrite": { "^/api/Products": "" },
+  "logLevel": "debug"
+},
+
+"/api/News": {
+  "target": "https://www.ayyappatelugu.com/APICalls/News",
+  "secure": false,
+  "changeOrigin": true,
+  "pathRewrite": { "^/api/News": "" },
+  "logLevel": "debug"
+},
+"/api/Temples": {
+  "target": "https://www.ayyappatelugu.com/APICalls/Temples",
+  "secure": false,
+  "changeOrigin": true,
+  "pathRewrite": { "^/api/Temples": "" },
+  "logLevel": "debug"
+}
+
+
+
+}

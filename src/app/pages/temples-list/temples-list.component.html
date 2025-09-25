@@ -1,0 +1,33 @@
+
+ <div class="header-container">
+  
+    <img src="../../../assets/nearby.png" class="header-icon" />
+  </div>
+  <!-- Search Bar -->
+  <ion-searchbar
+    [(ngModel)]="searchQuery"
+    (ionInput)="filterResults($event)"
+    placeholder="Search by Title"
+    animated>
+  </ion-searchbar>
+
+  <!-- Swipe to refresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="refreshList($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- List of activities -->
+   <ion-list fullscreen>
+    <ion-item *ngFor="let temple  of filteredList" button (click)="openDetails(temple )">
+      <ion-thumbnail slot="start">
+        <img [src]="'https://www.ayyappatelugu.com/assets/temple_images/' + temple.image" />
+      </ion-thumbnail>
+      <ion-label style="color: #fff;">
+        <h4>{{ temple.templeName }}</h4>        
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+
+ 
+

@@ -1,0 +1,74 @@
+<ion-header>
+  <ion-toolbar color="danger">
+    <ion-buttons slot="start">
+       <ion-back-button defaultHref="/home" color="light" text=""></ion-back-button>
+    </ion-buttons>
+    <div class="custom-toolbar">
+      <h1>స్వామి శరణం అయ్యప్ప</h1>
+      <h2>(www.ayyappatelugu.com)</h2>
+    </div>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Title -->
+  <h2 class="news-title">{{ name }}</h2>
+
+  <!-- Image Card -->
+  <ion-card class="news-card">
+    <ion-img [src]="image" alt="news-image"></ion-img>
+  </ion-card>
+
+  <!-- Description (replicates WebView HTML) -->
+  <div class="description" [innerHTML]="linkifiedDescription"></div>
+
+<!-- "View More News" clickable -->
+<div class="view-more-container">
+  <ion-button fill="clear" (click)="viewMoreNews()">
+    View More News
+  </ion-button>
+</div>
+
+<div class="tts-controls">
+  <ion-button fill="clear" color="light" (click)="togglePlay()">
+    <ion-icon [name]="isPlaying && !isPaused ? 'pause-circle' : 'play-circle'"></ion-icon>
+  </ion-button>
+
+  <ion-button fill="clear" color="light" (click)="replay()">
+    <ion-icon name="refresh-circle"></ion-icon>
+  </ion-button>
+</div>
+
+</ion-content>
+
+ <ion-footer>
+    <ion-toolbar class="custom-footer">
+      <ion-grid>
+        <ion-row class="ion-align-items-center ion-justify-content-center">
+
+          <!-- First Item: Icon + Text -->
+          <ion-col size="auto" (click)="goToAnadanam()">
+            <div class="icon-text-row">
+              <ion-img src="../../../assets/location.png" class="bottom-icon"></ion-img>
+              <p class="bottom-text">అన్నదానం</p>
+            </div>
+          </ion-col>
+
+          <!-- Center Icon -->
+          <ion-col class="ion-text-center" size="2.4">
+            <ion-img src="../../../assets/bottomcenter.png" class="bottom-icon"></ion-img>
+          </ion-col>
+
+          <!-- Fifth Item: Text + Icon -->
+          <ion-col size="auto" (click)="goToNityaPooja()">
+            <div class="text-image-row">
+              <p class="bottom-text">నిత్య పూజ</p>
+              <ion-img src="../../../assets/nithyapooja.png" class="bottom-icon"></ion-img>
+            </div>
+          </ion-col>
+
+        </ion-row>
+      </ion-grid>
+    </ion-toolbar>
+  </ion-footer>

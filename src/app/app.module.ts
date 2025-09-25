@@ -5,12 +5,24 @@ import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
-import { AppRoutingModule } from './app-routing.module';
+import { HttpClientModule } from '@angular/common/http';
+import { PrivacyDialogComponent } from './pages/privacy-dialog/privacy-dialog.component';
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
+
 
 @NgModule({
-  declarations: [AppComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
-  bootstrap: [AppComponent],
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot(),
+    AppComponent,
+    
+    HttpClientModule   // ✅ Import standalone component here
+  ],
+  providers: [],
+ 
 })
-export class AppModule {}
+export class AppModule {
+  constructor() {
+    GoogleAuth;
+  }
+}

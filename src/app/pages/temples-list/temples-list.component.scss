@@ -1,0 +1,31 @@
+.header-container {
+  display: flex;
+  justify-content: center; /* centers content horizontally */
+  align-items: center;     /* centers content vertically */
+  gap: 8px;                /* space between text and icon */
+  padding: 8px 0;
+}
+
+.header-icon {
+  width: 30px;  /* adjust to match your design */
+  height: 30px;
+}
+
+ion-content {
+  --background: transparent;
+  /* ❌ padding-bottom ekkuva ivvakandi, only footer size ki chalu */
+  --padding-bottom: 32% !important; /* Ionic way */
+}
+/* ion-list & ion-item transparent */
+ion-list {
+  --background: transparent !important;
+  background: transparent !important;
+}
+
+ion-item {
+  --background: transparent !important;
+  background: transparent !important;
+}
+ion-item::part(native) {
+  border-bottom: 0.5px solid #fff !important; /* white line at bottom */
+}

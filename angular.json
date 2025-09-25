@@ -44,8 +44,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
                 }
               ],
               "fileReplacements": [
@@ -72,6 +72,9 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+                "proxyConfig": "proxy.conf.json"
+              },
           "configurations": {
             "production": {
               "buildTarget": "app:build:production"
@@ -136,7 +139,8 @@
   "cli": {
     "schematicCollections": [
       "@ionic/angular-toolkit"
-    ]
+    ],
+    "analytics": "07e77e00-bbdf-48fb-9719-32436a9f4b50"
   },
   "schematics": {
     "@ionic/angular-toolkit:component": {

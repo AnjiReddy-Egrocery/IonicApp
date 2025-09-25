@@ -1,0 +1,139 @@
+
+.icon-text-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px; /* spacing between image and text */
+}
+.text-image-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px; /* space between text and image */
+}
+.bottom-text {
+  color: #E41B1B;
+  font-weight: bold;
+  font-size: 16px;
+}
+.bottom-icon {
+  width: 24px; /* adjust size as needed */
+  height: 24px;
+}
+.custom-toolbar {
+  text-align: center;
+  width: 100%;
+  color: #fff;
+  margin-top: 12px;
+
+  h1 {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  h2 {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+  }
+}
+:host {
+  display: block;
+  height: 100%;  /* ok */
+  background: url('../../../assets/bg_logo.jpeg') no-repeat center center fixed;
+  background-size: cover;
+}
+
+/* ion-content transparent + footer overlap fix */
+ion-content {
+  --background: transparent;
+  /* ❌ padding-bottom ekkuva ivvakandi, only footer size ki chalu */
+  --padding-bottom: 32% !important; /* Ionic way */
+}
+/* ion-list & ion-item transparent */
+ion-list {
+  --background: transparent !important;
+  background: transparent !important;
+}
+
+ion-item {
+  --background: transparent !important;
+  background: transparent !important;
+}
+
+ion-item::part(native) {
+  background: transparent !important;
+}
+
+ion-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+
+.custom-footer {
+  --background: #FFF0D1; /* your footer color */
+  box-shadow: none;
+}
+
+ion-label h2 {
+  color: #fff !important; /* white text */
+ 
+}
+
+ion-item::part(native) {
+  border-bottom: 0.5px solid #fff !important; /* white line at bottom */
+}
+.header-container {
+  display: flex;
+  justify-content: center; /* centers content horizontally */
+  align-items: center;     /* centers content vertically */
+  gap: 8px;                /* space between text and icon */
+  padding: 8px 0;
+}
+
+.header-title {
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  color: #fff;
+}
+
+.header-icon {
+  width: 30px;  /* adjust to match your design */
+  height: 30px;
+}
+
+ion-content {
+  --background: transparent; // no background color
+}
+
+ion-col {
+  padding: 4px;  /* ✅ gap తక్కువ */
+}
+.custom-segment {
+  background: #BC0F0F; // segment bar background
+  
+  padding: 4px;
+
+  ion-segment-button {
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;   
+    margin: -4px;
+
+    // unselected
+    &:not(.segment-button-checked) {     
+      color: #fff;
+    }
+
+    // selected
+    &.segment-button-checked {
+      background: #27ae60; // red selected bg
+      color: #fff;
+    }
+  }
+}

@@ -1,0 +1,54 @@
+<ion-content fullscreen class="login-page">
+  <div class="login-container">
+
+     <div class="card-wrapper">
+        <div class="profile-image">
+        <ion-img src="../../../assets/ic_launcher.png"></ion-img>
+      </div>
+
+      <div class="header-card">
+        <h1 class="title" style="margin-top: 50px;">USER Login</h1>
+      </div>
+
+      <div class="login-card">    
+      
+        <p class="login-subtitle">Please Login to access all our Features</p>
+
+        <!-- Email/Mobile -->
+        <ion-item class="input-item">
+          <ion-icon name="person-outline" slot="start"></ion-icon>
+          <ion-input type="text" placeholder="Mobile No / Email" [(ngModel)]="email"></ion-input>
+        </ion-item>
+
+        <!-- Password -->
+        <ion-item class="input-item">
+          <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+          <ion-input  [type]="showPassword ? 'text' : 'password'"
+              placeholder="Password"
+              [(ngModel)]="password"></ion-input>
+          <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+              slot="end"
+              (click)="togglePassword()">></ion-icon>
+        </ion-item>
+
+        <!-- Login Button -->
+        <ion-button expand="block" color="danger" class="login-btn" (click)="goToLogin()">
+          Login
+        </ion-button>
+
+        <!-- Forgot password -->
+        <div class="links">
+          <ion-text color="light" class="forgot-link">
+            Forgot Password?
+          </ion-text>
+        </div>
+
+        <!-- Register -->
+       <ion-text color="light" class="register-link" (click)="goToRegister()">
+          New User ? Can Register Here.....
+        </ion-text>
+     
+      </div>
+     </div>  
+  </div>
+</ion-content>

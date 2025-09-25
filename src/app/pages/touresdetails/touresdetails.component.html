@@ -1,0 +1,91 @@
+<ion-header>
+  <ion-toolbar color="danger">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" color="light" text=""></ion-back-button>
+    </ion-buttons>
+    <div class="custom-toolbar">
+      <h1>స్వామి శరణం అయ్యప్ప</h1>
+      <h2>(www.ayyappatelugu.com)</h2>
+    </div>   
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Book Image -->
+  <div class="image-container">
+    <img [src]="image" alt="Book Image" />
+  </div>
+
+  <!-- Book Info -->
+ <h2 class="card-title">{{ name }}</h2>
+
+ <ion-card-content>
+  <p class="days-info">{{ days }} రోజులు / {{ devotees }} భక్తులు</p>
+  <p class="amount">రూ. {{ amount }}/-</p>
+ </ion-card-content>
+
+    <ion-card-header>
+      <ion-card-title class="enquiry-title">Enquiry About Yathra</ion-card-title>
+    </ion-card-header>
+     <ion-card>  
+       <ion-card-header>
+      <ion-card-title class="provide-title">Provide Your Details</ion-card-title>
+    </ion-card-header> 
+    <ion-card-content>
+      <ion-item>
+        <ion-label position="stacked">First Name</ion-label>
+        <ion-input type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Last Name</ion-label>
+        <ion-input type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Email</ion-label>
+        <ion-input type="email"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Mobile Number</ion-label>
+        <ion-input type="tel"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Message</ion-label>
+        <ion-textarea rows="4"></ion-textarea>
+      </ion-item>
+      <ion-button expand="block" color="primary">Submit</ion-button>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>
+
+ <ion-footer>
+    <ion-toolbar class="custom-footer">
+      <ion-grid>
+        <ion-row class="ion-align-items-center ion-justify-content-center">
+
+          <!-- First Item: Icon + Text -->
+          <ion-col size="auto" (click)="goToAnadanam()">
+            <div class="icon-text-row">
+              <ion-img src="../../../assets/location.png" class="bottom-icon"></ion-img>
+              <p class="bottom-text">అన్నదానం</p>
+            </div>
+          </ion-col>
+
+          <!-- Center Icon -->
+          <ion-col class="ion-text-center" size="2.4">
+            <ion-img src="../../../assets/bottomcenter.png" class="bottom-icon"></ion-img>
+          </ion-col>
+
+          <!-- Fifth Item: Text + Icon -->
+          <ion-col size="auto" (click)="goToNityaPooja()">
+            <div class="text-image-row">
+              <p class="bottom-text">నిత్య పూజ</p>
+              <ion-img src="../../../assets/nithyapooja.png" class="bottom-icon"></ion-img>
+            </div>
+          </ion-col>
+
+        </ion-row>
+      </ion-grid>
+    </ion-toolbar>
+  </ion-footer>

@@ -1,0 +1,105 @@
+<ion-header>
+  <ion-toolbar color="danger">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" color="light" text=""></ion-back-button>
+    </ion-buttons>
+    <div class="custom-toolbar">
+      <h1>స్వామి శరణం అయ్యప్ప</h1>
+      <h2>(www.ayyappatelugu.com)</h2>
+    </div>
+    <ion-buttons slot="end">
+      <ion-button (click)="openInfo()">
+        <ion-icon slot="icon-only" name="information-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+
+  <!-- Title -->
+  <ion-text color="light">
+    <h2 class="ion-text-center small-heading">
+      శబరిమల ఆలయం దర్శనానికి అనుమతించు రోజుల వివరముల క్యాలెండరు
+    </h2>
+  </ion-text>
+
+  <!-- Year Navigation -->
+  <ion-grid>
+    <ion-row class="ion-align-items-center">
+      <ion-col size="2" class="ion-text-center">
+        <ion-icon name="chevron-back-outline" size="large"
+                  (click)="loadPreviousYear()"></ion-icon>
+      </ion-col>
+      <ion-col size="8" class="ion-text-center">
+        <h1>{{ currentYear }}</h1>
+      </ion-col>
+      <ion-col size="2" class="ion-text-center">
+        <ion-icon name="chevron-forward-outline" size="large"
+                  (click)="loadNextYear()"></ion-icon>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Pull to refresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Calendar List -->
+ <ion-grid class="table-grid">
+    <ion-row class="header-row">
+      <ion-col size="3" class="header-cell">Month</ion-col>
+      <ion-col size="3" class="header-cell">Opening Date</ion-col>
+      <ion-col size="3" class="header-cell">Closing Date</ion-col>
+      <ion-col size="3" class="header-cell">Pooja Name</ion-col>
+    </ion-row>
+
+    <!-- Table Data Rows -->
+    <ion-row *ngFor="let pooja of poojas; let i = index" 
+             [class.alt-row]="i % 2 === 0">
+      <ion-col size="3" class="data-cell">{{ pooja.monthName }}</ion-col>
+      <ion-col size="3" class="data-cell">{{ pooja.openingDate }}</ion-col>
+      <ion-col size="3" class="data-cell">{{ pooja.closingDate }}</ion-col>
+      <ion-col size="3" class="data-cell">{{ pooja.poojaName }}</ion-col>
+    </ion-row>
+  </ion-grid>
+  <ng-template #noData>
+    <ion-text color="medium" class="ion-text-center">
+      <p>డేటా అందుబాటులో లేదు</p>
+    </ion-text>
+  </ng-template>
+
+</ion-content>
+
+
+ <ion-footer>
+    <ion-toolbar class="custom-footer">
+      <ion-grid>
+        <ion-row class="ion-align-items-center ion-justify-content-center">
+
+          <!-- First Item: Icon + Text -->
+          <ion-col size="auto" (click)="goToAnadanam()">
+            <div class="icon-text-row">
+              <ion-img src="assets/location.png" class="bottom-icon"></ion-img>
+              <p class="bottom-text">అన్నదానం</p>
+            </div>
+          </ion-col>
+
+          <!-- Center Icon -->
+          <ion-col class="ion-text-center" size="2.4">
+            <ion-img src="../../../assets/bottomcenter.png" class="bottom-icon"></ion-img>
+          </ion-col>
+
+          <!-- Fifth Item: Text + Icon -->
+          <ion-col size="auto" (click)="goToNityaPooja()">
+            <div class="text-image-row">
+              <p class="bottom-text">నిత్య పూజ</p>
+              <ion-img src="assets/nithyapooja.png" class="bottom-icon"></ion-img>
+            </div>
+          </ion-col>
+
+        </ion-row>
+      </ion-grid>
+    </ion-toolbar>
+  </ion-footer>

@@ -1,0 +1,31 @@
+<ion-content class="privacy-dialog">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Ayyappa Telugu :</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <p>We use to collect mobile numbers for the following purposes.</p>
+
+      <div>
+        <h3>Phone Numbers:</h3>
+        <p style="margin-left:16px;">User Friendly Mobile Authentication Process.</p>
+      </div>
+
+      <div>
+        <h3>Location Information:</h3>
+        <p style="margin-left:16px;">We may collect your device's location to provide location-based services.</p>
+      </div>
+
+      <ion-item lines="none">
+        <ion-checkbox slot="start" [(ngModel)]="isPrivacyChecked"></ion-checkbox>
+        <ion-label>By continuing, you acknowledge that you have read and agree to our Privacy Policy.</ion-label>
+      </ion-item>
+
+      <div class="ion-text-end" style="margin-top:16px;">
+        <ion-button color="medium" (click)="onCancel()">Cancel</ion-button>
+        <ion-button color="primary" [disabled]="!isPrivacyChecked" (click)="onAccept()">Accept</ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

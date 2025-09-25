@@ -35,3 +35,38 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
+@font-face {
+  font-family: 'Roboto';
+  src: url('../src/assets/fonts/OpenSans-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.bottom-sheet-modal .modal-wrapper {
+  width: 90%;              /* screen width 90% */
+  max-width: 400px;
+  margin: 0 auto 16px auto; /* left/right/bottom gap */
+  border-radius: 12px 12px 0 0; /* rounded top corners */
+  height: auto;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  overflow-y: auto;         /* scrollable content */
+}
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.dialog-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+.dialog-content p, .dialog-content h3 {
+  font-size: 14px;
+  color: #000;
+  margin-top: 8px;
+}

@@ -1,0 +1,85 @@
+<ion-header>
+  <ion-toolbar color="danger">
+    <ion-buttons slot="start">
+       <ion-back-button defaultHref="/home" color="light" text="" (click)="closeMenu()"></ion-back-button>
+    </ion-buttons>
+    <div class="custom-toolbar">
+      <h1>స్వామి శరణం అయ్యప్ప</h1>
+      <h2>(www.ayyappatelugu.com)</h2>
+    </div>
+    <ion-buttons slot="end">
+      <ion-button (click)="openInfo()">
+        <ion-icon slot="icon-only" name="information-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+  <div class="container">
+ <div class="header-container">
+    <span class="header-title">అయ్యప్ప భజన మండలి</span>
+    <img src="../../../assets/nearby.png" class="header-icon" />
+  </div>
+  <!-- Search Bar -->
+   <ion-searchbar [(ngModel)]="searchQuery" (ionInput)="filterResults($event)" placeholder="Search by name, city, or mobile number"></ion-searchbar>
+  
+  <ion-refresher slot="fixed" (ionRefresh)="refreshList($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- List of activities -->
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6" *ngFor="let bajana of filteredList">
+        <ion-card class="bajana-card" (click)="openDetails(bajana)">
+          <div class="img-container">
+            <ion-img [src]="'https://www.ayyappatelugu.com/assets/user_images/' + bajana.profilePic"></ion-img>
+          </div>
+         
+
+          <!-- Name + City -->
+          <ion-card-header>
+            <ion-card-title>{{ bajana.bajanamandaliName }}</ion-card-title>
+            <ion-card-subtitle>{{ bajana.bajanamandaliLocation }}</ion-card-subtitle>
+          </ion-card-header>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  </div>
+ 
+
+</ion-content>
+
+ <ion-footer>
+    <ion-toolbar class="custom-footer">
+      <ion-grid>
+        <ion-row class="ion-align-items-center ion-justify-content-center">
+
+          <!-- First Item: Icon + Text -->
+          <ion-col size="auto" (click)="goToAnadanam()">
+            <div class="icon-text-row">
+              <ion-img src="../../../assets/location.png" class="bottom-icon"></ion-img>
+              <p class="bottom-text">అన్నదానం</p>
+            </div>
+          </ion-col>
+
+          <!-- Center Icon -->
+          <ion-col class="ion-text-center" size="2.4">
+            <ion-img src="../../../assets/bottomcenter.png" class="bottom-icon"></ion-img>
+          </ion-col>
+
+          <!-- Fifth Item: Text + Icon -->
+          <ion-col size="auto" (click)="goToNityaPooja()">
+            <div class="text-image-row">
+              <p class="bottom-text">నిత్య పూజ</p>
+              <ion-img src="../../../assets/nithyapooja.png" class="bottom-icon"></ion-img>
+            </div>
+          </ion-col>
+
+        </ion-row>
+      </ion-grid>
+    </ion-toolbar>
+  </ion-footer>
