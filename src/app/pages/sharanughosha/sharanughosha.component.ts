@@ -34,7 +34,7 @@ export class SharanughoshaComponent  implements OnInit {
               this.title = res.result[0].title;
               this.description = res.result[0].description;
               this.smallDescription = res.result[0].smallDescription;
-              this.imageUrl = `https://www.ayyappatelugu.com/assets/activity/${res.result[0].image}`;
+              this.imageUrl = `https://www.ayyappatelugu.com/public/assets/img/activity/${res.result[0].image}`;
     
             this.linkifiedDescription = this.description
               .replace(/<\/?strong>/g, '')  // Remove <strong> tags
@@ -57,7 +57,4 @@ export class SharanughoshaComponent  implements OnInit {
         this.navCtrl.navigateForward('/nityapooja');
       }
     
-      openInfo() {
-        // Implement modal or popup info
-      }
   }

@@ -16,22 +16,24 @@ export class RegisterService {
 
   constructor(private http: HttpClient) {}
 
-  register(firstName: string, lastName: string, email: string, mobile: string, password: string): Observable<UserDataResponse> {
+  register(firstName: string, lastName: string, email: string, mobile: string): Observable<UserDataResponse> {
     const formData = new FormData();
     formData.append('firstName', firstName);
     formData.append('lastName', lastName);
     formData.append('emailId', email);
     formData.append('mobileNumber', mobile);
-    formData.append('pwd', password);
+    
+    formData.append('isIOS', '1');
 
     const url = '/api/users/userRegistration';
      return this.http.post<UserDataResponse>(url, formData);
   }
 
-  verifyOtp(registerId: string, otp: string): Observable<UserDataResponse> {
+  verifyOtp(registerId: string, otp: string, password: string): Observable<UserDataResponse> {
     const formData = new FormData();
     formData.append('registerId', registerId);
     formData.append('otp', otp);
+    formData.append('pwd', password);
     const url = '/api/users/verifyUserAccount';
     return this.http.post<UserDataResponse>(url, formData);
   }

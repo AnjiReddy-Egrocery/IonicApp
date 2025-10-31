@@ -38,12 +38,18 @@ export class TemplesMapComponent implements AfterViewInit {
   }
 
   loadTemples() {
-    this.http.get<any>('/api/Temples/index').subscribe(res => {
-      if (res.errorCode === '200') {
-        this.addMarkers(res.result);
-      }
-    }, err => console.error(err));
-  }
+    const url = '/api/Temples/index';
+
+  // If you need to send some data in the POST body
+  const body = {}; // Replace with actual data if needed, or leave empty
+
+  this.http.post<any>(url, body).subscribe(res => {
+    if (res.errorCode === '200') {
+      this.addMarkers(res.result);
+    }
+  });
+}
+   
 
   addMarkers(temples: any[]) {
     temples.forEach((temple) => {
@@ -56,7 +62,7 @@ export class TemplesMapComponent implements AfterViewInit {
       const markerDiv = document.createElement('div');
       markerDiv.className = 'custom-marker';
       markerDiv.innerHTML = `
-        <img src="https://www.ayyappatelugu.com/assets/temple_images/${temple.image}" style="width:40px;height:40px;border-radius:50%;border:2px solid #fff;" />
+        <img src="https://www.ayyappatelugu.com/public/assets/img/temple_images/${temple.image}" style="width:40px;height:40px;border-radius:50%;border:2px solid #fff;" />
       `;
 
       const marker = new google.maps.marker.AdvancedMarkerElement({

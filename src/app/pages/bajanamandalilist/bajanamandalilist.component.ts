@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { IonicModule, MenuController, ModalController } from '@ionic/angular';
+import { BajanamandaliDialogComponent } from 'src/app/components/bajanamandali-dialog/bajanamandali-dialog.component';
 import { InfoDialogComponent } from 'src/app/info-dialog/info-dialog.component';
 import { Bajanamandali } from 'src/app/services/bajanamandali';
 
@@ -31,12 +32,16 @@ export class BajanamandalilistComponent   {
   }
 
   loadGuruswami() {
-    this.service.getBajamandaliList().subscribe(res => {
+    this.service.getBajamandaliList().subscribe(
+    res => {
+      console.log('✅ Response:', res);
       this.bajanamandaliList = res.result;
       this.filteredList = [...this.bajanamandaliList];
-    }, err => {
-      console.error(err);
-    });
+    },
+    err => {
+      console.error('❌ Error:', err);
+    }
+  );
   }
 
   filterResults(event: any) {
@@ -107,9 +112,10 @@ export class BajanamandalilistComponent   {
     }
   async openInfo() {
     const modal = await this.modalCtrl.create({
-      component: InfoDialogComponent,
-      cssClass: 'custom-modal',
-      backdropDismiss: true
+      component: BajanamandaliDialogComponent,
+      cssClass: 'alert-style-modal',
+      backdropDismiss: true,
+      showBackdrop: true
     });
     await modal.present();
   }

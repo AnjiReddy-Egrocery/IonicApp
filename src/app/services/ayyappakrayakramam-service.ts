@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 
@@ -11,6 +11,17 @@ export class AyyappakrayakramamService {
   constructor(private http: HttpClient) { }
 
   getKaryakaramamList(): Observable<any> {
-     return this.http.get(`${this.baseUrl}/index`);
+         const url = `${this.baseUrl}/index`;
+
+    // If your Postman request sends headers or body, add them here:
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    // Empty body if not required
+    const body = {};
+
+    return this.http.post(url, body, { headers });
+
   }
 }

@@ -40,7 +40,7 @@ export class ViewallnewdetailsComponent  implements OnInit {
       this.image = params['Image'];
        this.image = params['Image']?.startsWith('http') 
         ? params['Image'] 
-        : 'https://www.ayyappatelugu.com/assets/news_images/' + params['Image'];
+        : 'https://www.ayyappatelugu.com/public/assets/news_images/' + params['Image'];
 
           this.linkifiedDescription = this.description.replace(
             /(https?:\/\/[^\s]+)/g,

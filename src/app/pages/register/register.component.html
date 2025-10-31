@@ -21,37 +21,26 @@
           <p class="form-subtitle">Please Register As a Member</p>
 
           <ion-item class="input-item">
-            <ion-icon name="person-outline" slot="start"></ion-icon>
+            <ion-icon name="person-outline" slot="start" style="margin-right: 10px;"></ion-icon>
             <ion-input type="text" placeholder="First Name" [(ngModel)]="firstName"></ion-input>
           </ion-item>
 
           <ion-item class="input-item">
-            <ion-icon name="person-outline" slot="start"></ion-icon>
+            <ion-icon name="person-outline" slot="start" style="margin-right: 10px;"></ion-icon>
             <ion-input type="text" placeholder="Last Name" [(ngModel)]="lastName"></ion-input>
           </ion-item>
 
-          <ion-item class="input-item" (click)="pickGoogleAccount()">
-            <ion-icon name="mail-outline" slot="start"></ion-icon>
+          <ion-item class="input-item">
+            <ion-icon name="mail-outline" slot="start" style="margin-right: 10px;"></ion-icon>
             <ion-input type="email" placeholder="Enter Email" [(ngModel)]="email"></ion-input>
           </ion-item>
 
           <ion-item class="input-item">
-            <ion-icon name="call-outline" slot="start"></ion-icon>
+            <ion-icon name="call-outline" slot="start" style="margin-right: 10px;"></ion-icon>
             <ion-input type="tel" placeholder="Enter Mobile Number" [(ngModel)]="mobile"></ion-input>
           </ion-item>
 
-          <ion-item class="input-item">
-            <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
-            <ion-input [type]="showPassword ? 'text' : 'password'" placeholder="Password" [(ngModel)]="password"></ion-input>
-            <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'" slot="end" (click)="toggleShowPassword()"></ion-icon>
-          </ion-item>
-
-          <ion-item class="input-item">
-            <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
-            <ion-input [type]="showConfirmPassword ? 'text' : 'password'" placeholder="Confirm Password" [(ngModel)]="confirmPassword"></ion-input>
-            <ion-icon [name]="showConfirmPassword ? 'eye-off-outline' : 'eye-outline'" slot="end" (click)="toggleShowConfirmPassword()"></ion-icon>
-          </ion-item>
-
+          
           <ion-button expand="block" color="danger" class="register-btn" (click)="register()">Register</ion-button>
 
           <div class="login-link">

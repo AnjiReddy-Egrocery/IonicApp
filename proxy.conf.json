@@ -20,13 +20,13 @@
     "pathRewrite": { "^/api/guruswami": "" },
     "logLevel": "debug"
   },
-  "/api/bajanamandali": {
-    "target": "https://www.ayyappatelugu.com/APICalls/Bajanamandali",
-    "secure": false,
-    "changeOrigin": true,
-    "pathRewrite": { "^/api/bajanamandali": "" },
-    "logLevel": "debug"
-  },
+"/api/bajanamandali": {
+  "target": "https://www.ayyappatelugu.com/APICalls/Bajanamandali",
+  "secure": false,
+  "changeOrigin": true,
+  "pathRewrite": { "^/api/bajanamandali": "" },
+  "logLevel": "debug"
+},
   "/api/annadhanams": {
     "target": "https://www.ayyappatelugu.com/APICalls/Annadhanams",
     "secure": false,
@@ -75,6 +75,13 @@
   "secure": false,
   "changeOrigin": true,
   "pathRewrite": { "^/api/News": "" },
+  "logLevel": "debug"
+},
+"/api/Temples": {
+  "target": "https://www.ayyappatelugu.com/APICalls/Temples",
+  "secure": false,
+  "changeOrigin": true,
+  "pathRewrite": { "^/api/Temples": "" },
   "logLevel": "debug"
 },
 "/api/Temples": {

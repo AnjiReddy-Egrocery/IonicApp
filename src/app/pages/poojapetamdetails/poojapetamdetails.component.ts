@@ -45,7 +45,7 @@ export class PoojapetamdetailsComponent  implements OnInit {
       this.CityName = params[ 'CityName' ]
        this.Image = params['Image']?.startsWith('http') 
         ? params['Image'] 
-        : 'https://www.ayyappatelugu.com/assets/decorators/' + params['Image'];
+        : 'https://www.ayyappatelugu.com/public/assets/img/decorators/' + params['Image'];
 
         this.linkifiedDescription = this.Discription.replace(
             /(https?:\/\/[^\s]+)/g,

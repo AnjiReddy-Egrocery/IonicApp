@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonicModule, ModalController, ToastController } from '@ionic/angular';
+import { BooksDialogComponent } from 'src/app/components/books-dialog/books-dialog.component';
 import { InfoDialogComponent } from 'src/app/info-dialog/info-dialog.component';
 import { Bookservices } from 'src/app/services/bookservices';
 
@@ -118,9 +119,10 @@ toEnglishTransliteration(text: string = ''): string {
 
   async openInfo() {
     const modal = await this.modalCtrl.create({
-      component: InfoDialogComponent,
-      cssClass: 'custom-modal',
-      backdropDismiss: true
+      component: BooksDialogComponent,
+      cssClass: 'alert-style-modal',
+      backdropDismiss: true,
+      showBackdrop: true
     });
     await modal.present();
   }

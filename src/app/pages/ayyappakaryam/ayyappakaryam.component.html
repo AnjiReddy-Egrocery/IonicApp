@@ -8,7 +8,7 @@
       <h2>(www.ayyappatelugu.com)</h2>
     </div>
     <ion-buttons slot="end">
-      <ion-button (click)="openInfo()">
+      <ion-button (click)="openInfoDialog()">
         <ion-icon slot="icon-only" name="information-circle-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -38,7 +38,7 @@
    <ion-list>
     <ion-item *ngFor="let item of filteredList" button (click)="openDetails(item)">
       <ion-thumbnail slot="start">
-        <img [src]="'https://www.ayyappatelugu.com/assets/activity/' + item.image" />
+        <img [src]="'https://www.ayyappatelugu.com/public/assets/img/activity/' + item.image" />
       </ion-thumbnail>
       <ion-label>
         <h2>{{ item.title }}</h2>        

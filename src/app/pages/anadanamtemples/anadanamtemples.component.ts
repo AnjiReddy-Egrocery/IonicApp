@@ -1,10 +1,11 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Geolocation } from '@capacitor/geolocation';
+import { AnadanamDialogComponent } from 'src/app/components/anadanam-dialog/anadanam-dialog.component';
 
 declare var google: any;
 
@@ -25,7 +26,7 @@ export class AnadanamtemplesComponent  implements AfterViewInit {
   markers: any[] = [];
   userMarker: any;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private modalCtrl: ModalController) {}
 
   ngAfterViewInit() {
     this.loadMap();
@@ -69,11 +70,16 @@ export class AnadanamtemplesComponent  implements AfterViewInit {
   }
 }
   loadTempleData() {
-    this.http.get<any>('/api/annadhanams/Index').subscribe(res => {
-      if (res.errorCode === '200') {
-        this.addMarkers(res.result);
-      }
-    });
+   const url = '/api/annadhanams/index';
+
+  // If you need to send some data in the POST body
+  const body = {}; // Replace with actual data if needed, or leave empty
+
+  this.http.post<any>(url, body).subscribe(res => {
+    if (res.errorCode === '200') {
+      this.addMarkers(res.result);
+    }
+  });
   }
 
   addMarkers(locations: any[]) {
@@ -124,5 +130,16 @@ export class AnadanamtemplesComponent  implements AfterViewInit {
     this.currentZoomLevel--;
     this.map.setZoom(this.currentZoomLevel);
   }
+
+  async openInfoDialog() {
+            const modal = await this.modalCtrl.create({
+              component: AnadanamDialogComponent,
+              cssClass: 'alert-style-modal',   // ✅ must match exactly
+              backdropDismiss: true,
+              showBackdrop: true
+            });
+            await modal.present();
+          }
+  
 
 }

@@ -20,7 +20,7 @@
    <ion-list fullscreen>
     <ion-item *ngFor="let temple  of filteredList" button (click)="openDetails(temple )">
       <ion-thumbnail slot="start">
-        <img [src]="'https://www.ayyappatelugu.com/assets/temple_images/' + temple.image" />
+        <img [src]="'https://www.ayyappatelugu.com/public/assets/img/temple_images/' + temple.image" />
       </ion-thumbnail>
       <ion-label style="color: #fff;">
         <h4>{{ temple.templeName }}</h4>        

@@ -109,17 +109,16 @@ toEnglishTransliteration(text: string): string {
   goToNityaPooja() {
     this.router.navigate(['/nityapooja']);
   }
-async openInfo() {
-  const modal = await this.modalCtrl.create({
-    component: InfoDialogComponent,
-    cssClass: 'bottom-sheet-modal',
-    backdropDismiss: true,
-    showBackdrop: true,    
-    breakpoints: [0, 0.5, 1],
-    initialBreakpoint: 0.5
-  });
-  await modal.present();
-}
+      async openInfoDialog() {
+          const modal = await this.modalCtrl.create({
+            component: InfoDialogComponent,
+            cssClass: 'alert-style-modal',   // ✅ must match exactly
+            backdropDismiss: true,
+            showBackdrop: true
+          });
+          await modal.present();
+        }
+
  
   closeMenu() {
     this.menu.close('first');   // menuId=first close అవుతుంది

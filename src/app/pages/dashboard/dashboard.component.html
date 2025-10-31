@@ -3,11 +3,11 @@
   <ion-menu side="start" menuId="first" contentId="main-content" type="overlay">
     <ion-content class="ion-padding">
       <div class="menu-header">
-        <ion-avatar>
-          <img src="../../../assets/ic_launcher.png" />
+         <ion-avatar>
+          <img [src]="image" />
         </ion-avatar>
-        <h2>Sridhar</h2>
-        <p>sridhar@gmail.com</p>
+        <h4>{{ name }}</h4>
+        <p>{{ email }}</p>
       </div>
 
       <ion-list lines="none">
@@ -279,34 +279,80 @@
                         </ion-row>
                       </ion-grid>
 
-                            <div>
-                          <div class="header-container">
-                          <span class="header-title">అయ్యప్ప స్వామి దేవాలయాలు</span>   
-                          <img src="../../../assets/seva.png" class="header-icon" />                       
-                        </div>
-                  
+                  <div class="temple-section">
+  <!-- Header -->
+                  <div class="header-container">
+                    <span class="header-title">అయ్యప్ప స్వామి దేవాలయాలు</span>
+                    <img src="../../../assets/seva.png" class="header-icon" />
+                  </div>
 
-                        <!-- View All Button -->
-                      <div class="view-all-wrapper">
-                        <ion-button class="view-all-btn" (click)="viewAllNews()">
-                          View All
-                        </ion-button>
-                      </div>
-                      </div>                
-                       <div>
-                          <div class="header-container">
-                          <span class="header-title">సకల దేవతల ఆలయాలు</span>   
-                          <img src="../../../assets/seva.png" class="header-icon" />                       
-                        </div>
-                    
+                  <!-- Scrollable List with Arrows -->
+                  <div class="temple-scroll-wrapper">
+                    <ion-icon name="chevron-back-outline" (click)="scrollLeft()" class="nav-arrow"></ion-icon>
 
-                        <!-- View All Button -->
-                      <div class="view-all-wrapper">
-                        <ion-button class="view-all-btn" (click)="viewAllNews()">
-                          View All
-                        </ion-button>
+                    <div class="temple-scroll" #templeScroll>
+                      <div class="temple-list">
+                        <div *ngFor="let temple of ayyappaTemples" class="temple-card" (click)="openTempleDetails(temple)">
+                          <img
+                              [src]="temple.imageUrl"
+                              (error)="onImageError($event)"
+                              alt="Temple Image"
+                            />
+
+                         <h3 class="temple-name">{{ temple.templeName }}</h3>
+
+                        </div>
                       </div>
-                      </div>                             
+                    </div>
+
+                    <ion-icon name="chevron-forward-outline" (click)="scrollRight()" class="nav-arrow"></ion-icon>
+                  </div>
+
+                  <!-- View All Button -->
+                  <div class="view-all-wrapper">
+                    <ion-button fill="clear" class="view-all-btn" (click)="viewAllNews()">
+                      View All
+                    </ion-button>
+                  </div>
+                </div>
+
+                                  <div class="temple-section">
+  <!-- Header -->
+                  <div class="header-container">
+                    <span class="header-title">సకల దేవతల ఆలయాలు</span>
+                    <img src="../../../assets/seva.png" class="header-icon" />
+                  </div>
+
+                  <!-- Scrollable List with Arrows -->
+                  <div class="temple-scroll-wrapper">
+                    <ion-icon name="chevron-back-outline" (click)="ayyappascrollLeft()" class="nav-arrow"></ion-icon>
+
+                    <div class="temple-scroll" #ayyappatempleScroll>
+                      <div class="temple-list">
+                        <div *ngFor="let temple of temples" class="temple-card" (click)="openTempleDetails(temple)">
+                          <img
+                              [src]="temple.imageUrl"
+                              (error)="onImageError($event)"
+                              alt="Temple Image"
+                            />
+
+                         <h3 class="temple-name">{{ temple.templeName }}</h3>
+
+                        </div>
+                      </div>
+                    </div>
+
+                    <ion-icon name="chevron-forward-outline" (click)="ayyapascrollRight()" class="nav-arrow"></ion-icon>
+                  </div>
+
+                  <!-- View All Button -->
+                  <div class="view-all-wrapper">
+                    <ion-button fill="clear" class="view-all-btn" (click)="viewAllNews()">
+                      View All
+                    </ion-button>
+                  </div>
+                </div>             
+                                             
                      
 
         </div>

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { IonicModule, MenuController, ModalController } from '@ionic/angular';
+import { NewsDialogComponent } from 'src/app/components/news-dialog/news-dialog.component';
 import { InfoDialogComponent } from 'src/app/info-dialog/info-dialog.component';
 import { News } from 'src/app/services/news';
 
@@ -106,9 +107,10 @@ export class ViewAllNewsComponent  implements OnInit {
         }
       async openInfo() {
         const modal = await this.modalCtrl.create({
-          component: InfoDialogComponent,
-          cssClass: 'custom-modal',
-          backdropDismiss: true
+          component: NewsDialogComponent,
+          cssClass: 'alert-style-modal',
+          backdropDismiss: true,
+          showBackdrop: true
         });
         await modal.present();
       }

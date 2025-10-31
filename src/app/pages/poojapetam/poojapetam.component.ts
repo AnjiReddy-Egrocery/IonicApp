@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { IonicModule, ModalController } from '@ionic/angular';
+import { PoojapetamDialogComponent } from 'src/app/components/poojapetam-dialog/poojapetam-dialog.component';
 import { InfoDialogComponent } from 'src/app/info-dialog/info-dialog.component';
 import { Poojapetam } from 'src/app/services/poojapetam';
 
@@ -107,9 +108,10 @@ export class PoojapetamComponent  implements OnInit {
     }
   async openInfo() {
     const modal = await this.modalCtrl.create({
-      component: InfoDialogComponent,
-      cssClass: 'custom-modal',
-      backdropDismiss: true
+      component: PoojapetamDialogComponent,
+      cssClass: 'alert-style-modal',
+      backdropDismiss: true,
+      showBackdrop: true
     });
     await modal.present();
   }

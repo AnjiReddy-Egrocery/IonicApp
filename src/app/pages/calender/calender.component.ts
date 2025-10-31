@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AlertController, IonicModule, ModalController, NavController, ToastController } from '@ionic/angular';
+import { CalenderDialogComponent } from 'src/app/components/calender-dialog/calender-dialog.component';
 import { InfoDialogComponent } from 'src/app/info-dialog/info-dialog.component';
 import { Calender } from 'src/app/services/calender';
 
@@ -109,11 +110,12 @@ async loadNextYear() {
     }
   async openInfo() {
     const modal = await this.modalCtrl.create({
-      component: InfoDialogComponent,
-      cssClass: 'custom-modal',
-      backdropDismiss: true
-    });
-    await modal.present();
+      component: CalenderDialogComponent,
+      cssClass: 'alert-style-modal ',
+      backdropDismiss: true,
+      showBackdrop: true
+      });
+      await modal.present();
   }
 
 }

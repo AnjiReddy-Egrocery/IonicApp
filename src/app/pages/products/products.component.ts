@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { IonicModule, MenuController, ModalController } from '@ionic/angular';
 import { InfoDialogComponent } from 'src/app/info-dialog/info-dialog.component';
 import { Products } from 'src/app/services/products';
+import { ProductsDetailsComponent } from '../products-details/products-details.component';
+import { ProductsDialogComponent } from 'src/app/components/products-dialog/products-dialog.component';
 
 @Component({
   selector: 'app-products',
@@ -106,9 +108,10 @@ export class ProductsComponent  implements OnInit {
       }
     async openInfo() {
       const modal = await this.modalCtrl.create({
-        component: InfoDialogComponent,
-        cssClass: 'custom-modal',
-        backdropDismiss: true
+        component: ProductsDialogComponent,
+        cssClass: 'alert-style-modal',
+        backdropDismiss: true,
+        showBackdrop: true
       });
       await modal.present();
     }

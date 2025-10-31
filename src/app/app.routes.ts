@@ -27,6 +27,7 @@ import { ViewAllNewsComponent } from "./pages/view-all-news/view-all-news.compon
 import { ViewallnewdetailsComponent } from "./pages/viewallnewdetails/viewallnewdetails.component";
 import { TemplesComponent } from "./pages/temples/temples.component";
 import { AyyappatemplesComponent } from "./pages/ayyappatemples/ayyappatemples.component";
+import { VerifyOtpComponent } from "./pages/verify-otp/verify-otp.component";
 
 
 export const routes: Routes = [
@@ -34,6 +35,7 @@ export const routes: Routes = [
   { path: 'home', component: HomePage },
   { path: 'login', component: LoginPage },
   { path: 'register', component: RegisterPage },
+  { path: "verify-otp", component:VerifyOtpComponent},
   { path: 'dashboard', component: DashboardPage},
   { path: 'poojakrayakramam', component: AyyappakaryamComponent},
   { path: 'nityapooja', component: NityapoojaComponent},
@@ -61,5 +63,4 @@ export const routes: Routes = [
   { path: 'viewallnews_details', component: ViewallnewdetailsComponent},
   
 
-  { path: '**', redirectTo: 'login' }
 ];

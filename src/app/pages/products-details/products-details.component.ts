@@ -34,7 +34,7 @@ export class ProductsDetailsComponent  implements OnInit {
       this.price = params['Price'];
        this.image = params['Image']?.startsWith('http') 
         ? params['Image'] 
-        : 'https://www.ayyappatelugu.com/assets/productimages/' + params['Image'];
+        : 'https://www.ayyappatelugu.com/public/assets/productimages/' + params['Image'];
 
         this.linkifiedDescription = this.Discription.replace(
             /(https?:\/\/[^\s]+)/g,

@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonicModule, ModalController, ToastController } from '@ionic/angular';
+import { TourseDialogComponent } from 'src/app/components/tourse-dialog/tourse-dialog.component';
 import { InfoDialogComponent } from 'src/app/info-dialog/info-dialog.component';
 import { Yatralu } from 'src/app/services/yatralu';
 
@@ -111,9 +112,10 @@ export class TourespageComponent  implements OnInit {
   
     async openInfo() {
       const modal = await this.modalCtrl.create({
-        component: InfoDialogComponent,
-        cssClass: 'custom-modal',
-        backdropDismiss: true
+        component: TourseDialogComponent,
+        cssClass: 'alert-style-modal',
+        backdropDismiss: true,
+        showBackdrop: true
       });
       await modal.present();
     }

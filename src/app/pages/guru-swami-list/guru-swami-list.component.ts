@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { IonicModule, ModalController } from '@ionic/angular';
+import { GuruswamyDialogComponent } from 'src/app/components/guruswamy-dialog/guruswamy-dialog.component';
 import { InfoDialogComponent } from 'src/app/info-dialog/info-dialog.component';
 import { GuruSwami } from 'src/app/services/guru-swami';
 
@@ -107,13 +108,14 @@ export class GuruSwamiListComponent {
       this.router.navigate(['/nityapooja']);
     }
   async openInfo() {
-    const modal = await this.modalCtrl.create({
-      component: InfoDialogComponent,
-      cssClass: 'custom-modal',
-      backdropDismiss: true
-    });
-    await modal.present();
-  }
+       const modal = await this.modalCtrl.create({
+            component: GuruswamyDialogComponent,
+            cssClass: 'alert-style-modal',   // ✅ must match exactly
+            backdropDismiss: true,
+            showBackdrop: true
+          });
+          await modal.present();
+        }
 
   openDetails(guru: any) {
   // 👉 Option 1: Navigate to another page with query params

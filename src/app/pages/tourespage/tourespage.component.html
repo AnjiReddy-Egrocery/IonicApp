@@ -35,7 +35,7 @@
     <ion-col size="6" *ngFor="let yatra of filteredList"> 
       <ion-card class="yatra-card" (click)="openDetails(yatra)">
         <div class="img-container">
-          <ion-img [src]="'https://www.ayyappatelugu.com/assets/tourpackage/' + yatra.image"></ion-img>
+          <ion-img [src]="'https://www.ayyappatelugu.com/public/assets/img/tourpackage/' + yatra.image"></ion-img>
         </div>
         <ion-card-header>
           <ion-card-title>{{ yatra.nameOfPlace }}</ion-card-title>

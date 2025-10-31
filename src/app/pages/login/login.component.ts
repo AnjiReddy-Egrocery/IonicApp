@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonicModule, ToastController } from '@ionic/angular';
+import { Auth } from 'src/app/services/auth';
 import { LoginDataResponse, LoginService } from 'src/app/services/login';
 
 
@@ -22,6 +23,7 @@ export class LoginPage {
   constructor(
      private loginService: LoginService,
     private router: Router, 
+      private authService: Auth,
     private toastCtrl: ToastController) {}
 
    
@@ -31,15 +33,23 @@ export class LoginPage {
 
    async goToLogin() {
     if (!this.email || !this.password) {
-      this.showToast('⚠️ Please enter email & password');
+      this.showToast(' Please enter email & password');
       return;
     }
 
     this.loginService.login(this.email, this.password).subscribe({
-      next: (response: LoginDataResponse) => {
+      next: async (response: LoginDataResponse) => {
         if (response.errorCode === '200') {
-          this.showToast('✅ Login Successful');
-          this.router.navigateByUrl('/dashboard', { replaceUrl: true });
+            const userData = {
+                name: response.result.userFirstName,
+                email: response.result.userEmail,
+                image: response.result.userImage || 'assets/ic_launcher.png'
+              };
+
+              await this.authService.setLoginData(userData);
+              this.showToast('✅ Login Successful');
+              this.router.navigateByUrl('/dashboard', { replaceUrl: true });
+            
         } else {
           this.showToast('❌ Incorrect Email or Password');
         }

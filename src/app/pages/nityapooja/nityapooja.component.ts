@@ -34,7 +34,7 @@ export class NityapoojaComponent  implements OnInit {
         if (res.errorCode === '200' && res.result.length > 0) {
           this.title = res.result[0].title;
           this.description = res.result[0].description;
-          this.imageUrl = `https://www.ayyappatelugu.com/assets/activity/${res.result[0].image}`;
+          this.imageUrl = `https://www.ayyappatelugu.com/public/assets/img/activity/${res.result[0].image}`;
 
         this.linkifiedDescription = this.description
             .replace(/<\/?strong>/g, '')  // Remove <strong> tags
@@ -58,8 +58,5 @@ export class NityapoojaComponent  implements OnInit {
     this.navCtrl.navigateForward('/nityapooja');
   }
 
-  openInfo() {
-    // Implement modal or popup info
-  }
-
+  
 }

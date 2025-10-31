@@ -38,7 +38,7 @@ export class TouresdetailsComponent  implements OnInit {
 
        this.image = params['image']?.startsWith('http') 
         ? params['image'] 
-        : 'https://www.ayyappatelugu.com/assets/tourpackage/' + params['image'];
+        : 'https://www.ayyappatelugu.com/public/assets/img/tourpackage/' + params['image'];
 
     });
   }
