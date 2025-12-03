@@ -1,28 +1,60 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Http } from "@capacitor-community/http";
+import { Capacitor } from "@capacitor/core";
 import { Observable } from "rxjs";
 
 export interface LoginDataResponse {
-  status: string;
+    status: string;
   errorCode: string;
-  imageUrl: string;
-  result: any;
   message: string;
+  result: any;
 }
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
+ private baseUrl = 'https://www.ayyappatelugu.com/APICalls/Users';
 
-  constructor(private http: HttpClient) {}
+ async login(loginMobile: string, loginPassword: string) {
+  // ✅ Prepare key-value pairs like Postman form-data
+  const data: any = {
+    loginMobile: loginMobile,
+    loginPassword: loginPassword,
+   
+  };
 
-  login(email: string, password: string): Observable<LoginDataResponse> {
-    const formData = new FormData();
-    formData.append('loginMobile', email);
-    formData.append('loginPassword', password);
+  // ✅ Only append password if user entered one
+ 
 
-    const url = '/api/users/userLogin'; // ✅ use /api/users
-    return this.http.post<LoginDataResponse>(url, formData);
+  console.log('➡️ RegisterService FormData:', data);
+
+  try {
+    // ✅ Send as multipart/form-data (same as Postman)
+    const response = await Http.request({
+      method: 'POST',
+      url: `${this.baseUrl}/userLogin`,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      data: data
+    });
+
+    console.log('➡️ API Raw Response:', response.data);
+
+    // ✅ Normalize iOS string response
+    const parsed =
+      typeof response.data === 'string'
+        ? JSON.parse(response.data)
+        : response.data;
+
+    console.log('✅ Parsed API Response:', parsed);
+    return parsed as LoginDataResponse;
+  } catch (error) {
+    console.error('❌ RegisterService Error:', error);
+    throw error;
   }
+}
 }

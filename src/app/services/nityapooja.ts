@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Http } from '@capacitor-community/http';
 import { Observable } from 'rxjs/internal/Observable';
 
 export interface NityaPoojaModel {
@@ -19,13 +20,37 @@ export interface NityaPoojaModel {
   providedIn: 'root'
 })
 export class Nityapooja {
-  constructor(private http: HttpClient) {}
+   private baseUrl = 'https://www.ayyappatelugu.com/APICalls/Activities'; // ✅ Actual base path
 
-  getActivityById(activityId: string = '29'): Observable<NityaPoojaModel> {
-    const formData = new FormData();
-    formData.append('activitiesId', activityId);
+  constructor() {}
 
-    const url = '/api/activities/info'; // proxy-config లో defined
-    return this.http.post<NityaPoojaModel>(url, formData);
+  // ✅ Capacitor-based API call
+  async getActivityById(activityId: string = '29'): Promise<NityaPoojaModel> {
+    const data = { activitiesId: activityId };
+    console.log('➡️ NityaPoojaService FormData:', data);
+
+    try {
+      const response = await Http.request({
+        method: 'POST',
+        url: `${this.baseUrl}/info`,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        data,
+      });
+
+      console.log('➡️ Raw API Response:', response.data);
+
+      const parsed =
+        typeof response.data === 'string'
+          ? JSON.parse(response.data)
+          : response.data;
+
+      console.log('✅ Parsed API Response:', parsed);
+      return parsed as NityaPoojaModel;
+    } catch (error) {
+      console.error('❌ NityaPoojaService Error:', error);
+      throw error;
+    }
   }
 }

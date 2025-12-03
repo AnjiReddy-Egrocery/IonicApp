@@ -30,13 +30,16 @@ export class ViewAllNewsComponent  implements OnInit {
     this.loadNews();
       }
     
-      loadNews() {
-        this.service.getNewsList().subscribe(res => {
-          this.newsList = res.result;
-          this.filteredList = [...this.newsList];
-        }, err => {
-          console.error(err);
-        });
+      async loadNews() {
+     
+           try {
+    const res = await this.service.getNewsList(); // <-- Promise-based
+    console.log('✅ Response:', res);
+    this.newsList = res.result || [];
+    this.filteredList = [...this.newsList];
+  } catch (err) {
+    console.error('❌ Error:', err);
+  }
       }
     
       filterResults(event: any) {

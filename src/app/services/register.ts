@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Http } from '@capacitor-community/http';
 
 export interface UserDataResponse {
   status: string;
@@ -14,27 +13,49 @@ export interface UserDataResponse {
 })
 export class RegisterService {
 
-  constructor(private http: HttpClient) {}
+   private baseUrl = 'https://www.ayyappatelugu.com/APICalls/Users';
 
-  register(firstName: string, lastName: string, email: string, mobile: string): Observable<UserDataResponse> {
-    const formData = new FormData();
-    formData.append('firstName', firstName);
-    formData.append('lastName', lastName);
-    formData.append('emailId', email);
-    formData.append('mobileNumber', mobile);
-    
-    formData.append('isIOS', '1');
+ async register(firstName: string, lastName: string, email: string, mobile: string, password: string) {
+  // ✅ Prepare key-value pairs like Postman form-data
+  const data: any = {
+    firstName: firstName,
+    lastName: lastName,
+    emailId: email,
+    mobileNumber: mobile,
+    isIOS: '1'
+  };
 
-    const url = '/api/users/userRegistration';
-     return this.http.post<UserDataResponse>(url, formData);
+  // ✅ Only append password if user entered one
+  if (password && password.trim() !== '') {
+    data.pwd = password;
   }
 
-  verifyOtp(registerId: string, otp: string, password: string): Observable<UserDataResponse> {
-    const formData = new FormData();
-    formData.append('registerId', registerId);
-    formData.append('otp', otp);
-    formData.append('pwd', password);
-    const url = '/api/users/verifyUserAccount';
-    return this.http.post<UserDataResponse>(url, formData);
+  console.log('➡️ RegisterService FormData:', data);
+
+  try {
+    // ✅ Send as multipart/form-data (same as Postman)
+    const response = await Http.request({
+      method: 'POST',
+      url: `${this.baseUrl}/userRegistration`,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      data: data
+    });
+
+    console.log('➡️ API Raw Response:', response.data);
+
+    // ✅ Normalize iOS string response
+    const parsed =
+      typeof response.data === 'string'
+        ? JSON.parse(response.data)
+        : response.data;
+
+    console.log('✅ Parsed API Response:', parsed);
+    return parsed as UserDataResponse;
+  } catch (error) {
+    console.error('❌ RegisterService Error:', error);
+    throw error;
   }
+}
 }

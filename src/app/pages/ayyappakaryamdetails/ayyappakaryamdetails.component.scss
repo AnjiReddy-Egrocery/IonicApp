@@ -90,11 +90,17 @@ ion-footer {
   left: 0;
   right: 0;
   z-index: 100;
+   height: 75px !important; 
+  padding: 0 !important;
 }
 
 .custom-footer {
-  --background: #FFF0D1; /* your footer color */
-  box-shadow: none;
+  --background: #FFF0D1;
+  --min-height: 85px;   /* ↓ Toolbar height reduce */
+  height: 85px;
+  padding: 0;
+  margin-bottom: 15px;
+
 }
 
 ion-label h2 {

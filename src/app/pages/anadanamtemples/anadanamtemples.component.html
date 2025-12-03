@@ -1,17 +1,24 @@
+
 <ion-header>
   <ion-toolbar color="danger">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/home" color="light" text=""></ion-back-button>
+      <ion-back-button 
+    defaultHref="/home" 
+    color="light"
+    text=""
+    icon="arrow-back-outline"
+    style="margin-left: 14px;">
+  </ion-back-button>
     </ion-buttons>
     <div class="custom-toolbar">
       <h1>స్వామి శరణం అయ్యప్ప</h1>
       <h2>(www.ayyappatelugu.com)</h2>
-    </div>  
-    <ion-buttons slot="end">
+    </div>   
+     <ion-buttons slot="end">
       <ion-button (click)="openInfoDialog()">
         <ion-icon slot="icon-only" name="information-circle-outline"></ion-icon>
       </ion-button>
-    </ion-buttons> 
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content>

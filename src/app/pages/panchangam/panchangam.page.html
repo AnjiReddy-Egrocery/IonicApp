@@ -1,0 +1,119 @@
+<ion-header>
+  <ion-toolbar color="danger">
+    <ion-buttons slot="start">
+     <ion-back-button 
+        defaultHref="/home" 
+        color="light"
+        text=""
+        icon="arrow-back-outline"
+        style="margin-left: 14px;">
+  </ion-back-button>
+    </ion-buttons>
+    <div class="custom-toolbar">
+      <h1>స్వామి శరణం అయ్యప్ప</h1>
+      <h2>(www.ayyappatelugu.com)</h2>
+    </div>
+  
+  </ion-toolbar>
+</ion-header>
+<ion-content fullscreen class="ion-padding bottom-gap">
+
+  <!-- Title -->
+  <ion-text color="light">
+    <h2 class="ion-text-center small-heading">
+      పంచాంగం
+    </h2>
+  </ion-text>
+
+ <ion-grid>
+    <ion-row class="ion-justify-content-center ion-align-items-center">
+      <ion-col size="2">
+        <ion-button fill="clear" (click)="prevDate()">
+          <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+        </ion-button>
+      </ion-col>
+      <ion-col size="8" class="ion-text-center">
+        <h2>{{ displayDate }}</h2>
+      </ion-col>
+      <ion-col size="2">
+        <ion-button fill="clear" (click)="nextDate()">
+          <ion-icon slot="icon-only" name="chevron-forward-outline"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Panchang Data -->
+  <ion-card *ngIf="panchangData">
+    <ion-card-content class="ion-text-center">
+      <h3>{{ panchangData.vaara }}</h3>
+      <p>సూర్యోదయం: {{ formatTime(panchangData.sunrise) }}</p>
+      <p>సూర్యాస్తమయం: {{ formatTime(panchangData.sunset) }}</p>
+      <p>చంద్రోదయం: {{ formatTime(panchangData.moonrise) }}</p>
+      <p>చంద్రాస్తమయం: {{ formatTime(panchangData.moonset) }}</p>
+
+      <h4>తిథులు</h4>
+      <div *ngFor="let tithi of panchangData.tithi">
+        {{ tithi.name }} ({{ tithi.paksha }}) {{ formatTime(tithi.start) }} - {{ formatTime(tithi.end) }}
+      </div>
+
+      <h4>నక్షత్రాలు</h4>
+      <div *ngFor="let nak of panchangData.nakshatra">
+        {{ nak.name }} ({{ nak.lord?.name }}) {{ formatTime(nak.start) }} - {{ formatTime(nak.end) }}
+      </div>
+
+      <h4>యోగాలు</h4>
+      <div *ngFor="let yoga of panchangData.yoga">
+        {{ yoga.name }} {{ formatTime(yoga.start) }} - {{ formatTime(yoga.end) }}
+      </div>
+
+      <h4>కరణాలు</h4>
+      <div *ngFor="let karana of panchangData.karana">
+        {{ karana.name }} {{ formatTime(karana.start) }} - {{ formatTime(karana.end) }}
+      </div>
+
+      <h4>శుభ ముహూర్తాలు</h4>
+      <div *ngFor="let shubha of panchangData.auspicious_period">
+        {{ shubha.name }} ({{ shubha.type }}) {{ formatTime(shubha.period[0].start) }} - {{ formatTime(shubha.period[0].end) }}
+      </div>
+
+      <h4>అశుభ కాలాలు</h4>
+      <div *ngFor="let ashubha of panchangData.inauspicious_period">
+        {{ ashubha.name }} ({{ ashubha.type }}) {{ formatTime(ashubha.period[0].start) }} - {{ formatTime(ashubha.period[0].end) }}
+      </div>
+    </ion-card-content>
+  </ion-card>
+ 
+
+</ion-content>
+
+<ion-footer slot="fixed">
+    <ion-toolbar class="custom-footer">
+      <ion-grid>
+        <ion-row class="ion-align-items-center ion-justify-content-center">
+
+          <!-- First Item: Icon + Text -->
+          <ion-col size="auto" (click)="goToAnadanam()">
+            <div class="icon-text-row">
+              <ion-img src="assets/location.png" class="bottom-icon"></ion-img>
+              <p class="bottom-text">అన్నదానం</p>
+            </div>
+          </ion-col>
+
+          <!-- Center Icon -->
+          <ion-col class="ion-text-center" size="2.4">
+            <ion-img src="../../../assets/bottomcenter.png" class="bottom-icon"></ion-img>
+          </ion-col>
+
+          <!-- Fifth Item: Text + Icon -->
+          <ion-col size="auto" (click)="goToNityaPooja()">
+            <div class="text-image-row">
+              <p class="bottom-text">నిత్య పూజ</p>
+              <ion-img src="assets/nithyapooja.png" class="bottom-icon"></ion-img>
+            </div>
+          </ion-col>
+
+        </ion-row>
+      </ion-grid>
+    </ion-toolbar>
+  </ion-footer>

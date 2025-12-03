@@ -1,0 +1,38 @@
+<div class="dialog-container">
+  <!-- Header -->
+  <div class="dialog-header">
+    <h2 class="dialog-title">Ayyappa Telugu</h2>
+  </div>
+
+  <!-- Content -->
+  <div class="dialog-content">
+    <p>We collect mobile numbers for the following purposes.</p>
+
+    <div style="margin-top:16px;">
+      <strong>Phone Numbers:</strong>
+      <p style="margin-left:16px;">
+        We collect the Phone Numbers for User Friendly Mobile Authentication Process.
+      </p>
+    </div>
+
+    <div style="margin-top:16px;">
+      <strong>Location Information:</strong>
+      <p style="margin-left:16px;">
+        Gathering Temple Information. We may collect and use your device's location information to provide location-based services.
+      </p>
+    </div>
+
+    <ion-item lines="none" style="margin-top:16px;">
+      <ion-checkbox slot="start" [(ngModel)]="accepted"></ion-checkbox>
+      <ion-label>
+        By continuing, you acknowledge that you have read and agree to our Privacy Policy.
+      </ion-label>
+    </ion-item>
+  </div>
+
+  <!-- Footer Buttons -->
+  <div class="dialog-footer">
+    <ion-button color="medium" (click)="cancel()">Cancel</ion-button>
+    <ion-button color="primary" [disabled]="!accepted" (click)="accept()">Accept</ion-button>
+  </div>
+</div>

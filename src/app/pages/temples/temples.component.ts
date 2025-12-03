@@ -7,6 +7,8 @@ import { IonicModule, ModalController, ToastController } from '@ionic/angular';
 import { InfoDialogComponent } from 'src/app/info-dialog/info-dialog.component';
 import { TemplesListComponent } from '../temples-list/temples-list.component';
 import { TemplesMapComponent } from '../temples-map/temples-map.component';
+import { AyyappatemplesComponent } from '../ayyappatemples/ayyappatemples.component';
+import { AyyappadetailsComponent } from 'src/app/components/ayyappadetails/ayyappadetails.component';
 
 @Component({
   selector: 'app-temples',
@@ -32,9 +34,18 @@ export class TemplesComponent  implements OnInit {
 
   ngOnInit() {}
   
-  changeTab(tab: string) {
-    this.selectedTab = tab;
+changeTab(tab: string | undefined) {
+  if (!tab) return;   // prevent error
+
+  this.selectedTab = tab;
+
+  if (tab === 'temples') {
+    setTimeout(() => {
+      const listComp = document.querySelector('app-temples-list') as any;
+      listComp?.loadTempleList?.();
+    }, 100);
   }
+}
   goToAnadanam() {
     this.router.navigate(['/anadanam']);
   }
@@ -54,9 +65,10 @@ export class TemplesComponent  implements OnInit {
 
   async openInfo() {
       const modal = await this.modalCtrl.create({
-        component: InfoDialogComponent,
-        cssClass: 'custom-modal',
-        backdropDismiss: true
+        component: AyyappadetailsComponent,
+       cssClass: 'alert-style-modal',   // ✅ must match exactly
+              backdropDismiss: true,
+              showBackdrop: true
       });
       await modal.present();
     }

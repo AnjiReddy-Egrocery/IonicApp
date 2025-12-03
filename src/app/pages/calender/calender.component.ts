@@ -34,36 +34,53 @@ export class CalenderComponent  implements OnInit {
   }
 
 async loadCalendar(year: string) {
-  this.calendarService.getCalendar(year).subscribe(async (res: any) => {
-    if (res.errorCode === '200') {
-      const result = res.result[0];
+ try {
+      const res = await this.calendarService.getCalendar(year);
 
-      this.currentYear = result.year;
-      this.previousYear = result.prevYear;
-      this.nextYear = result.nextYear;
+      if (res?.errorCode === '200') {
+        const result = res.result?.[0];
 
-      // Use dates as-is (strings)
-      this.poojas = result.poojasList?.map((p: any) => {
-          return {
+        this.currentYear = result.year;
+        this.previousYear = result.prevYear;
+        this.nextYear = result.nextYear;
+
+        this.poojas =
+          result.poojasList?.map((p: any) => ({
             ...p,
             openingDate: p.openingDate
-              ? formatDate(new Date(Number(p.openingDate) * 1000), 'dd-MM-yyyy', 'en-US')
+              ? formatDate(
+                  new Date(Number(p.openingDate) * 1000),
+                  'dd-MM-yyyy',
+                  'en-US'
+                )
               : '--',
             closingDate: p.closingDate
-              ? formatDate(new Date(Number(p.closingDate) * 1000), 'dd-MM-yyyy', 'en-US')
+              ? formatDate(
+                  new Date(Number(p.closingDate) * 1000),
+                  'dd-MM-yyyy',
+                  'en-US'
+                )
               : '--'
-          };
-        }) || [];
-    } else {
+          })) || [];
+      } else {
+        const toast = await this.toastCtrl.create({
+          message: 'డేటా లభించలేదు',
+          duration: 2000,
+          color: 'danger'
+        });
+        await toast.present();
+      }
+    } catch (error) {
+      console.error('❌ Calendar Load Error:', error);
       const toast = await this.toastCtrl.create({
-        message: 'డేటా లభించలేదు',
+        message: 'సర్వర్‌లో సమస్య ఉంది',
         duration: 2000,
         color: 'danger'
       });
-      toast.present();
+      await toast.present();
     }
-  });
-}
+  }
+
     
 async loadNextYear() {
   if (this.nextYear) {

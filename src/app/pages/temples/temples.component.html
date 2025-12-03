@@ -1,7 +1,13 @@
 <ion-header>
   <ion-toolbar color="danger">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/home" color="light" text=""></ion-back-button>
+      <ion-back-button 
+          defaultHref="/home" 
+          color="light"
+          text=""
+          icon="arrow-back-outline"
+          style="margin-left: 14px;">
+        </ion-back-button>
     </ion-buttons>
     <div class="custom-toolbar">
       <h1>స్వామి శరణం అయ్యప్ప</h1>
@@ -13,25 +19,41 @@
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
+
+
+ <!-- ⭐ MUST wrap content here -->
+
+
+  <ion-segment [(ngModel)]="selectedTab" class="custom-segment" (ionChange)="changeTab(($event.detail.value || '').toString())">
+    <ion-segment-button value="map">
+      <ion-label>మ్యాప్</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="temples">
+      <ion-label>దేవాలయాల</ion-label>
+    </ion-segment-button>
+  </ion-segment>
 </ion-header>
 
-  <ion-segment [(ngModel)]="selectedTab" class="custom-segment">
-      <ion-segment-button value="map"><ion-label>మ్యాప్</ion-label></ion-segment-button>
-      <ion-segment-button value="temples"><ion-label>దేవాలయాల</ion-label></ion-segment-button>
-     
-    </ion-segment>
 
-    <div [ngSwitch]="selectedTab" class="tab-content">
-      <div *ngSwitchCase="'map'">
-        <app-temples-map *ngIf="selectedTab === 'map'"></app-temples-map>
-      </div>
-      <div *ngSwitchCase="'temples'">
-        <app-temples-list *ngIf="selectedTab === 'temples'"></app-temples-list>
-      </div>
-      </div>
+  <ion-content fullscreen>
+ <div [ngSwitch]="selectedTab" class="tab-content">
+
+    <!-- MAP TAB -->
+    <div *ngSwitchCase="'map'">
+      <app-temples-map></app-temples-map>
+    </div>
+
+    <!-- TEMPLES TAB -->
+    <div *ngSwitchCase="'temples'">
+      <app-temples-list></app-temples-list>
+    </div>
+
+  </div>
+  </ion-content>
 
 
- <ion-footer>
+
+ <ion-footer slot="fixed">
     <ion-toolbar class="custom-footer">
       <ion-grid>
         <ion-row class="ion-align-items-center ion-justify-content-center">

@@ -32,13 +32,17 @@ export class GuruSwamiListComponent {
     this.loadGuruswami();
   }
 
-  loadGuruswami() {
-    this.service.getGuruSwamiList().subscribe(res => {
-      this.guruswamiList = res.result;
-      this.filteredList = [...this.guruswamiList];
-    }, err => {
-      console.error(err);
-    });
+  async loadGuruswami() {
+ 
+
+     try {
+    const res = await this.service.getGuruSwamiList(); // <-- Promise-based
+    console.log('✅ Response:', res);
+    this.guruswamiList = res.result || [];
+    this.filteredList = [...this.guruswamiList];
+  } catch (err) {
+    console.error('❌ Error:', err);
+  }
   }
 
   filterResults(event: any) {
@@ -116,6 +120,10 @@ export class GuruSwamiListComponent {
           });
           await modal.present();
         }
+              truncate(name: string) {
+  if (!name) return '';
+  return name.length > 14 ? name.substring(0, 14) + "..." : name;
+}
 
   openDetails(guru: any) {
   // 👉 Option 1: Navigate to another page with query params

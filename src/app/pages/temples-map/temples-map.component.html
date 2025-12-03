@@ -1,10 +1,18 @@
-<div id="map" style="height:100%;"></div>
 
-<ion-fab vertical="bottom" horizontal="end" slot="fixed">
-  <ion-fab-button (click)="zoomIn()">
-    <ion-icon name="add-outline"></ion-icon>
-  </ion-fab-button>
-  <ion-fab-button (click)="zoomOut()">
-    <ion-icon name="remove-outline"></ion-icon>
-  </ion-fab-button>
+<div id="map" class="map-container"></div>
+
+<ion-fab vertical="bottom" horizontal="end" slot="fixed" class="zoom-fab">
+  <div class="zoom-controls">
+    <!-- Zoom In -->
+    <ion-fab-button class="zoom-btn" (click)="zoomIn()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+
+    <!-- Zoom Out -->
+    <ion-fab-button class="zoom-btn" (click)="zoomOut()">
+      <ion-icon name="remove-outline"></ion-icon>
+    </ion-fab-button>
+  </div>
 </ion-fab>
+
+

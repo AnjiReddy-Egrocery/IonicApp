@@ -31,13 +31,17 @@ export class ProductsComponent  implements OnInit {
      this.loadProducts();
   }
 
-   loadProducts() {
-      this.service.getProductList().subscribe(res => {
-        this.productList = res.result;
-        this.filteredList = [...this.productList];
-      }, err => {
-        console.error(err);
-      });
+   async loadProducts() {
+     
+
+       try {
+    const res = await this.service.getProductList(); // <-- Promise-based
+    console.log('✅ Response:', res);
+    this.productList = res.result || [];
+    this.filteredList = [...this.productList];
+  } catch (err) {
+    console.error('❌ Error:', err);
+  }
     }
   
     filterResults(event: any) {

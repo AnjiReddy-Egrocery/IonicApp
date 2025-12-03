@@ -22,26 +22,28 @@
 
           <ion-item class="input-item">
             <ion-icon name="person-outline" slot="start" style="margin-right: 10px;"></ion-icon>
-            <ion-input type="text" placeholder="First Name" [(ngModel)]="firstName"></ion-input>
+            <ion-input type="text" placeholder="First Name" [(ngModel)]="firstName" [ngModelOptions]="{standalone: true}" > </ion-input>
           </ion-item>
 
           <ion-item class="input-item">
             <ion-icon name="person-outline" slot="start" style="margin-right: 10px;"></ion-icon>
-            <ion-input type="text" placeholder="Last Name" [(ngModel)]="lastName"></ion-input>
+            <ion-input type="text" placeholder="Last Name" [(ngModel)]="lastName" [ngModelOptions]="{standalone: true}" > </ion-input>
           </ion-item>
 
           <ion-item class="input-item">
             <ion-icon name="mail-outline" slot="start" style="margin-right: 10px;"></ion-icon>
-            <ion-input type="email" placeholder="Enter Email" [(ngModel)]="email"></ion-input>
+            <ion-input type="email" placeholder="Enter Email" [(ngModel)]="email" [ngModelOptions]="{standalone: true}" ></ion-input>
           </ion-item>
 
           <ion-item class="input-item">
             <ion-icon name="call-outline" slot="start" style="margin-right: 10px;"></ion-icon>
-            <ion-input type="tel" placeholder="Enter Mobile Number" [(ngModel)]="mobile"></ion-input>
+            <ion-input type="tel" placeholder="Enter Mobile Number" [(ngModel)]="mobile" [ngModelOptions]="{standalone: true}" ></ion-input>
           </ion-item>
 
+            
+
           
-          <ion-button expand="block" color="danger" class="register-btn" (click)="register()">Register</ion-button>
+          <ion-button expand="block" color="danger" type="button" class="register-btn" (click)="register()">Register</ion-button>
 
           <div class="login-link">
             <ion-text color="light">Already A Member? </ion-text>

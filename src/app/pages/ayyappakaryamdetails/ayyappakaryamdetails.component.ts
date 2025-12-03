@@ -33,7 +33,7 @@ export class AyyappakaryamdetailsComponent  implements OnInit {
       // Ensure full URL
       this.image = params['image']?.startsWith('http') 
         ? params['image'] 
-        : 'https://www.ayyappatelugu.com/assets/activity/' + params['image'];
+        : 'https://www.ayyappatelugu.com/public/assets/activity/' + params['image'];
       this.description = this.sanitizer.bypassSecurityTrustHtml(params['description'] || '');
     });
   }

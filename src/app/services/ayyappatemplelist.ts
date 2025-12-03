@@ -1,26 +1,51 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Http } from '@capacitor-community/http';
 import { Observable } from 'rxjs/internal/Observable';
+
+export interface TempleResponse {
+  status: string;
+  errorCode: string;
+  message?: string;
+  result?: any[];
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class Ayyappatemplelist {
-   private baseUrl = '/api/Temples';   // ✅ no trailing slash
+   private baseUrl = 'https://www.ayyappatelugu.com/APICalls/Temples';   // ✅ no trailing slash
 
-  constructor(private http: HttpClient) {}
+  constructor() {}
 
-  getTempleList(): Observable<any> {
-     const url = `${this.baseUrl}/index`;
+  async getTempleList(): Promise<TempleResponse> {
+     console.log('➡️ Calling Anadanam API...');
 
-    // If your Postman request sends headers or body, add them here:
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
+    try {
+      const response = await Http.request({
+        method: 'POST',
+        url: `${this.baseUrl}/index`,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        // ❌ No parameters needed
+        data: {}
+      });
 
-    // Empty body if not required
-    const body = {};
+      console.log('➡️ Raw API Response:', response.data);
 
-   return this.http.post(url, body, { headers });  // ✅ only one slash
+      // ✅ Normalize and parse response
+      const parsed =
+        typeof response.data === 'string'
+          ? JSON.parse(response.data)
+          : response.data;
+
+      console.log('✅ Parsed API Response:', parsed);
+      return parsed as TempleResponse;
+    } catch (error) {
+      console.error('❌ AnadanamService Error:', error);
+      throw error;
+    }
   }
 }
+

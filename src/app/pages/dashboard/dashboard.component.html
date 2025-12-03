@@ -19,7 +19,12 @@
         <ion-item detail="false" button (click)="goToCalender()">
           <div class="custom-circle" slot="start"></div>
           <ion-label>అయ్యప్ప క్యాలెండర్</ion-label>
-        </ion-item>        
+        </ion-item>   
+        
+        <ion-item detail="false" button (click)="goToPanchangam()">
+          <div class="custom-circle" slot="start"></div>
+          <ion-label>పంచాంగం</ion-label>
+        </ion-item>    
 
         <ion-item detail="false" button (click)="goToGuruSwami()">
           <div class="custom-circle" slot="start"></div>
@@ -29,6 +34,11 @@
         <ion-item detail="false" button (click)="goToBhajanaMandali()">
          <div class="custom-circle" slot="start"></div>
           <ion-label>అయ్యప్ప భజన మండలి</ion-label>
+        </ion-item>
+
+        <ion-item detail="false" button (click)="goToBhajanaSongs()">
+         <div class="custom-circle" slot="start"></div>
+          <ion-label>భజన పాటలు</ion-label>
         </ion-item>
 
         <ion-item detail="false" button (click)="goToBooks()">
@@ -69,6 +79,11 @@
         <ion-item detail="false" button (click)="goToPrivacyPolicy()">
           <div class="custom-circle" slot="start"></div>
           <ion-label>గోప్యతా విధానం(Privacy Policy)</ion-label>
+        </ion-item>
+
+        <ion-item detail="false" button class="no-border" (click)="gotoSettings()">
+          <div class="custom-circle" slot="start"></div>
+          <ion-label>సెట్టింగ్స్</ion-label>
         </ion-item>
 
         <ion-item detail="false" button (click)="logout()">
@@ -292,14 +307,14 @@
 
                     <div class="temple-scroll" #templeScroll>
                       <div class="temple-list">
-                        <div *ngFor="let temple of ayyappaTemples" class="temple-card" (click)="openTempleDetails(temple)">
+                        <div *ngFor="let ayyappatemple of ayyappaTemples" class="temple-card" (click)="openAyyappaTempleDetails(ayyappatemple)">
                           <img
-                              [src]="temple.imageUrl"
+                              [src]="ayyappatemple.imageUrl"
                               (error)="onImageError($event)"
                               alt="Temple Image"
                             />
 
-                         <h3 class="temple-name">{{ temple.templeName }}</h3>
+                         <h3 class="temple-name">{{ ayyappatemple.templeName }}</h3>
 
                         </div>
                       </div>
@@ -310,7 +325,7 @@
 
                   <!-- View All Button -->
                   <div class="view-all-wrapper">
-                    <ion-button fill="clear" class="view-all-btn" (click)="viewAllNews()">
+                    <ion-button fill="clear" class="view-all-btn" (click)="viewAllTemples()">
                       View All
                     </ion-button>
                   </div>
@@ -347,7 +362,7 @@
 
                   <!-- View All Button -->
                   <div class="view-all-wrapper">
-                    <ion-button fill="clear" class="view-all-btn" (click)="viewAllNews()">
+                    <ion-button fill="clear" class="view-all-btn" (click)="viewAllAyyappaTemples()">
                       View All
                     </ion-button>
                   </div>

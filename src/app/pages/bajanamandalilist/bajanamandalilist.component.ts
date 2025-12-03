@@ -19,39 +19,37 @@ import { Bajanamandali } from 'src/app/services/bajanamandali';
     CommonModule,
   ]
 })
-export class BajanamandalilistComponent   {
+export class BajanamandalilistComponent implements OnInit   {
  bajanamandaliList: any[] = [];
-   filteredList: any[] = [];
+  filteredList: any[] = [];
   searchQuery: string = '';
 
   constructor(private service: Bajanamandali, private router: Router, private sanitizer: DomSanitizer, private modalCtrl: ModalController, private menu: MenuController) {}
 
 
-  ngOnInit() {
-    this.loadGuruswami();
+   ngOnInit() {
+    this.loadBajanamandaliList();
   }
 
-  loadGuruswami() {
-    this.service.getBajamandaliList().subscribe(
-    res => {
-      console.log('✅ Response:', res);
-      this.bajanamandaliList = res.result;
-      this.filteredList = [...this.bajanamandaliList];
-    },
-    err => {
-      console.error('❌ Error:', err);
-    }
-  );
+  async loadBajanamandaliList() {
+  try {
+    const res = await this.service.getBajanaMandali(); // <-- Promise-based
+    console.log('✅ Response:', res);
+    this.bajanamandaliList = res.result || [];
+    this.filteredList = [...this.bajanamandaliList];
+  } catch (err) {
+    console.error('❌ Error:', err);
   }
+}
 
   filterResults(event: any) {
-    const query = event.target.value ? event.target.value.toLowerCase() : '';
+    const query = (event.target.value || '').toLowerCase();
 
     this.filteredList = this.bajanamandaliList.filter(item => {
-      const nameTelugu = item.bajanamandaliName.toLowerCase();
-      const cityTelugu = item.bajanamandaliLocation.toLowerCase();
-      const nameEnglish = this.toEnglishTransliteration(item.bajanamandaliName).toLowerCase();
-      const cityEnglish = this.toEnglishTransliteration(item.bajanamandaliLocation).toLowerCase();
+      const nameTelugu = (item.bajanamandaliName || '').toLowerCase();
+      const cityTelugu = (item.bajanamandaliLocation || '').toLowerCase();
+      const nameEnglish = this.toEnglishTransliteration(item.bajanamandaliName || '').toLowerCase();
+      const cityEnglish = this.toEnglishTransliteration(item.bajanamandaliLocation || '').toLowerCase();
 
       return nameTelugu.includes(query) ||
              cityTelugu.includes(query) ||
@@ -60,28 +58,27 @@ export class BajanamandalilistComponent   {
     });
   }
 
-  // Full Telugu → English transliteration
+  // ✅ Telugu → English transliteration
   toEnglishTransliteration(text: string): string {
     const consonants: any = {
-      'క':'k','ఖ':'kh','గ':'g','ఘ':'gh','ఙ':'ng',
-      'చ':'ch','ఛ':'chh','జ':'j','ఝ':'jh','ఞ':'ny',
-      'ట':'t','ఠ':'th','డ':'d','ఢ':'dh','ణ':'n',
-      'త':'t','థ':'th','ద':'d','ధ':'dh','న':'n',
-      'ప':'p','ఫ':'ph','బ':'b','భ':'bh','మ':'m',
-      'య':'y','ర':'r','ల':'l','వ':'v','శ':'sh',
-      'ష':'sh','స':'s','హ':'h','ళ':'l','ఱ':'r'
+      'క': 'k', 'ఖ': 'kh', 'గ': 'g', 'ఘ': 'gh', 'ఙ': 'ng',
+      'చ': 'ch', 'ఛ': 'chh', 'జ': 'j', 'ఝ': 'jh', 'ఞ': 'ny',
+      'ట': 't', 'ఠ': 'th', 'డ': 'd', 'ఢ': 'dh', 'ణ': 'n',
+      'త': 't', 'థ': 'th', 'ద': 'd', 'ధ': 'dh', 'న': 'n',
+      'ప': 'p', 'ఫ': 'ph', 'బ': 'b', 'భ': 'bh', 'మ': 'm',
+      'య': 'y', 'ర': 'r', 'ల': 'l', 'వ': 'v', 'శ': 'sh',
+      'ష': 'sh', 'స': 's', 'హ': 'h', 'ళ': 'l', 'ఱ': 'r'
     };
 
     const vowels: any = {
-      'అ':'a','ఆ':'aa','ఇ':'i','ఈ':'ii','ఉ':'u','ఊ':'uu',
-      'ఋ':'ru','ఎ':'e','ఏ':'ee','ఐ':'ai','ఒ':'o','ఓ':'oo','ఔ':'au',
-      'ం':'m','ః':'h'
+      'అ': 'a', 'ఆ': 'aa', 'ఇ': 'i', 'ఈ': 'ii', 'ఉ': 'u', 'ఊ': 'uu',
+      'ఋ': 'ru', 'ఎ': 'e', 'ఏ': 'ee', 'ఐ': 'ai', 'ఒ': 'o', 'ఓ': 'oo', 'ఔ': 'au',
+      'ం': 'm', 'ః': 'h'
     };
 
     const vowelSigns: any = {
-      'ా':'aa','ి':'i','ీ':'ii','ు':'u','ూ':'uu',
-      'ె':'e','ే':'ee','ై':'ai','ొ':'o','ో':'oo','ౌ':'au',
-      '్':'' // virama removes implicit 'a'
+      'ా': 'aa', 'ి': 'i', 'ీ': 'ii', 'ు': 'u', 'ూ': 'uu',
+      'ె': 'e', 'ే': 'ee', 'ై': 'ai', 'ొ': 'o', 'ో': 'oo', 'ౌ': 'au', '్': ''
     };
 
     let result = '';
@@ -96,20 +93,22 @@ export class BajanamandalilistComponent   {
   }
 
   refreshList(event: any) {
-    this.loadGuruswami();
+    this.loadBajanamandaliList();
     event.target.complete();
   }
 
-   navigate(page: string) {
-      this.router.navigate([`/${page}`]);
-    }
-      goToAnadanam() {
-      this.router.navigate(['/anadanam']);
-    }
-  
-    goToNityaPooja() {
-      this.router.navigate(['/nityapooja']);
-    }
+  navigate(page: string) {
+    this.router.navigate([`/${page}`]);
+  }
+
+  goToAnadanam() {
+    this.router.navigate(['/anadanam']);
+  }
+
+  goToNityaPooja() {
+    this.router.navigate(['/nityapooja']);
+  }
+
   async openInfo() {
     const modal = await this.modalCtrl.create({
       component: BajanamandaliDialogComponent,
@@ -121,22 +120,21 @@ export class BajanamandalilistComponent   {
   }
 
   openDetails(bajana: any) {
-  // 👉 Option 1: Navigate to another page with query params
-  this.router.navigate(['/bajanamandali_details'], { 
-    queryParams: { 
-      Name: bajana.bajanamandaliName,
-      GuruName: bajana.nameOfGuru,
-      Number: bajana.bajanamandaliMobile,
-      City: bajana.bajanamandaliCity,
-      Email: bajana.bajanamandaliEmail,
-      Discription: bajana.bajanamandaliDescription,
-      Image: bajana.profilePic
-    } 
-  });
-}
-
-closeMenu() {
-    this.menu.close('first');   // menuId=first close అవుతుంది
+    this.router.navigate(['/bajanamandali_details'], {
+      queryParams: {
+        Name: bajana.bajanamandaliName,
+        GuruName: bajana.nameOfGuru,
+        Number: bajana.bajanamandaliMobile,
+        City: bajana.bajanamandaliCity,
+        Email: bajana.bajanamandaliEmail,
+        Description: bajana.bajanamandaliDescription,
+        Image: bajana.profilePic
+      }
+    });
   }
 
+  closeMenu() {
+    this.menu.close('first');
+  }
 }
+

@@ -29,13 +29,17 @@ export class AyyappakaryamComponent{
     this.loadData();
   }
 
-  loadData() {
-    this.service.getKaryakaramamList().subscribe(res => {
-      this.karyakaramamList = res.result;
-      this.filteredList = [...this.karyakaramamList];
-    }, err => {
-      console.error(err);
-    });
+  async loadData() {
+   
+    
+  try {
+    const res = await this.service.getKaryakaramamList(); // <-- Promise-based
+    console.log('✅ Response:', res);
+    this.karyakaramamList = res.result || [];
+    this.filteredList = [...this.karyakaramamList];
+  } catch (err) {
+    console.error('❌ Error:', err);
+  }
   }
 
  filterResults(event: any) {

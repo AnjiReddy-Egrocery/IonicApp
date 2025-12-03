@@ -38,7 +38,7 @@ export class GuruswamidetailsComponent  implements OnInit {
       
       this.image = params['Image']?.startsWith('http') 
         ? params['Image'] 
-        : 'https://www.ayyappatelugu.com/assets/user_images/' + params['Image'];
+        : 'https://www.ayyappatelugu.com/public/assets/user_images/' + params['Image'];
     });
   }
 

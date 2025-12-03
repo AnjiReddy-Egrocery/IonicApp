@@ -72,11 +72,16 @@ ion-footer {
   left: 0;
   right: 0;
   z-index: 100;
+   height: 75px !important; 
+  padding: 0 !important;
 }
 
 .custom-footer {
-  --background: #FFF0D1; /* your footer color */
-  box-shadow: none;
+  --background: #FFF0D1;
+  --min-height: 85px;   /* ↓ Toolbar height reduce */
+  height: 85px;
+  padding: 0;
+  margin-bottom: 15px;
 }
 
 ion-label h2 {
@@ -144,4 +149,30 @@ ion-col {
     color: #1a73e8;           /* link color */
     text-decoration: underline;
   }
+}
+.scroll-container {
+  max-height: calc(100vh - 420px); /* dynamic height above footer */
+  overflow-y: auto;
+  padding-bottom: 20px;
+}
+
+::ng-deep .description-box * {
+  color: #fff !important;
+  font-size: 15px !important;
+  line-height: 1.7 !important;
+}
+
+::ng-deep .description-box a {
+  color: #fff !important;
+  text-decoration: underline !important;
+}
+
+.extra-bottom {
+  --padding-bottom: 40px !important;   /* scroll ki extra space */
+}
+.description-box {
+  padding-bottom: 60px;
+}
+.scroll-container {
+  margin-bottom: 60px;  /* bottom gap */
 }

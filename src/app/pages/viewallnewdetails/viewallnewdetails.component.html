@@ -1,7 +1,13 @@
 <ion-header>
   <ion-toolbar color="danger">
     <ion-buttons slot="start">
-       <ion-back-button defaultHref="/home" color="light" text=""></ion-back-button>
+         <ion-back-button 
+          defaultHref="/home" 
+          color="light"
+          text=""
+          icon="arrow-back-outline"
+          style="margin-left: 14px;">
+        </ion-back-button>
     </ion-buttons>
     <div class="custom-toolbar">
       <h1>స్వామి శరణం అయ్యప్ప</h1>
@@ -30,19 +36,11 @@
   </ion-button>
 </div>
 
-<div class="tts-controls">
-  <ion-button fill="clear" color="light" (click)="togglePlay()">
-    <ion-icon [name]="isPlaying && !isPaused ? 'pause-circle' : 'play-circle'"></ion-icon>
-  </ion-button>
 
-  <ion-button fill="clear" color="light" (click)="replay()">
-    <ion-icon name="refresh-circle"></ion-icon>
-  </ion-button>
-</div>
 
 </ion-content>
 
- <ion-footer>
+ <ion-footer slot="fixed">
     <ion-toolbar class="custom-footer">
       <ion-grid>
         <ion-row class="ion-align-items-center ion-justify-content-center">

@@ -17,7 +17,8 @@
         <!-- Email/Mobile -->
         <ion-item class="input-item">
           <ion-icon name="person-outline" slot="start" style="margin-right: 10px;"></ion-icon>
-          <ion-input type="text" placeholder="Mobile No / Email" [(ngModel)]="email"></ion-input>
+          <ion-input type="text" placeholder="Mobile No / Email" [(ngModel)]="username"
+           [ngModelOptions]="{standalone: true}"></ion-input>
         </ion-item>
 
         <!-- Password -->
@@ -25,14 +26,14 @@
           <ion-icon name="lock-closed-outline" slot="start" style="margin-right: 10px;"></ion-icon>
           <ion-input  [type]="showPassword ? 'text' : 'password'"
               placeholder="Password"
-              [(ngModel)]="password"></ion-input>
+              [(ngModel)]="password" [ngModelOptions]="{standalone: true}"></ion-input>
           <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
               slot="end"
               (click)="togglePassword()">></ion-icon>
         </ion-item>
 
         <!-- Login Button -->
-        <ion-button expand="block" color="danger" class="login-btn" (click)="goToLogin()">
+        <ion-button expand="block" color="danger"  type="button" class="login-btn" (click)="goToLogin()">
           Login
         </ion-button>
 

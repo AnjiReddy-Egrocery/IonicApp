@@ -32,16 +32,17 @@ export class TourespageComponent  implements OnInit {
 
   ngOnInit() {this.loadYatras();}
 
-   loadYatras() {
-    this.yatraService.getYatraList().subscribe({
-      next: (res) => {
-        this.yatraList = res.result;
-        this.filteredList = [...this.yatraList];
-      },
-      error: (err) => {
-        console.error('API Error', err);
-      }
-    });
+   async loadYatras() {
+
+
+      try {
+    const res = await this.yatraService.getYatraList(); // <-- Promise-based
+    console.log('✅ Response:', res);
+    this.yatraList = res.result || [];
+    this.filteredList = [...this.yatraList];
+  } catch (err) {
+    console.error('❌ Error:', err);
+  }
   }
 
    filterResults(event: any) {

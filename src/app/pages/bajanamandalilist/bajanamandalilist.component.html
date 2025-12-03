@@ -1,8 +1,14 @@
 <ion-header>
   <ion-toolbar color="danger">
     <ion-buttons slot="start">
-       <ion-back-button defaultHref="/home" color="light" text="" (click)="closeMenu()"></ion-back-button>
-    </ion-buttons>
+  <ion-back-button 
+    defaultHref="/home" 
+    color="light"
+    text=""
+    icon="arrow-back-outline"
+    style="margin-left: 14px;">
+  </ion-back-button>
+  </ion-buttons>
     <div class="custom-toolbar">
       <h1>స్వామి శరణం అయ్యప్ప</h1>
       <h2>(www.ayyappatelugu.com)</h2>
@@ -22,8 +28,12 @@
     <img src="../../../assets/nearby.png" class="header-icon" />
   </div>
   <!-- Search Bar -->
-   <ion-searchbar [(ngModel)]="searchQuery" (ionInput)="filterResults($event)" placeholder="Search by name, city, or mobile number"></ion-searchbar>
-  
+  <ion-searchbar
+  [(ngModel)]="searchQuery"
+  (ionInput)="filterResults($event)"
+  placeholder="Search by name, city, or mobile number"
+  style="--background: #ffffff; --color: #000000; margin-left: 10px;">
+</ion-searchbar>
   <ion-refresher slot="fixed" (ionRefresh)="refreshList($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
@@ -39,10 +49,10 @@
          
 
           <!-- Name + City -->
-          <ion-card-header>
-            <ion-card-title>{{ bajana.nameOfGuru }}</ion-card-title>
-            <ion-card-subtitle>{{ bajana.bajanamandaliLocation }}</ion-card-subtitle>
-          </ion-card-header>
+          <div class="text-wrapper">
+             <p class="bajana-name">{{ bajana.nameOfGuru }}</p>
+             <p class="bajana-city">{{ bajana.bajanamandaliLocation }}</p>
+          </div>
         </ion-card>
       </ion-col>
     </ion-row>
@@ -53,7 +63,7 @@
 
 </ion-content>
 
- <ion-footer>
+ <ion-footer slot="fixed">
     <ion-toolbar class="custom-footer">
       <ion-grid>
         <ion-row class="ion-align-items-center ion-justify-content-center">

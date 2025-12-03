@@ -38,7 +38,7 @@ export class BooksdetailsComponent  implements OnInit {
 
        this.image = params['Image']?.startsWith('http') 
         ? params['Image'] 
-        : 'https://www.ayyappatelugu.com/assets/bookimage/' + params['Image'];
+        : 'https://www.ayyappatelugu.com/public/assets/bookimage/' + params['Image'];
 
     });
   }

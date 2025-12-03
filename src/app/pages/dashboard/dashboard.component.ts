@@ -67,35 +67,53 @@ export class DashboardPage {
         this.loadTemples();
 
   }
-  loadTemples() {
-        this.ayyappatempleservice.getTempleList().subscribe({
-      next: (res) => {
-        if (res.errorCode === '200' && res.result?.length) {
-          this.temples = res.result.slice(0, 10).map((t: any) => ({
-            templeName: t.templeName,
-            imageUrl: `https://www.ayyappatelugu.com/public/assets/img/temple_images/${t.image}`,
-          }));
-        }
-      },
-      error: (err) => console.error('Error fetching temples', err),
-    });
+  async loadTemples() {
+     try {
+    const res = await this.ayyappatempleservice.getTempleList();
+
+    if (res.errorCode === '200' && res.result?.length) {
+
+      const baseUrl = `https://www.ayyappatelugu.com/public/assets/img/temple_images/`;
+
+      this.temples = res.result.slice(0, 10).map((t: any) => ({
+        templeName: t.templeName,
+        templeNameTelugu: t.templeNameTelugu,
+        openingTime: t.openingTime,
+        closingTime: t.closingTime,
+        location: t.location,
+        image: t.image,
+        imageUrl: baseUrl + t.image, // for UI
+        fullData: t                   // ⭐ Keep entire object
+      }));
+    }
+  } catch (err) {
+    console.error('Error fetching temples', err);
+  }
   }
 
-  loadAyyappaTemples() {
-    //const url = 'https://www.ayyappatelugu.com/APICalls/Temples/getAyyappaTemplesList';
-    this.templeservice.getTempleList().subscribe({
-      next: (res) => {
-        if (res.errorCode === '200' && res.result?.length) {
-          this.ayyappaTemples = res.result.slice(0, 10).map((t: any) => ({
-            templeName: t.templeName,
-            imageUrl: `https://www.ayyappatelugu.com/public/assets/img/temple_images/${t.image}`,
-          }));
-        }
-      },
-      error: (err) => console.error('Error fetching temples', err),
-    });
+  async loadAyyappaTemples() {
+  try {
+    const res = await this.templeservice.getTempleList();
 
+    if (res.errorCode === '200' && res.result?.length) {
+
+      const baseUrl = `https://www.ayyappatelugu.com/public/assets/img/temple_images/`;
+
+      this.ayyappaTemples = res.result.slice(0, 10).map((t: any) => ({
+        templeName: t.templeName,
+        templeNameTelugu: t.templeNameTelugu,
+        openingTime: t.openingTime,
+        closingTime: t.closingTime,
+        location: t.location,
+        image: t.image,
+        imageUrl: baseUrl + t.image, // for UI
+        fullData: t                   // ⭐ Keep entire object
+      }));
+    }
+  } catch (err) {
+    console.error('Error fetching temples', err);
   }
+}
 
 
   navigate(page: string) {
@@ -105,13 +123,16 @@ export class DashboardPage {
     }
   }
 
-   loadNews() {
-    this.service.getNewsList().subscribe(res => {
-          this.newsList = res.result;
-         
-        }, err => {
-          console.error(err);
-        });
+   async loadNews() {
+    
+           try {
+    const res = await this.service.getNewsList(); // <-- Promise-based
+    console.log('✅ Response:', res);
+    this.newsList = res.result || [];
+    
+  } catch (err) {
+    console.error('❌ Error:', err);
+  }
    }
 
    refreshList(event: any) {
@@ -146,6 +167,10 @@ export class DashboardPage {
     this.router.navigateByUrl('/ayyappa_bajanamandali');
   }
 
+   goToBhajanaSongs() {
+    this.router.navigateByUrl('/ayyappabajana-songs');
+  }
+
     goToSharanughosha() {
     this.router.navigateByUrl('/sharanughosha');
      
@@ -161,6 +186,9 @@ export class DashboardPage {
   }
   goToCalender(){
     this.router.navigateByUrl('/calender');
+  }
+  goToPanchangam(){
+    this.router.navigateByUrl('/panchangam');
   }
   goToBooks(){
     this.router.navigateByUrl('/books');
@@ -208,29 +236,18 @@ export class DashboardPage {
   await alert.present();
   }
 
- async checkAndRequestPermissions() {
-    if (Capacitor.getPlatform() === 'ios' || Capacitor.getPlatform() === 'android') {
-
-      // 📍 Location permission
-      const locStatus = await Geolocation.requestPermissions();
-      console.log('Location Permission:', locStatus);
-
-      // 📂 Storage permission (Android only)
-      const fsStatus = await Filesystem.requestPermissions();
-      console.log('Filesystem Permission:', fsStatus);
-
-      // 👥 Contacts permission
-      const contactStatus = await Contacts.requestPermissions();
-      console.log('Contacts Permission:', contactStatus);
-
-      // 📱 Device info (no explicit permission required)
-      const deviceInfo = await Device.getInfo();
-      console.log('Device Info:', deviceInfo);
-    }
-  }
+ 
 
   viewAllNews() {
    this.router.navigateByUrl('/view-all-news');
+  }
+
+  viewAllAyyappaTemples(){
+    this.router.navigateByUrl('/temples');
+  }
+
+  gotoSettings(){
+    this.router.navigateByUrl('/settings');
   }
 
    scrollLeft() {
@@ -261,15 +278,46 @@ export class DashboardPage {
     });
   }
 
-  viewAllTemples() {
-    //this.navCtrl.navigateForward('/view-all-temples');
-  }
+ 
+openTempleDetails(temple: any) {
 
-  openTempleDetails(temple: any) {
-    //this.navCtrl.navigateForward('/temple-details', {
-   //   queryParams: { data: JSON.stringify(temple) }
-   // });
-  }
+
+  console.log("Selected Temple:", temple);
+
+ this.router.navigate(['/ayyappatemplelistdetails'], {
+    queryParams: {
+      templeName: temple.templeName,
+      templeNameTelugu: temple.templeNameTelugu,
+      openingTime: temple.openingTime,
+      closingTime: temple.closingTime,
+      location: temple.location,
+      image: temple.imageUrl
+    }
+  });
+
+
+}
+
+viewAllTemples(){
+
+  this.router.navigateByUrl('/ayyappatemples');
+
+}
+
+openAyyappaTempleDetails(ayyappatemple: any){
+  console.log("Selected Temple:", ayyappatemple);
+
+ this.router.navigate(['/ayyappatemplelistdetails'], {
+    queryParams: {
+      templeName: ayyappatemple.templeName,
+      templeNameTelugu: ayyappatemple.templeNameTelugu,
+      openingTime: ayyappatemple.openingTime,
+      closingTime: ayyappatemple.closingTime,
+      location: ayyappatemple.location,
+      image: ayyappatemple.imageUrl
+    }
+  });
+}
 
   onImageError(event: any) {
   event.target.src = '../../../assets/ayyapaimage.jpeg'; // fallback static image

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonicModule, MenuController, ModalController } from '@ionic/angular';
+import { Ayyappatemplelist } from 'src/app/services/ayyappatemplelist';
 import { Templelist } from 'src/app/services/templelist';
 
 @Component({
@@ -20,19 +21,29 @@ export class TemplesListComponent  implements OnInit {
   templeList: any[] = [];
   filteredList: any[] = [];
   searchQuery: string = '';
-  constructor(private router: Router, private service: Templelist, private modalCtrl: ModalController, private menu: MenuController) { }
+  constructor(private router: Router, private service: Ayyappatemplelist, private modalCtrl: ModalController, private menu: MenuController) { }
 
   ngOnInit() {
      this.loadTempleList();
   }
 
-   loadTempleList() {
-    this.service.getTempleList().subscribe(res => {
+   async loadTempleList() {
+    console.log("📌 Loading temple list...");
+
+  try {
+    const res = await this.service.getTempleList();
+
+    if (res.status === "Success" && res.result) {
       this.templeList = res.result;
       this.filteredList = [...this.templeList];
-    }, err => {
-      console.error(err);
-    });
+      console.log("Temple List Loaded:", this.templeList);
+    } else {
+      console.warn("⚠️ No temple data found", res);
+    }
+  } catch (err) {
+    console.error("❌ Error loading temples:", err);
+  }
+
   }
 
  filterResults(event: any) {
@@ -85,13 +96,18 @@ toEnglishTransliteration(text: string): string {
     this.loadTempleList();
     event.target.complete();
   }
+  
 
   openDetails(item: any) {
-  this.router.navigate(['/karyakaram-details'], {
+  this.router.navigate(['/ayyappatemplelistdetails'], {
     queryParams: {
-      title: item.title,
+      templeName: item.templeName,
       image: item.image,
-      description: item.description
+      templeNameTelugu: item.templeNameTelugu,
+      openingTime: item.openingTime,
+      closingTime: item.closingTime,
+      location: item.location,
+
     }
   });
 }

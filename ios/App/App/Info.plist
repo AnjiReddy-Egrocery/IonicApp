@@ -2,10 +2,40 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>NSCameraUsageDescription</key>
+<string>This app uses the camera to update profile photos.</string>
+
+<key>NSPhotoLibraryUsageDescription</key>
+<string>This app uses photo library to select images.</string>
+
+<key>NSContactsUsageDescription</key>
+<string>This app may use contacts for optional features.</string>
+
+<key>NSLocationWhenInUseUsageDescription</key>
+<string>This app uses your location to provide nearby temple information.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app needs your location to show nearby Annadhanam locations.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Your location is required for accurate map display.</string>
+	<key>GMSApiKey</key>
+	<string>AIzaSyCvb7BWjj8jsmp15D1NGogyfHaWWocS2Ys</string>
+	<key>io.gmaps.ios.sdk.API_KEY</key>
+	<string>AIzaSyCvb7BWjj8jsmp15D1NGogyfHaWWocS2Ys</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Your location is used to show your current position on the map.</string>
+	<key>NSContactsUsageDescription</key>
+	<string>This app request contact  access to share the application</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-        <string>AyyappaTelugu</string>
+	<string>AyyappaTelugu</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -43,7 +73,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<true/>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 </dict>
 </plist>

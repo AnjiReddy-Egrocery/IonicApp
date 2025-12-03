@@ -1,7 +1,13 @@
 <ion-header>
   <ion-toolbar color="danger">
     <ion-buttons slot="start">
-       <ion-back-button defaultHref="/home" color="light" text=""></ion-back-button>
+       <ion-back-button 
+    defaultHref="/home" 
+    color="light"
+    text=""
+    icon="arrow-back-outline"
+    style="margin-left: 14px;">
+  </ion-back-button>
     </ion-buttons>
     <div class="custom-toolbar">
       <h1>స్వామి శరణం అయ్యప్ప</h1>
@@ -11,7 +17,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content fullscreen class="ion-padding">
 
   <!-- Title -->
   <h2 class="pooja-title">{{ title }}</h2>
@@ -22,13 +28,16 @@
   </ion-card>
 
   <!-- Description (replicates WebView HTML) -->
- <ion-content class="ion-padding">
-  <div class="pooja-description" [innerHTML]="linkifiedDescription"></div>
-</ion-content>
+
+   <div class="scroll-container">
+    <div class="description-box" [innerHTML]="cleanedDescription"></div>
+   </div>
+ 
+
 
 </ion-content>
 
- <ion-footer>
+ <ion-footer slot="fixed">
     <ion-toolbar class="custom-footer">
       <ion-grid>
         <ion-row class="ion-align-items-center ion-justify-content-center">

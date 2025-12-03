@@ -31,13 +31,16 @@ export class PoojapetamComponent  implements OnInit {
     this.loadPoojaPetam();
   }
 
-  loadPoojaPetam() {
-    this.service.getDecoratorsList().subscribe(res => {
-      this.decoratorsList = res.result;
-      this.filteredList = [...this.decoratorsList];
-    }, err => {
-      console.error(err);
-    });
+  async loadPoojaPetam() {
+   
+    try {
+    const res = await this.service.getDecoratorsList(); // <-- Promise-based
+    console.log('✅ Response:', res);
+    this.decoratorsList = res.result || [];
+    this.filteredList = [...this.decoratorsList];
+  } catch (err) {
+    console.error('❌ Error:', err);
+  }
   }
 
   filterResults(event: any) {

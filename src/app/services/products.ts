@@ -1,26 +1,50 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Http } from '@capacitor-community/http';
 import { Observable } from 'rxjs/internal/Observable';
+
+export interface ProductsResponse {
+  status: string;
+  errorCode: string;
+  message?: string;
+  result?: any[];
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class Products {
-    private baseUrl = '/api/Products';   // ✅ no trailing slash
+    private baseUrl = 'https://www.ayyappatelugu.com/APICalls/Products';   // ✅ no trailing slash
 
-  constructor(private http: HttpClient) {}
+  constructor() {}
 
-  getProductList(): Observable<any> {
-    const url = `${this.baseUrl}/index`;
+  async getProductList(): Promise<ProductsResponse> {
+          console.log('➡️ Calling Bajanamandali API...');
 
-    // If your Postman request sends headers or body, add them here:
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
+    try {
+      const response = await Http.request({
+        method: 'POST',
+        url: `${this.baseUrl}/index`,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        // ❌ No parameters needed
+        data: {}
+      });
 
-    // Empty body if not required
-    const body = {};
+      console.log('➡️ Raw API Response:', response.data);
 
-   return this.http.post(url, body, { headers });  // ✅ only one slash
+      // ✅ Normalize and parse response
+      const parsed =
+        typeof response.data === 'string'
+          ? JSON.parse(response.data)
+          : response.data;
+
+      console.log('✅ Parsed API Response:', parsed);
+      return parsed as ProductsResponse;
+    } catch (error) {
+      console.error('❌ BajanamandaliService Error:', error);
+      throw error;
+    }
   }
 }

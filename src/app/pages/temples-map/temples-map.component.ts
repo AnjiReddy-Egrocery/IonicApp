@@ -4,8 +4,9 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
-
+import { IonicModule, ModalController } from '@ionic/angular';
+import { Ayyappatemplelist } from 'src/app/services/ayyappatemplelist';
+import { Geolocation } from '@capacitor/geolocation';
 
 declare var google: any;
 
@@ -17,96 +18,159 @@ declare var google: any;
   imports: [IonicModule, FormsModule, CommonModule]
 })
 export class TemplesMapComponent implements AfterViewInit {
-  map: any;
-  currentZoomLevel = 15;
-  markers: any[] = [];
-
-  constructor(private http: HttpClient, private router: Router) {}
-
-  ngAfterViewInit() {
-    this.initMap();
-  }
-
-  initMap() {
-    const mapElement: HTMLElement = document.getElementById('map')!;
-    this.map = new google.maps.Map(mapElement, {
-      center: { lat: 17.385044, lng: 78.486671 }, // Hyderabad default
-      zoom: this.currentZoomLevel,
-    });
-
-    this.loadTemples();
-  }
-
-  loadTemples() {
-    const url = '/api/Temples/index';
-
-  // If you need to send some data in the POST body
-  const body = {}; // Replace with actual data if needed, or leave empty
-
-  this.http.post<any>(url, body).subscribe(res => {
-    if (res.errorCode === '200') {
-      this.addMarkers(res.result);
-    }
-  });
-}
+    map: any;
+     currentZoomLevel = 15;
+     markers: any[] = [];
+     userMarker: any;
+   activeInfoWindow: any = null;
+     constructor(private http: HttpClient, private modalCtrl: ModalController,private anadanamService: Ayyappatemplelist,
+     ) {}
    
-
-  addMarkers(temples: any[]) {
-    temples.forEach((temple) => {
-      const position = {
-        lat: parseFloat(temple.latitude),
-        lng: parseFloat(temple.longitude),
-      };
-
-      // Create a container for custom marker content
-      const markerDiv = document.createElement('div');
-      markerDiv.className = 'custom-marker';
-      markerDiv.innerHTML = `
-        <img src="https://www.ayyappatelugu.com/public/assets/img/temple_images/${temple.image}" style="width:40px;height:40px;border-radius:50%;border:2px solid #fff;" />
-      `;
-
-      const marker = new google.maps.marker.AdvancedMarkerElement({
-        position,
-        map: this.map,
-        title: temple.templeName,
-        content: markerDiv,
-      });
-
-      const infoWindow = new google.maps.InfoWindow({
-        content: `
-          <div>
-            <h4>${temple.templeName}</h4>
-            <p>${temple.location}</p>
-            <button id="nav-${temple.latitude}-${temple.longitude}">Start Navigation</button>
-          </div>
-        `
-      });
-
-      marker.addListener('click', () => {
-        infoWindow.open(this.map, marker);
-        // Attach navigation button listener
-        setTimeout(() => {
-          const btn = document.getElementById(`nav-${temple.latitude}-${temple.longitude}`);
-          btn?.addEventListener('click', () => this.startNavigation(position.lat, position.lng));
-        }, 0);
-      });
-
-      this.markers.push(marker);
-    });
-  }
-
-  startNavigation(lat: number, lng: number) {
-    const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
-    window.open(url, '_system'); // Opens Google Maps app or browser
-  }
-
-  zoomIn() {
-    this.currentZoomLevel++;
-    this.map.setZoom(this.currentZoomLevel);
-  }
-
-  zoomOut() {
-    this.currentZoomLevel--;
-    this.map.setZoom(this.currentZoomLevel);
-  }
+ngAfterViewInit() {
+  setTimeout(() => {
+    this.initMap();
+  }, 300);
 }
+  initMap() {
+   const mapEl = document.getElementById('map');
+  if (!mapEl) {
+    console.error('Map element missing');
+    return;
+  }
+
+  this.map = new google.maps.Map(mapEl, {
+    center: { lat: 12.9716, lng: 77.5946 },
+    zoom: 15
+  });
+
+  console.log('Map initialized');
+
+  console.log(
+    'MAP SIZE:',
+    document.getElementById('map')?.offsetWidth,
+    document.getElementById('map')?.offsetHeight
+  );
+
+  // 👇 Load current location & markers
+ this.loadTempleData();
+
+  // Optional: Load user location marker
+  this.loadUserLocation();
+  }
+ async loadUserLocation() {
+    try {
+    const pos = await Geolocation.getCurrentPosition({
+      enableHighAccuracy: true
+    });
+
+    const lat = pos.coords.latitude;
+    const lng = pos.coords.longitude;
+
+    this.map.setCenter({ lat, lng });
+
+    // Add blue user marker
+    this.userMarker = new google.maps.Marker({
+      position: { lat, lng },
+      map: this.map,
+      title: "Your Location",
+      icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+    });
+
+    console.log("User location:", lat, lng);
+
+  } catch (e) {
+    console.error("Location error:", e);
+  }
+  }
+     
+   
+ 
+    async loadTempleData() {
+     try {
+       const res = await this.anadanamService.getTempleList();
+       console.log("API RESPONSE =>", res);
+   
+       if (res?.errorCode == '200' && Array.isArray(res?.result)) {
+         this.addMarkers(res.result);
+       } else {
+         console.warn("Invalid Response Format:", res);
+       }
+   
+     } catch (err) {
+       console.error("API Error:", err);
+     }
+   }
+   
+     addMarkers(locations: any[]) {
+     locations.forEach(temple => {
+       const position = {
+         lat: parseFloat(temple.latitude),
+         lng: parseFloat(temple.longitude)
+       };
+   
+       const marker = new google.maps.Marker({
+         position,
+         map: this.map,
+         title: temple.templeNameTelugu
+       });
+   
+       const infoWindow = new google.maps.InfoWindow({
+         content: `
+           <div class="info-window-container">
+             <h4>${temple.templeName}</h4>
+             <p>${temple.location}</p>
+             <div class="navigation-button" onclick="window.startNavigation(${position.lat}, ${position.lng})">
+               <span>Start Navigation</span>
+               <img src="assets/navigation_icon.png" />
+             </div>
+           </div>
+         `
+       });
+   
+       marker.addListener('click', () => {
+   
+         // ❌ Old open info-window close చేయాలి
+         if (this.activeInfoWindow) {
+           this.activeInfoWindow.close();
+         }
+   
+         // ✔️ New info-window open చేయండి
+         infoWindow.open(this.map, marker);
+   
+         // ✔️ Save reference
+         this.activeInfoWindow = infoWindow;
+       });
+   
+       this.markers.push(marker);
+     });
+   
+     (window as any).startNavigation = this.startNavigation.bind(this);
+   }
+   
+     startNavigation(lat: number, lng: number) {
+       const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+       window.open(url, '_system');
+     }
+   
+     zoomIn() {
+       this.currentZoomLevel++;
+       this.map.setZoom(this.currentZoomLevel);
+     }
+   
+     zoomOut() {
+       this.currentZoomLevel--;
+       this.map.setZoom(this.currentZoomLevel);
+     }
+   
+     async openInfoDialog() {
+               const modal = await this.modalCtrl.create({
+                 component: TemplesMapComponent,
+                 cssClass: 'alert-style-modal',   // ✅ must match exactly
+                 backdropDismiss: true,
+                 showBackdrop: true
+               });
+               await modal.present();
+             }
+     
+   
+   }

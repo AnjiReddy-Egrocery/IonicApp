@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Geolocation } from '@capacitor/geolocation';
 import { AnadanamDialogComponent } from 'src/app/components/anadanam-dialog/anadanam-dialog.component';
+import { Anadanam } from 'src/app/services/anadanam';
 
 declare var google: any;
 
@@ -25,96 +26,116 @@ export class AnadanamtemplesComponent  implements AfterViewInit {
   currentZoomLevel = 15;
   markers: any[] = [];
   userMarker: any;
-
-  constructor(private http: HttpClient, private modalCtrl: ModalController) {}
+activeInfoWindow: any = null;
+  constructor(private http: HttpClient, private modalCtrl: ModalController,private anadanamService: Anadanam,
+  ) {}
 
   ngAfterViewInit() {
+    this.initMapFirst(); 
     this.loadMap();
   }
 
-  async loadMap() {
-  const mapElement: HTMLElement = document.getElementById('map')!;
+  initMapFirst() {
+ const mapElement = document.getElementById('map')!;
 
-  try {
-    // Get device current location
+  this.map = new google.maps.Map(mapElement, {
+    center: { lat: 20.5937, lng: 78.9629 }, // India center
+    zoom: this.currentZoomLevel,
+    mapTypeControl: false,
+    fullscreenControl: false,
+    streetViewControl: false
+  });
+}
+
+  async loadMap() {
+    this.getUserLocation();   // loads GPS
+  this.loadTempleData();    // loads markers
+  }
+ 
+ 
+ async getUserLocation() {
+    try {
     const coordinates = await Geolocation.getCurrentPosition({
       enableHighAccuracy: true,
-      timeout: 10000, // increase timeout, 1 second is usually too low
-      maximumAge: 0
+      timeout: 4000
     });
 
     const lat = coordinates.coords.latitude;
     const lng = coordinates.coords.longitude;
 
-    this.map = new google.maps.Map(mapElement, {
-      center: { lat, lng },
-      zoom: this.currentZoomLevel,
-      mapTypeControl: false,
-      fullscreenControl: false,
-      streetViewControl: false
-    });
+    this.map.setCenter({ lat, lng });
 
-    // Add user marker
     this.userMarker = new google.maps.Marker({
       position: { lat, lng },
       map: this.map,
-      title: 'You are here',
-      icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+      icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
     });
-
-    this.loadTempleData();
 
   } catch (err) {
-    console.error('Could not get current location:', err);
-    // Optionally show a message to user
+    console.warn("GPS Not available");
+  }
+  }
+ async loadTempleData() {
+  try {
+    const res = await this.anadanamService.getMapList();
+    console.log("API RESPONSE =>", res);
+
+    if (res?.errorCode == '200' && Array.isArray(res?.result)) {
+      this.addMarkers(res.result);
+    } else {
+      console.warn("Invalid Response Format:", res);
+    }
+
+  } catch (err) {
+    console.error("API Error:", err);
   }
 }
-  loadTempleData() {
-   const url = '/api/annadhanams/index';
-
-  // If you need to send some data in the POST body
-  const body = {}; // Replace with actual data if needed, or leave empty
-
-  this.http.post<any>(url, body).subscribe(res => {
-    if (res.errorCode === '200') {
-      this.addMarkers(res.result);
-    }
-  });
-  }
 
   addMarkers(locations: any[]) {
-    locations.forEach(temple => {
-      const position = {
-        lat: parseFloat(temple.latitude),
-        lng: parseFloat(temple.longitude)
-      };
+  locations.forEach(temple => {
+    const position = {
+      lat: parseFloat(temple.latitude),
+      lng: parseFloat(temple.longitude)
+    };
 
-      const marker = new google.maps.Marker({
-        position,
-        map: this.map,
-        title: temple.annadhanamNameTelugu
-      });
-
-      const infoWindow = new google.maps.InfoWindow({
-        content: `
-          <div class="info-window-container">
-            <h4>${temple.annadhanamNameTelugu}</h4>
-            <p>${temple.location}</p>
-            <div class="navigation-button" onclick="window.startNavigation(${position.lat}, ${position.lng})">
-              <span>Start Navigation</span>
-              <img src="assets/navigation_icon.png" />
-            </div>
-          </div>
-        `
-      });
-
-      marker.addListener('click', () => infoWindow.open(this.map, marker));
-
-      this.markers.push(marker);
+    const marker = new google.maps.Marker({
+      position,
+      map: this.map,
+      title: temple.annadhanamNameTelugu
     });
 
-    (window as any).startNavigation = this.startNavigation.bind(this);
-  }
+    const infoWindow = new google.maps.InfoWindow({
+      content: `
+        <div class="info-window-container">
+          <h4>${temple.annadhanamNameTelugu}</h4>
+          <p>${temple.location}</p>
+          <div class="navigation-button" onclick="window.startNavigation(${position.lat}, ${position.lng})">
+            <span>Start Navigation</span>
+            <img src="assets/navigation_icon.png" />
+          </div>
+        </div>
+      `
+    });
+
+    marker.addListener('click', () => {
+
+      // ❌ Old open info-window close చేయాలి
+      if (this.activeInfoWindow) {
+        this.activeInfoWindow.close();
+      }
+
+      // ✔️ New info-window open చేయండి
+      infoWindow.open(this.map, marker);
+
+      // ✔️ Save reference
+      this.activeInfoWindow = infoWindow;
+    });
+
+    this.markers.push(marker);
+  });
+
+  (window as any).startNavigation = this.startNavigation.bind(this);
+}
 
   startNavigation(lat: number, lng: number) {
     const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;

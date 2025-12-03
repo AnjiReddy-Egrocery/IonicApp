@@ -13,19 +13,15 @@ import { Auth } from '../services/auth';
 export class HomePage {
    constructor(private router: Router, private authService: Auth) {}
 
-  async ngOnInit() {
-    // Make sure storage is ready first
-    await this.authService.init();  
-
-    // Wait for 3 seconds
-    setTimeout(async () => {
-      const isLoggedIn = await this.authService.getLoginState();
-      if (isLoggedIn) {
-        this.router.navigateByUrl('/dashboard', { replaceUrl: true });
-      } else {
-        this.router.navigateByUrl('/login', { replaceUrl: true });
-      }
-    }, 3000);
+ async ngOnInit() {
+ setTimeout(async () => {
+  const isLoggedIn = await this.authService.getLoginState();
+  if (isLoggedIn) {
+    this.router.navigateByUrl('/dashboard', { replaceUrl: true });
+  } else {
+    this.router.navigateByUrl('/login', { replaceUrl: true });
   }
+}, 500); // 0.5 seconds
+}
 }
 

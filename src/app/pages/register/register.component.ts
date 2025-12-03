@@ -16,67 +16,81 @@ import { PrivacyDialogComponent } from '../privacy-dialog/privacy-dialog.compone
   
 })
 export class RegisterPage {
-  firstName: string = '';
-  lastName: string = '';
-  email: string = '';
-  mobile: string = '';
+ firstName = '';
+  lastName = '';
+  email = '';
+  mobile = '';
+  password = '';
 
-  
-  
-  constructor(private toastCtrl: ToastController,private router: Router,  private alertCtrl: AlertController,
-    private registerService: RegisterService,  private modalCtrl: ModalController,) {}
+  constructor(
+    private toastCtrl: ToastController,
+    private router: Router,
+    private registerService: RegisterService,
+    private alertCtrl: AlertController,
+    private modalCtrl: ModalController
+  ) {}
 
   async register() {
-        if (!this.firstName || !this.lastName || !this.email || !this.mobile ) {
-          this.showToast('Please fill all fields');
-          return;
-        }
-     
-        // 🔹 Call Registration API
-        this.registerService.register(this.firstName, this.lastName, this.email, this.mobile)
-          .subscribe(res => {
-            if (res.errorCode === '203') {
-              this.showToast('Email or mobile already exists');
-            } else if (res.errorCode === '200' && res.result?.length) {
-              const { registerId, otp } = res.result[0];
+  console.log('Register button clicked');
+  console.log('Form values:', {
+    firstName: this.firstName,
+    lastName: this.lastName,
+    email: this.email,
+    mobile: this.mobile,
+    password: this.password
+  });
 
-              // ✅ Immediately go to login page
-              this.router.navigate(['/verify-otp'], {
-                          queryParams: {
-                            registerId: registerId,
-                            otp: otp
-                          }
-                        });
+  if (!this.firstName || !this.lastName || !this.email || !this.mobile) {
+    this.showToast('Please fill all required fields');
+    return;
+  }
 
-            } else {
-              this.showToast('Unexpected response from server');
-            }
-          }, err => {
-            console.error(err);
-            this.showToast('Network error, try again');
-          });
-      }
+  try {
+  const rawRes: any = await this.registerService.register(
+    this.firstName,
+    this.lastName,
+    this.email,
+    this.mobile,
+    this.password
+  );
 
-     
+  console.log('Registration API response:', rawRes);
+
+  // ✅ Normalize iOS JSON string
+  const res = typeof rawRes === 'string' ? JSON.parse(rawRes) : rawRes;
+
+  if (res.status === "Success" && res.errorCode === "200" && Array.isArray(res.result) && res.result.length > 0) {
+    const { registerId, otp } = res.result[0];
+    console.log('✅ Navigating to verify-otp:', registerId, otp);
+    this.router.navigate(['/verify-otp'], { queryParams: { registerId, otp } });
+    this.showToast('Registration successful! Please verify OTP.');
+  } else if (res.errorCode === "203") {
+    this.showToast(res.errorMessage || 'Email or mobile already exists');
+  } else {
+    console.warn('Unexpected API structure:', res);
+    this.showToast(res.message || 'Unexpected response from server');
+  }
+} catch (err) {
+  console.error('Network error:', err);
+  this.showToast('Network error, please try again later');
+}
+}
+  private isValidEmail(email: string) {
+    return /^[a-zA-Z0-9._-]+@[a-z]+\.[a-z]+$/.test(email);
+  }
+
+  private isValidMobile(mobile: string) {
+    return /^[0-9]{10,15}$/.test(mobile);
+  }
+
   async showToast(message: string) {
     const toast = await this.toastCtrl.create({
       message,
       duration: 2000,
-      position: 'bottom'
+      position: 'bottom',
     });
     await toast.present();
   }
-
-  private isValidEmail(email: string) {
-    const emailPattern = /^[a-zA-Z0-9._-]+@[a-z]+\.[a-z]+$/;
-    return emailPattern.test(email);
-  }
-
-  private isValidMobile(mobile: string) {
-    const phonePattern = /^[0-9]{10,15}$/;
-    return phonePattern.test(mobile);
-  }
-
 
 
   goToLogin() {
@@ -84,3 +98,6 @@ export class RegisterPage {
   }
 
 }
+
+
+

@@ -28,6 +28,11 @@ import { ViewallnewdetailsComponent } from "./pages/viewallnewdetails/viewallnew
 import { TemplesComponent } from "./pages/temples/temples.component";
 import { AyyappatemplesComponent } from "./pages/ayyappatemples/ayyappatemples.component";
 import { VerifyOtpComponent } from "./pages/verify-otp/verify-otp.component";
+import { AyyappatemplelistdetailsPage } from "./pages/ayyappatemplelistdetails/ayyappatemplelistdetails.page";
+import { AyyappaBajanaSongsDetailsPage } from "./pages/ayyappa-bajana-songs-details/ayyappa-bajana-songs-details.page";
+import { AyyappaBajanaSongsPage } from "./pages/ayyappa-bajana-songs/ayyappa-bajana-songs.page";
+import { PanchangamPage } from "./pages/panchangam/panchangam.page";
+import { SettingsPage } from "./pages/settings/settings.page";
 
 
 export const routes: Routes = [
@@ -61,6 +66,23 @@ export const routes: Routes = [
   { path: 'sharanughosha', component: SharanughoshaComponent},
   { path: 'view-all-news', component: ViewAllNewsComponent},
   { path: 'viewallnews_details', component: ViewallnewdetailsComponent},
+  { path: 'ayyappatemplelistdetails', component: AyyappatemplelistdetailsPage},
+  { path: 'ayyappabajana-songs', component: AyyappaBajanaSongsPage},
+  { path: 'bajanaSongs_details', component: AyyappaBajanaSongsDetailsPage}, 
+  { path: 'panchangam', component: PanchangamPage},
+  { path: 'settings', component: SettingsPage },
+    
+    
+    
+ 
+   
+ 
+    
+  
+    
+   
+
+ 
   
 
 ];

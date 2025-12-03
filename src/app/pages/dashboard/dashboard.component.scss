@@ -4,7 +4,8 @@
 
 .menu-header {
   text-align: center;
-  margin-bottom: 20px;
+ 
+  margin-top: 75px; 
   background: #D3BF96;
 }
 
@@ -18,6 +19,23 @@
   color: #fff;
   font-size: 14px;
   margin-top: 2px;
+}
+
+.menu-header ion-avatar {
+  width: 90px;
+  height: 90px;
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: auto;
+  display: block;   /* ❤️ iOS fix */
+}
+
+.menu-header ion-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* image perfect circle */
+  border-radius: 50%;
 }
 
 /* Bottom icons styling */
@@ -56,7 +74,7 @@
   align-items: center;    /* center horizontally */
   justify-content: center; /* center vertically if needed */
   padding: -19px 0;
-  background-color: #D3BF96; /* similar to Android background */
+  background-color: #D3BF96; 
   margin-left: -16px; margin-right: -16px; margin-top: -16px;
   
   .header-avatar {
@@ -81,7 +99,7 @@
   }
 }
 .custom-footer {
-  --background: #FFF0D1; /* same as Android LinearLayout background */
+  --background: #FFF0D1; 
 }
 
 .bottom-icon {
@@ -289,7 +307,7 @@ ion-content {
   .nityapooja-img {
     flex: 1;
     max-height: 150px;
-    margin: -46px -21px -17px -21px; /* same as android margins */
+    margin: -46px -21px -17px -21px; 
     object-fit: contain;
   }
 

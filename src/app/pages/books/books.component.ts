@@ -38,13 +38,16 @@ export class BooksComponent  implements OnInit {
     this.loadBooks();
   }
 
-  loadBooks() {
-    this.bookservices.getBookList().subscribe(res => {
-      this.bookList = res.result;
-      this.filteredList = [...this.bookList];
-    }, err => {
-      console.error(err);
-    });
+  async loadBooks() {
+
+     try {
+    const res = await this.bookservices.getBookList(); // <-- Promise-based
+    console.log('✅ Response:', res);
+    this.bookList = res.result || [];
+    this.filteredList = [...this.bookList];
+  } catch (err) {
+    console.error('❌ Error:', err);
+  }
   }
 
 filterResults(event: any) {

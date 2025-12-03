@@ -40,7 +40,7 @@ export class BajanamandalidetailsComponent  implements OnInit {
       this.Image = params['Image'];
        this.Image = params['Image']?.startsWith('http') 
         ? params['Image'] 
-        : 'https://www.ayyappatelugu.com/assets/user_images/' + params['Image'];
+        : 'https://www.ayyappatelugu.com/public/assets/user_images/' + params['Image'];
 
           this.linkifiedDescription = this.Discription.replace(
             /(https?:\/\/[^\s]+)/g,
