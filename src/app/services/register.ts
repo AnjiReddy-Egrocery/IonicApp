@@ -58,4 +58,76 @@ export class RegisterService {
     throw error;
   }
 }
+// ==============================
+  // DELETE ACCOUNT METHOD 
+  // ==============================
+  async deleteAccount(registerId: string) {
+
+    const data = {
+      registerId: registerId
+    };
+
+    try {
+      const response = await Http.request({
+        method: 'POST',
+        url: `${this.baseUrl}/deleteUserAccount`,
+        headers: { 'Content-Type': 'multipart/form-data' },
+        data: data
+      });
+
+      console.log("➡️ Delete Raw Response:", response.data);
+
+      const parsed =
+        typeof response.data === 'string'
+          ? JSON.parse(response.data)
+          : response.data;
+
+      console.log("✅ Parsed Delete Response:", parsed);
+
+      return parsed;
+
+    } catch (error) {
+      console.error("❌ Delete API Error:", error);
+      throw error;
+    }
+  }
+
+  // ==============================
+  // CHANGE PASSWORD 
+  // ==============================
+
+  async changePassword(registerId: string, currentPwd: string, newPwd: string) {
+
+  const data = {
+    registerId: registerId,
+    cpwd: currentPwd,
+    pwd: newPwd
+  };
+
+  try {
+    const response = await Http.request({
+      method: 'POST',
+      url: `${this.baseUrl}/changePassword`,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      data: data
+    });
+
+    console.log("➡️ Change Password Raw:", response.data);
+
+    const parsed =
+      typeof response.data === 'string'
+        ? JSON.parse(response.data)
+        : response.data;
+
+    console.log("✅ Parsed Change Password Response:", parsed);
+
+    return parsed;
+
+  } catch (error) {
+    console.error("❌ Change Password API Error:", error);
+    throw error;
+  }
+}
 }

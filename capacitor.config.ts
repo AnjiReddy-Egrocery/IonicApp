@@ -11,11 +11,14 @@ const config: CapacitorConfig = {
 
   plugins: {
     SplashScreen: {
-      launchShowDuration: 3000,
+      launchShowDuration: 2500,
       launchAutoHide: true,
-      backgroundColor: '#FFFFFFFF',
-      showSpinner: false
+      showSpinner: false,
+      androidScaleType: "CENTER_CROP",
+      backgroundColor: "#ffffff"
     },
+
+    
 
     // ✅ ADD LOCATION PERMISSIONS
     Geolocation: {

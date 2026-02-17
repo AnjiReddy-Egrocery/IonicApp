@@ -1,23 +1,32 @@
-<ion-header>
+<ion-header slot="fixed" class="custom-header">
   <ion-toolbar color="danger">
+
+    <!-- BACK BUTTON -->
     <ion-buttons slot="start">
-      <ion-back-button 
-        defaultHref="/home" 
-        color="light"
+      <ion-back-button
+        defaultHref="/home"
         text=""
-        icon="arrow-back-outline"
-        style="margin-left: 14px;">
-  </ion-back-button>
+        icon="arrow-back-outline">
+      </ion-back-button>
     </ion-buttons>
-    <div class="custom-toolbar">
-      <h1>స్వామి శరణం అయ్యప్ప</h1>
-      <h2>(www.ayyappatelugu.com)</h2>
-    </div>
+
+    <!-- TITLE (CENTER) -->
+    <ion-title>
+      <div class="custom-toolbar">
+        <h1>స్వామి శరణం అయ్యప్ప</h1>
+        <h2>(www.ayyappatelugu.com)</h2>
+      </div>
+    </ion-title>
+
+    <!-- INFO BUTTON -->
     <ion-buttons slot="end">
       <ion-button (click)="openInfo()">
-        <ion-icon slot="icon-only" name="information-circle-outline"></ion-icon>
+        <ion-icon slot="icon-only"
+          name="information-circle-outline">
+        </ion-icon>
       </ion-button>
     </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
 
@@ -60,8 +69,8 @@
 
 </ion-content>
 
- <ion-footer slot="fixed">
-    <ion-toolbar class="custom-footer">
+ <ion-footer slot="fixed" class="custom-footer">
+    <ion-toolbar class="custom-footer-toolbar">
       <ion-grid>
         <ion-row class="ion-align-items-center ion-justify-content-center">
 

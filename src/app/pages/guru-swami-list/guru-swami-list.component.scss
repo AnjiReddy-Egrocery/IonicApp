@@ -11,6 +11,35 @@
   justify-content: center;
   gap: 5px; /* space between text and image */
 }
+
+.custom-header ion-toolbar {
+  padding-top: env(safe-area-inset-top);
+  min-height: calc(56px + env(safe-area-inset-top));
+}
+
+.custom-toolbar {
+  text-align: center;
+}
+
+.custom-toolbar h1 {
+  font-size: 16px;
+  margin: 0;
+  color: white;
+  font-weight: 600;
+}
+
+.custom-toolbar h2 {
+  font-size: 12px;
+  margin: 0;
+  color: white;
+}
+ion-button ion-icon {
+  color: white;
+  font-size: 22px;
+}
+ion-back-button {
+  --color: white;
+}
 .bottom-text {
   color: #E41B1B;
   font-weight: bold;
@@ -76,12 +105,22 @@ ion-footer {
   padding: 0 !important;
 }
 
-.custom-footer {
- --background: #FFF0D1;
-  --min-height: 85px;   /* ↓ Toolbar height reduce */
-  height: 85px;
-  padding: 0;
-  margin-bottom: 15px;
+ion-footer.custom-footer {
+  background: #FFF0D1;
+}
+
+/* Toolbar inside footer */
+ion-footer.custom-footer ion-toolbar {
+  --background: #FFF0D1;
+   min-height: 290px;   /* 👈 ikkadey size change cheyyandi */
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+/* iOS safe-area fix */
+ion-footer.custom-footer::part(container) {
+  background: #FFF0D1;
+  
 }
 
 ion-label h2 {

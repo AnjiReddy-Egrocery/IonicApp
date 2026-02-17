@@ -1,0 +1,55 @@
+.login-page {
+  --background: url('../../../assets/bg_logo.jpeg') no-repeat center center / cover;
+}
+
+.text-bg {
+ --padding-top: env(safe-area-inset-top);
+  --padding-bottom: env(safe-area-inset-bottom);
+  --padding-start: 16px;
+  --padding-end: 16px;
+}
+
+.intro-text {
+  text-align: center;
+  color: white;
+  margin-top: 90px;
+
+  h2 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+  }
+
+  h3 {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  ul {
+    text-align: left;
+    margin: 0 auto;
+    max-width: 90%;
+    li {
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+  }
+}
+
+
+
+ion-button {
+  margin-top: 2rem;
+}
+
+.button-center {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.continue-btn {
+  width: 140px;        /* small size */
+  height: 40px;
+  --border-radius: 6px; /* rectangle shape */
+  font-size: 14px;
+}

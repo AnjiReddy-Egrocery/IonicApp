@@ -17,7 +17,7 @@
         <!-- Email/Mobile -->
         <ion-item class="input-item">
           <ion-icon name="person-outline" slot="start" style="margin-right: 10px;"></ion-icon>
-          <ion-input type="text" placeholder="Mobile No / Email" [(ngModel)]="username"
+          <ion-input type="email" placeholder=" Email address "  [(ngModel)]="email"
            [ngModelOptions]="{standalone: true}"></ion-input>
         </ion-item>
 
@@ -39,7 +39,7 @@
 
         <!-- Forgot password -->
         <div class="links">
-          <ion-text color="light" class="forgot-link">
+          <ion-text color="light" class="forgot-link"  (click)="goToForgotPassword()">
             Forgot Password?
           </ion-text>
         </div>

@@ -16,7 +16,7 @@ import { LoginDataResponse, LoginService } from 'src/app/services/login';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginPage {
-  username: string = '';   // email or mobile
+  email: string = '';   
   password: string = '';
   showPassword: boolean = false;
 
@@ -26,41 +26,62 @@ export class LoginPage {
       private authService: Auth,
     private toastCtrl: ToastController) {}
 
+      // ✅ Email validation
+  isValidEmail(email: string): boolean {
+    const emailRegex =
+      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRegex.test(email);
+  }
+
+
    
   togglePassword() {
     this.showPassword = !this.showPassword;
   }
 
      async goToLogin() {
-    if (!this.username || !this.password) {
-      this.showToast('Please enter mobile & password');
+    if (!this.email || !this.password) {
+      this.showToast('Please enter email and password');
+      return;
+    }
+
+    if (!this.isValidEmail(this.email)) {
+      this.showToast('Please enter a valid email address');
       return;
     }
 
     try {
-      const response: LoginDataResponse = await this.loginService.login(this.username, this.password);
-      console.log('✅ Login Response:', response);
+      // 🔑 Backend key is STILL "username"
+      const response = await this.loginService.login(
+        this.email,     // email value
+        this.password
+      );
 
       if (response.status === 'Success' && response.errorCode === '200') {
-        const user = response.result;; // backend returns an array
 
-       const userData = {
-            name: user.userFirstName || '',
-            email: user.userEmail || '',
-            image: user.userImage || 'assets/ic_launcher.png'
-    };
+        const user = response.result;
+
+        const userData = {
+          registerId: user.userId,
+          userMid: user.userMid,
+          name: user.userFirstName || '',
+          email: user.userEmail || '',
+          image: user.userImage || 'assets/ic_launcher.png'
+        };
 
         await this.authService.setLoginData(userData);
         await this.showToast('✅ Login Successful');
-        this.router.navigateByUrl('/dashboard', { replaceUrl: true });
+        this.router.navigateByUrl('/swamy-dashboard', { replaceUrl: true });
+
       } else {
-        this.showToast(response.message || '❌ Invalid credentials');
+        this.showToast(response.message || 'Invalid email or password');
       }
-    } catch (error) {
-      console.error('Login Error:', error);
+
+    } catch (err) {
       this.showToast('Login failed. Check internet connection');
     }
   }
+
 
 
   private async showToast(msg: string) {
@@ -77,7 +98,7 @@ export class LoginPage {
     this.router.navigateByUrl('/register'); // ✅ Now this works
   }
   goToForgotPassword() {
-    this.router.navigate(['/forgot-password']);
+    this.router.navigateByUrl('/forgotpassword');
   }
 
   

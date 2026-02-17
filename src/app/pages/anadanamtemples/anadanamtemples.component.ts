@@ -161,6 +161,55 @@ activeInfoWindow: any = null;
             });
             await modal.present();
           }
-  
+  convertToDate(input: string): Date {
+  try {
+    if (/^\d+$/.test(input)) {    // If UNIX timestamp
+      let ts = parseInt(input);
+      if (input.length === 10) ts *= 1000;
+      return new Date(ts);
+    }
+    return new Date(input);
+  } catch {
+    return new Date();
+  }
+}
+
+// ✅ Check if CURRENT TIME is between start & end time
+isTimeBetween(startTime: string, endTime: string): boolean {
+  try {
+    const now = new Date();
+    const nowStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes()
+      .toString().padStart(2, '0')}`;
+
+    const fmt = startTime.length === 5 ? "HH:mm" : "HH:mm:ss";
+
+    const toDate = (t: string) => {
+      const parts = t.split(":").map(Number);
+      const d = new Date();
+      d.setHours(parts[0], parts[1], parts[2] || 0);
+      return d;
+    };
+
+    const start = toDate(startTime);
+    const end = toDate(endTime);
+    const nowT = toDate(nowStr);
+
+    return nowT >= start && nowT <= end;
+  } catch {
+    return false;
+  }
+}
+
+// ✅ FINAL check (Date + Time)
+isActiveTemple(startDate: string, endDate: string, startTime: string, endTime: string): boolean {
+  const sDate = this.convertToDate(startDate);
+  const eDate = this.convertToDate(endDate);
+  const now = new Date();
+
+  const isDateValid = now >= sDate && now <= eDate;
+  if (!isDateValid) return false;
+
+  return this.isTimeBetween(startTime, endTime);
+}
 
 }

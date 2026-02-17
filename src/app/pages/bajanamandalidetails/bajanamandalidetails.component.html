@@ -1,21 +1,23 @@
 <ion-header>
   <ion-toolbar color="danger">
+
     <ion-buttons slot="start">
-      <ion-back-button 
-    defaultHref="/home" 
-    color="light"
-    text=""
-    icon="arrow-back-outline"
-    style="margin-left: 14px;">
-  </ion-back-button>
+      <ion-back-button
+        defaultHref="/home"
+        icon="arrow-back-outline"
+        text="">
+      </ion-back-button>
     </ion-buttons>
-    <div class="custom-toolbar">
+
+    <ion-title>
       <h1>స్వామి శరణం అయ్యప్ప</h1>
       <h2>(www.ayyappatelugu.com)</h2>
-    </div>   
+    </ion-title>
+
   </ion-toolbar>
 </ion-header>
-<ion-content class="ion-padding guru-details-content">
+
+<ion-content>
 
   <!-- Image + Name + Details -->
   <div class="details-header">
@@ -60,8 +62,9 @@
 
 </ion-content>
 
- <ion-footer slot="fixed">
-    <ion-toolbar class="custom-footer">
+
+<ion-footer slot="fixed" class="custom-footer">
+    <ion-toolbar class="custom-footer-toolbar">
       <ion-grid>
         <ion-row class="ion-align-items-center ion-justify-content-center">
 
@@ -90,3 +93,6 @@
       </ion-grid>
     </ion-toolbar>
   </ion-footer>
+  
+
+

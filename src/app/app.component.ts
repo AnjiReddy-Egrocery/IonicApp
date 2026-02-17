@@ -10,5 +10,6 @@ import { IonicModule, IonRouterOutlet } from '@ionic/angular';
   imports: [IonicModule]
 })
 export class AppComponent {
+  
  constructor() {}
 }

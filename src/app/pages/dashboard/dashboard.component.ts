@@ -116,6 +116,14 @@ export class DashboardPage {
 }
 
 
+  async goToSwamiLogin() {
+
+    this.router.navigateByUrl('/login', { replaceUrl: true });
+ 
+ 
+}
+
+
   navigate(page: string) {
     switch (page) {
       case 'Ayyapa_karyam': this.router.navigate(['/ayyapa-karyam']); break;

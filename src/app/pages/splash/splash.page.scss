@@ -1,0 +1,13 @@
+.no-gap-content,
+.full-bg {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.full-bg {
+  object-fit: cover;
+}
+
+ion-content { --ion-safe-area-bottom: 0; }

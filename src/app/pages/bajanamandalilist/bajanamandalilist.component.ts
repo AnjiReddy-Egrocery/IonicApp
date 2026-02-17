@@ -136,5 +136,9 @@ export class BajanamandalilistComponent implements OnInit   {
   closeMenu() {
     this.menu.close('first');
   }
+
+  goBack() {
+  this.router.navigate(['/home']);
+}
 }
 

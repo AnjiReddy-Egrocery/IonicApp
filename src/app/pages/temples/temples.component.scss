@@ -66,6 +66,24 @@ ion-item::part(native) {
   background: transparent !important;
 }
 
+ion-footer.custom-footer {
+  background: #FFF0D1;
+}
+
+/* Toolbar inside footer */
+ion-footer.custom-footer ion-toolbar {
+  --background: #FFF0D1;
+   min-height: 290px;   /* 👈 ikkadey size change cheyyandi */
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+/* iOS safe-area fix */
+ion-footer.custom-footer::part(container) {
+  background: #FFF0D1;
+  
+} 
+
 ion-footer {
   position: fixed;
   bottom: 0;

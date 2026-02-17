@@ -33,11 +33,16 @@ import { AyyappaBajanaSongsDetailsPage } from "./pages/ayyappa-bajana-songs-deta
 import { AyyappaBajanaSongsPage } from "./pages/ayyappa-bajana-songs/ayyappa-bajana-songs.page";
 import { PanchangamPage } from "./pages/panchangam/panchangam.page";
 import { SettingsPage } from "./pages/settings/settings.page";
+import { ChangePasswordPage } from "./pages/change-password/change-password.page";
+import { ForgotPasswordPage } from "./pages/forgot-password/forgot-password.page";
+import { IntrosliderPage } from "./pages/introslider/introslider.page";
+import { SplashPage } from "./pages/splash/splash.page";
+import { SwamyDashboardPage } from "./pages/swamy-dashboard/swamy-dashboard.page";
 
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' }, // Start at login by default
-  { path: 'home', component: HomePage },
+  { path: '', redirectTo: 'splash', pathMatch: 'full' }, // Start at login by default
+  { path: 'splash', component: SplashPage },
   { path: 'login', component: LoginPage },
   { path: 'register', component: RegisterPage },
   { path: "verify-otp", component:VerifyOtpComponent},
@@ -48,7 +53,12 @@ export const routes: Routes = [
   { path: 'calender', component: CalenderComponent},
   { path: 'ayyappa_guruswami', component: GuruSwamiListComponent },
   { path: 'guru_swami_details', component: GuruswamidetailsComponent},
-  { path: 'ayyappa_bajanamandali', component: BajanamandalilistComponent},
+ {
+  path: 'ayyappa_bajanamandali',
+  loadComponent: () =>
+    import('./pages/bajanamandalilist/bajanamandalilist.component')
+      .then(m => m.BajanamandalilistComponent)
+},
   { path: 'bajanamandali_details', component:BajanamandalidetailsComponent},
   { path: 'books', component:BooksComponent},
   { path: 'book-details', component: BooksdetailsComponent},
@@ -71,18 +81,14 @@ export const routes: Routes = [
   { path: 'bajanaSongs_details', component: AyyappaBajanaSongsDetailsPage}, 
   { path: 'panchangam', component: PanchangamPage},
   { path: 'settings', component: SettingsPage },
-    
-    
-    
- 
-   
- 
+  { path: 'changepassword', component: ChangePasswordPage },   
+  { path: 'forgotpassword', component: ForgotPasswordPage },
+  { path: 'introslider', component: IntrosliderPage },
+  { path: 'swamy-dashboard', component: SwamyDashboardPage },
     
   
     
-   
-
- 
+    
   
-
+   
 ];

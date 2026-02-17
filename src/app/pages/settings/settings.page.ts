@@ -5,6 +5,9 @@ import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/stan
 import { AlertController, IonicModule } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Auth } from 'src/app/services/auth';
+import { RegisterPage } from '../register/register.component';
+import { RegisterService } from 'src/app/services/register';
 
 @Component({
   selector: 'app-settings',
@@ -16,8 +19,9 @@ import { DomSanitizer } from '@angular/platform-browser';
       CommonModule,]
 })
 export class SettingsPage implements OnInit {
+  http: any;
 
-  constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer, private router: Router,private alertCtrl: AlertController) { }
+  constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer, private router: Router,private alertCtrl: AlertController,private auth: Auth,private registerService: RegisterService ) { }
 
   ngOnInit() {
   }
@@ -34,7 +38,7 @@ export class SettingsPage implements OnInit {
   }
 
   goToChangePassword() {
-  this.router.navigate(['/change-password']);
+  this.router.navigateByUrl('/changepassword');
 }
 
 async confirmDelete() {
@@ -57,8 +61,24 @@ async confirmDelete() {
 
   await alert.present();
 }
-  deleteAccount() {
-    throw new Error('Method not implemented.');
+ async deleteAccount() {
+
+  const user = await this.auth.getUser();
+
+  if (!user || !user.registerId) {
+    console.error("❌ registerId missing");
+    return;
   }
 
+  try {
+    const res = await this.registerService.deleteAccount(user.registerId);
+    console.log("🎉 Delete Success:", res);
+
+    await this.auth.logout();
+    this.router.navigateByUrl('/login', { replaceUrl: true });
+
+  } catch (err) {
+    console.error("❌ Error deleting:", err);
+  }
+}
 }
