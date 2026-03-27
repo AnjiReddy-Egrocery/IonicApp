@@ -99,6 +99,10 @@ export const routes: Routes = [
   { path: 'forgotpassword', component: ForgotPasswordPage },
   { path: 'introslider', component: IntrosliderPage },
   { path: 'swamy-dashboard', component: SwamyDashboardPage },
+  {
+    path: 'create-password',
+    loadComponent: () => import('./pages/create-password/create-password.page').then( m => m.CreatePasswordPage)
+  },
     
   
     

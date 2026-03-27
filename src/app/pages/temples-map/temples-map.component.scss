@@ -73,3 +73,64 @@
   width: 24px;
   height: 24px;
 }
+
+/* Outer card */
+.custom-card {
+  width: 250px;
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #9E9494;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  font-family: Arial, sans-serif;
+}
+
+/* Inner */
+.card-inner {
+  padding: 10px;
+  text-align: center;
+}
+
+/* Title */
+.title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #000;
+}
+
+/* Location */
+.location {
+  margin-top: 6px;
+  font-size: 16px;
+  color: #000;
+}
+
+/* Bottom row */
+.nav-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+/* Button */
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+/* Text */
+.nav-btn span {
+  color: #3C54DA;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* Icon */
+.nav-btn img {
+  width: 30px;
+  height: 30px;
+  background: #E41010;
+  padding: 5px;
+  border-radius: 4px;
+}

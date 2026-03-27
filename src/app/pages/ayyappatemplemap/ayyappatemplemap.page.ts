@@ -116,18 +116,34 @@ ngAfterViewInit() {
          title: temple.templeNameTelugu
        });
    
-       const infoWindow = new google.maps.InfoWindow({
-         content: `
-           <div class="info-window-container">
-             <h4>${temple.templeName}</h4>
-             <p>${temple.location}</p>
-             <div class="navigation-button" onclick="window.startNavigation(${position.lat}, ${position.lng})">
-               <span>Start Navigation</span>
-               <img src="assets/navigation_icon.png" />
-             </div>
-           </div>
-         `
-       });
+      const infoWindow = new google.maps.InfoWindow({
+  content: `
+    <div class="custom-card">
+
+      <div class="card-inner">
+
+        <div class="title">
+          ${temple.templeName}
+          
+        </div>
+
+        <div class="location">
+          ${temple.location}
+        </div>
+
+        <div class="nav-row">
+          <div class="nav-btn" onclick="window.startNavigation(${position.lat}, ${position.lng})">
+            <span>Start Navigation</span>
+            <img src="../../../assets/navigation_icon.png" />
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  `
+});
+   
    
        marker.addListener('click', () => {
    
