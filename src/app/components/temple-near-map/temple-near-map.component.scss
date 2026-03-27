@@ -1,0 +1,88 @@
+/* Outer modal wrapper */
+:host {
+  display: block;
+  --background: transparent; /* remove default Ionic gray */
+}
+
+/* Modal card style */
+.alert-style-modal .modal-wrapper {
+  background: #ffffff;        /* white background */
+  border-radius: 12px;        /* rounded corners like Android */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* soft shadow */
+  max-height: 80%;            /* prevent full screen */
+  margin: 16px;               /* spacing from screen edges */
+  overflow: hidden;
+}
+
+/* Header styling */
+ion-header {
+  background: #ffffff;
+  border-bottom: 1px solid #ccc;
+}
+
+ion-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #000;
+}
+
+ion-buttons ion-button ion-icon {
+  font-size: 20px;
+  color: #333333;
+}
+
+/* Radio buttons row */
+ion-radio-group {
+  display: flex;
+  justify-content: space-around;
+  margin: 12px 0;
+  ion-item {
+    --padding-start: 0px;
+    --inner-padding-end: 0px;
+  }
+}
+
+/* Temple list items */
+ion-list {
+  max-height: 300px;  /* scrollable list if too long */
+  overflow-y: auto;
+
+  ion-item {
+    border-bottom: 1px solid #eee;
+    --padding-start: 12px;
+    --padding-end: 12px;
+
+    h2 {
+      font-size: 16px;
+      font-weight: bold;
+      margin: 0;
+      color: #000;
+    }
+
+    p {
+      margin: 2px 0 0 0;
+      font-size: 14px;
+      color: #555;
+    }
+
+    ion-button {
+      --border-radius: 6px;
+      --padding-start: 8px;
+      --padding-end: 8px;
+      font-size: 12px;
+      --color: #3C54DA;
+      --background: #f5f5f5;
+      border: 1px solid #3C54DA;
+    }
+  }
+}
+
+/* Scrollbar for Android look */
+ion-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+ion-list::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 3px;
+}

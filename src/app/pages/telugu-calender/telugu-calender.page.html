@@ -1,0 +1,91 @@
+<ion-header>
+  <ion-toolbar color="danger">
+    <ion-buttons slot="start">
+      <ion-button 
+      fill="clear" 
+      color="light" 
+      (click)="goHome()"
+      style="margin-left: 14px;">
+      <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+</ion-button>
+    </ion-buttons>
+    <div class="custom-toolbar">
+      <h1>స్వామి శరణం అయ్యప్ప</h1>
+      <h2>(www.ayyappatelugu.com)</h2>
+    </div>
+   
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <!-- Month Navigation -->
+  <div class="month-nav">
+    <ion-button fill="clear" (click)="prevMonth()">
+      <ion-icon name="chevron-back-outline"></ion-icon>
+    </ion-button>
+    <span class="month-title">{{ updateMonthTitle() }}</span>
+    <ion-button fill="clear" (click)="nextMonth()">
+      <ion-icon name="chevron-forward-outline"></ion-icon>
+    </ion-button>
+  </div>
+
+  <!-- Week Labels -->
+  <div class="week-days">
+    <div *ngFor="let day of ['ఆది','సోమ','మంగళ','బుధ','గురు','శుక్ర','శని']">{{ day }}</div>
+  </div>
+
+  <div class="calendar-grid">
+    <div *ngFor="let day of days" 
+         class="calendar-cell" 
+         [class.today]="isToday(day.date)" 
+         [class.sunday]="isSunday(day.date)"
+         (click)="day.date && showDayDialog(day)">
+      <div *ngIf="day.date">
+        <div class="date">{{ day.date | slice:8:10 }}</div>
+        <div class="vaara">{{ day.data?.data?.vaara }}</div>
+        <div class="tithi">{{ day.data?.data?.tithi?.[0]?.name }}</div>
+        <div class="nakshatra">{{ day.data?.data?.nakshatra?.[0]?.name }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom navigation -->
+  <div class="bottom-nav">
+    <ion-button expand="full" color="light" (click)="goToAnadanam()">అన్నదానం</ion-button>
+    <ion-button expand="full" color="light" (click)="goToNityaPooja()">నిత్య పూజ</ion-button>
+  </div>
+
+</ion-content>
+
+
+<ion-footer slot="fixed" class="custom-footer">
+    <ion-toolbar class="custom-footer-toolbar">
+      <ion-grid>
+        <ion-row class="ion-align-items-center ion-justify-content-center">
+
+          <!-- First Item: Icon + Text -->
+          <ion-col size="auto" (click)="goToAnadanam()">
+            <div class="icon-text-row">
+              <ion-img src="../../../assets/location.png" class="bottom-icon"></ion-img>
+              <p class="bottom-text">అన్నదానం</p>
+            </div>
+          </ion-col>
+
+          <!-- Center Icon -->
+          <ion-col class="ion-text-center" size="2.4">
+            <ion-img src="../../../assets/bottomcenter.png" class="bottom-icon"></ion-img>
+          </ion-col>
+
+          <!-- Fifth Item: Text + Icon -->
+          <ion-col size="auto" (click)="goToNityaPooja()">
+            <div class="text-image-row">
+              <p class="bottom-text">నిత్య పూజ</p>
+              <ion-img src="../../../assets/nithyapooja.png" class="bottom-icon"></ion-img>
+            </div>
+          </ion-col>
+
+        </ion-row>
+      </ion-grid>
+    </ion-toolbar>
+  </ion-footer>

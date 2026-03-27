@@ -1,0 +1,42 @@
+<p>
+  temple-near-map works!
+</p>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Nearby Temples</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-radio-group [(ngModel)]="selectedRadius" (ionChange)="filterTemples()">
+    <ion-item>
+      <ion-label>5 km</ion-label>
+      <ion-radio slot="start" value="5000"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>10 km</ion-label>
+      <ion-radio slot="start" value="10000"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>20 km</ion-label>
+      <ion-radio slot="start" value="20000"></ion-radio>
+    </ion-item>
+  </ion-radio-group>
+
+  <ion-list>
+    <ion-item *ngFor="let temple of filteredTemples" >
+      <ion-label>
+        <h2>{{ temple.templeName }}</h2>
+        <p>{{ temple.location }}</p>
+      </ion-label>
+      <ion-button fill="outline" slot="end" >
+        Navigate
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

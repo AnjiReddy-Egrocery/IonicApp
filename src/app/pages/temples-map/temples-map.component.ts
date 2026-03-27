@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { Ayyappatemplelist } from 'src/app/services/ayyappatemplelist';
 import { Geolocation } from '@capacitor/geolocation';
+import { TempleNearMapComponent } from 'src/app/components/temple-near-map/temple-near-map.component';
 
 declare var google: any;
 
@@ -23,6 +24,9 @@ export class TemplesMapComponent implements AfterViewInit {
      markers: any[] = [];
      userMarker: any;
    activeInfoWindow: any = null;
+
+    userLocation: { latitude: number; longitude: number } | null = null;
+  templeList: any[] = [];
      constructor(private http: HttpClient, private modalCtrl: ModalController,private anadanamService: Ayyappatemplelist,
      ) {}
    
@@ -186,6 +190,21 @@ ngAfterViewInit() {
                });
                await modal.present();
              }
-     
-   
-   }
+
+
+              async displayNearByTemples() {
+   if (!this.userLocation || !this.templeList?.length) return alert("Location or temple list not available.");
+
+  const modal = await this.modalCtrl.create({
+    component: TempleNearMapComponent,
+    componentProps: {
+      templeList: this.templeList,
+      userLocation: this.userLocation
+    },
+    cssClass: 'alert-style-modal',
+    backdropDismiss: true
+  });
+
+  await modal.present();
+  }
+}

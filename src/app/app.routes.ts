@@ -103,6 +103,10 @@ export const routes: Routes = [
     path: 'create-password',
     loadComponent: () => import('./pages/create-password/create-password.page').then( m => m.CreatePasswordPage)
   },
+  {
+    path: 'telugu-calender',
+    loadComponent: () => import('./pages/telugu-calender/telugu-calender.page').then( m => m.TeluguCalenderPage)
+  },
     
   
     

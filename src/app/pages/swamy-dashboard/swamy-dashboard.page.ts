@@ -32,7 +32,9 @@ export class SwamyDashboardPage {
   temples: any[] =[];
   
    
-  constructor(private router: Router,private menu: MenuController,private service: News,private templeservice: Templelist,private ayyappatempleservice: Ayyappatemplelist, private authService: Auth, private alertCtrl: AlertController, private platform: Platform,
+  constructor(private router: Router,private menu: MenuController,private service: News,
+    private templeservice: Templelist,private ayyappatempleservice: Ayyappatemplelist, 
+    private authService: Auth, private alertCtrl: AlertController, private platform: Platform,private menuCtrl: MenuController
     
 ) {
     
@@ -55,6 +57,8 @@ export class SwamyDashboardPage {
     this.loadNews();
         this.loadAyyappaTemples();
         this.loadTemples();
+
+        this.menuCtrl.close();
 
   }
   async loadTemples() {
@@ -135,65 +139,87 @@ export class SwamyDashboardPage {
     this.router.navigateByUrl('/dashboard', { replaceUrl: true });  // ✅ Go back to login
   }
   goToAnadanam() {
+     this.menuCtrl.close();
     this.router.navigateByUrl('/anadanam');
   }
 
   goToTemples(){
+     this.menuCtrl.close();
     this.router.navigateByUrl('/temples');
   }
   goToAyyappaTemples(){
+     this.menuCtrl.close();
     this.router.navigateByUrl('/ayyappatemples');
   }
 
   goToNityaPooja() {
+     this.menuCtrl.close();
     this.router.navigate(['/nityapooja']);
   }
 
   goToGuruSwami() {
+     this.menuCtrl.close();
   this.router.navigateByUrl('/ayyappa_guruswami');
 }
 
   goToBhajanaMandali() {
+     this.menuCtrl.close();
     this.router.navigateByUrl('/ayyappa_bajanamandali');
   }
 
    goToBhajanaSongs() {
+     this.menuCtrl.close();
     this.router.navigateByUrl('/ayyappabajana-songs');
   }
 
     goToSharanughosha() {
+       this.menuCtrl.close();
     this.router.navigateByUrl('/sharanughosha');
      
   }
   goToPoojaKaryakramam(){
+     this.menuCtrl.close();
     this.router.navigateByUrl('/poojakrayakramam');
   }
   gotoaboutUs(){
+     this.menuCtrl.close();
     this.router.navigateByUrl('/aboutUs');
   }
   goToPrivacyPolicy(){
+     this.menuCtrl.close();
     this.router.navigateByUrl('/privacypolicy');
   }
   goToCalender(){
+     this.menuCtrl.close();
     this.router.navigateByUrl('/calender');
   }
+  goToTeluguCalender(){
+     this.menuCtrl.close();
+    this.router.navigateByUrl('/telugu-calender');
+  }
   goToPanchangam(){
+     this.menuCtrl.close();
     this.router.navigateByUrl('/panchangam');
   }
   goToBooks(){
+     this.menuCtrl.close();
     this.router.navigateByUrl('/books');
   }
   goToToures(){
+     this.menuCtrl.close();
     this.router.navigateByUrl('/toures');
   }
   goToPoojaPetam(){
+     this.menuCtrl.close();
     this.router.navigateByUrl('/poojapetam');
   }
   goToProducts(){
+     this.menuCtrl.close();
      this.router.navigateByUrl('/products');
   }
 
     openNewsDetails(news: any) {
+       this.menuCtrl.close();
        this.router.navigate(['/viewallnews_details'], {
     queryParams: { 
       Name: news.newsTitle,
@@ -229,14 +255,17 @@ export class SwamyDashboardPage {
  
 
   viewAllNews() {
+     this.menuCtrl.close();
    this.router.navigateByUrl('/view-all-news');
   }
 
   viewAllAyyappaTemples(){
+     this.menuCtrl.close();
     this.router.navigateByUrl('/temples');
   }
 
   gotoSettings(){
+     this.menuCtrl.close();
     this.router.navigateByUrl('/settings');
   }
 
@@ -270,7 +299,7 @@ export class SwamyDashboardPage {
 
  
 openTempleDetails(temple: any) {
-
+ this.menuCtrl.close();
 
   console.log("Selected Temple:", temple);
 
@@ -289,12 +318,13 @@ openTempleDetails(temple: any) {
 }
 
 viewAllTemples(){
-
+ this.menuCtrl.close();
   this.router.navigateByUrl('/ayyappatemples');
 
 }
 
 openAyyappaTempleDetails(ayyappatemple: any){
+   this.menuCtrl.close();
   console.log("Selected Temple:", ayyappatemple);
 
  this.router.navigate(['/ayyappatemplelistdetails'], {
