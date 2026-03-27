@@ -209,6 +209,7 @@ ion-item {
 /* Ensure ion-content is transparent so bg shows through */
 ion-content {
   --background: transparent;
+   --padding-bottom: 100px; /* ✅ footer height ki equal */
 }
 
 ion-footer.custom-footer {
@@ -218,9 +219,7 @@ ion-footer.custom-footer {
 /* Toolbar inside footer */
 ion-footer.custom-footer ion-toolbar {
   --background: #FFF0D1;
-   min-height: 290px;   /* 👈 ikkadey size change cheyyandi */
-  padding-top: 8px;
-  padding-bottom: 8px;
+  
 }
 
 /* iOS safe-area fix */

@@ -1,4 +1,3 @@
-
 .icon-text-row {
   display: flex;
   align-items: center;
@@ -10,35 +9,6 @@
   align-items: center;
   justify-content: center;
   gap: 5px; /* space between text and image */
-}
-
-.custom-header ion-toolbar {
-  padding-top: env(safe-area-inset-top);
-  min-height: calc(56px + env(safe-area-inset-top));
-}
-
-.custom-toolbar {
-  text-align: center;
-}
-
-.custom-toolbar h1 {
-  font-size: 16px;
-  margin: 0;
-  color: white;
-  font-weight: 600;
-}
-
-.custom-toolbar h2 {
-  font-size: 12px;
-  margin: 0;
-  color: white;
-}
-ion-button ion-icon {
-  color: white;
-  font-size: 22px;
-}
-ion-back-button {
-  --color: white;
 }
 .bottom-text {
   color: #E41B1B;
@@ -75,10 +45,12 @@ ion-back-button {
 }
 
 /* ion-content transparent + footer overlap fix */
+
+
 ion-content {
   --background: transparent;
   /* ❌ padding-bottom ekkuva ivvakandi, only footer size ki chalu */
-  --padding-bottom: 32% !important; /* Ionic way */
+   --padding-bottom: calc(90px + env(safe-area-inset-bottom));
 }
 /* ion-list & ion-item transparent */
 ion-list {
@@ -101,7 +73,7 @@ ion-footer {
   left: 0;
   right: 0;
   z-index: 100;
-   height: 75px !important; 
+    height: 75px !important; 
   padding: 0 !important;
 }
 
@@ -122,6 +94,17 @@ ion-footer.custom-footer::part(container) {
   background: #FFF0D1;
   
 }
+
+.custom-footer {
+ --background: #FFF0D1;
+  --min-height: 85px;   /* ↓ Toolbar height reduce */
+  height: 85px;
+  padding: 0;
+  margin-bottom: 15px;
+
+}
+
+
 
 ion-label h2 {
   color: #fff !important; /* white text */
@@ -160,10 +143,10 @@ ion-col {
 }
 
 .guru-card {
-  margin: 0;
-  border-radius: 10px;
-  box-shadow: none;
-  border: 1px solid #fff;
+  margin: 0;             /* default margin remove */
+  border-radius: 10px;   /* కొంచెం round look */
+  box-shadow: none;      /* shadow remove */
+  border: 1px solid #fff; /* అవసరమైతే border */
   background: transparent;
   color: #fff;
 }
@@ -173,18 +156,17 @@ ion-col {
   font-weight: bold;
   text-align: center;
   color: #fff;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-top: 6px;     /* spacing image → title */
-  margin-bottom: 2px;  /* spacing title → city */
+  white-space: nowrap;       /* ఒక్క లైన్ లో */
+  overflow: hidden;          /* text బయటకి వెళ్లకుండా */
+  text-overflow: ellipsis;   /* ఎక్కువైతే ... చూపించు */
+
 }
 
 .guru-card ion-card-subtitle {
   font-size: 12px;
   text-align: center;
   color: #fff;
-  margin: 0;          /* ❌ negative margin remove */
+  margin-bottom: -10px;
 }
 
 .img-container {
@@ -200,12 +182,6 @@ ion-col {
   height: 100%;
   object-fit: cover;
 }
-
-.text-wrapper {
-  text-align: center;
-  margin-top: 5px;
-}
-
 .guru-name {
   font-size: 14px;
   font-weight: bold;
@@ -220,7 +196,7 @@ ion-col {
   color: #fff;
   margin-top: 2px;
 }
-
-.container {
-  padding-bottom: 120px;   /* bottom space for scroll */
+.text-wrapper {
+  text-align: center;
+  margin-top: 5px;
 }

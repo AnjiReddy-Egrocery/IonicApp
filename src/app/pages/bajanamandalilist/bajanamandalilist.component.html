@@ -1,19 +1,23 @@
 <ion-header>
-  <ion-toolbar class="ionic-toolbar">
-
-    <!-- Back button -->
+  <ion-toolbar color="danger">
     <ion-buttons slot="start">
-      <ion-button class="back-circle" (click)="goBack()">
-        <ion-icon name="arrow-back-outline"></ion-icon>
-      </ion-button>
+     <ion-back-button 
+        defaultHref="/home" 
+        color="light"
+        text=""
+        icon="arrow-back-outline"
+        style="margin-left: 14px;">
+  </ion-back-button>
     </ion-buttons>
-
-    <!-- Title + Subtitle -->
-    <div class="title-box">
+    <div class="custom-toolbar">
       <h1>స్వామి శరణం అయ్యప్ప</h1>
       <h2>(www.ayyappatelugu.com)</h2>
     </div>
-
+    <ion-buttons slot="end">
+      <ion-button (click)="openInfo()">
+        <ion-icon slot="icon-only" name="information-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 

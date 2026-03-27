@@ -110,38 +110,3 @@ ion-modal.alert-style-modal::part(content) {
   line-height: 1.5;
 }
 
-ion-header ion-toolbar {
-  --background: #E41B1B !important;
-  --color: #ffffff !important;
-}
-
-/* BACK BUTTON COLOR */
-ion-header ion-back-button {
-  --color: #ffffff !important;
-}
-
-/* TITLE CENTER */
-ion-header ion-title {
-  text-align: center;
-}
-
-ion-header ion-title h1 {
-  font-size: 18px;
-  margin: 0;
-  color: #fff;
-}
-
-ion-header ion-title h2 {
-  font-size: 14px;
-  margin: 0;
-  color: #fff;
-}
-
-.md ion-header {
-  padding-top: 0 !important;
-}
-
-/* iOS notch only */
-.ios ion-header {
-  padding-top: env(safe-area-inset-top);
-}

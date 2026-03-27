@@ -1,32 +1,23 @@
-<ion-header slot="fixed" class="custom-header">
+<ion-header>
   <ion-toolbar color="danger">
-
-    <!-- BACK BUTTON -->
     <ion-buttons slot="start">
-      <ion-back-button
-        defaultHref="/home"
+     <ion-back-button 
+        defaultHref="/home" 
+        color="light"
         text=""
-        icon="arrow-back-outline">
-      </ion-back-button>
+        icon="arrow-back-outline"
+        style="margin-left: 14px;">
+  </ion-back-button>
     </ion-buttons>
-
-    <!-- TITLE (CENTER) -->
-    <ion-title>
-      <div class="custom-toolbar">
-        <h1>స్వామి శరణం అయ్యప్ప</h1>
-        <h2>(www.ayyappatelugu.com)</h2>
-      </div>
-    </ion-title>
-
-    <!-- INFO BUTTON -->
+    <div class="custom-toolbar">
+      <h1>స్వామి శరణం అయ్యప్ప</h1>
+      <h2>(www.ayyappatelugu.com)</h2>
+    </div>
     <ion-buttons slot="end">
       <ion-button (click)="openInfo()">
-        <ion-icon slot="icon-only"
-          name="information-circle-outline">
-        </ion-icon>
+        <ion-icon slot="icon-only" name="information-circle-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-
   </ion-toolbar>
 </ion-header>
 
@@ -36,15 +27,14 @@
     <span class="header-title">గురుస్వాముల జాబిత</span>
     <img src="../../../assets/nearby.png" class="header-icon" />
   </div>
-  <!-- Search Bar -->
+
    <ion-searchbar [(ngModel)]="searchQuery" (ionInput)="filterResults($event)" placeholder="Search by name, city, or mobile number"
-   style="--background: #ffffff; --color: #000000;"></ion-searchbar>
+   style="--background: #ffffff; --color: #000000; margin-left: 10px;"></ion-searchbar>
   
   <ion-refresher slot="fixed" (ionRefresh)="refreshList($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <!-- List of activities -->
   <ion-grid>
     <ion-row>
       <ion-col size="6" *ngFor="let guru of filteredList">
@@ -53,12 +43,12 @@
             <ion-img [src]="'https://www.ayyappatelugu.com/public/assets/user_images/' + guru.profilePic"></ion-img>
           </div>
          
-
-          <!-- Name + City -->
-           <div class="text-wrapper">
-              <p class="guru-name">{{ truncate(guru.guruswamiName) }}</p>
+          <ion-card-header>
+               <div class="text-wrapper">
+              <p class="guru-name">{{ guru.guruswamiName }}</p>
               <p class="guru-city">{{ guru.cityName }}</p>
             </div>
+          </ion-card-header>
         </ion-card>
       </ion-col>
     </ion-row>
@@ -69,7 +59,7 @@
 
 </ion-content>
 
- <ion-footer slot="fixed" class="custom-footer">
+<ion-footer slot="fixed" class="custom-footer">
     <ion-toolbar class="custom-footer-toolbar">
       <ion-grid>
         <ion-row class="ion-align-items-center ion-justify-content-center">

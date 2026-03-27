@@ -7,17 +7,18 @@ import { IonicModule, ModalController } from '@ionic/angular';
 import { GuruswamyDialogComponent } from 'src/app/components/guruswamy-dialog/guruswamy-dialog.component';
 import { InfoDialogComponent } from 'src/app/info-dialog/info-dialog.component';
 import { GuruSwami } from 'src/app/services/guru-swami';
-
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-guru-swami-list',
-  templateUrl: './guru-swami-list.component.html',
-  styleUrls: ['./guru-swami-list.component.scss'],
     standalone: true,
   imports: [     
     IonicModule,      // ✅ required for all ion-* components
     FormsModule,      // ✅ required for [(ngModel)]
     CommonModule,
-  ]
+  ],
+  templateUrl: './guru-swami-list.component.html',
+  styleUrls: ['./guru-swami-list.component.scss'],
+  
 })
 export class GuruSwamiListComponent {
 
@@ -25,11 +26,12 @@ export class GuruSwamiListComponent {
   filteredList: any[] = [];
   searchQuery: string = '';
 
-  constructor(private service: GuruSwami, private router: Router, private sanitizer: DomSanitizer, private modalCtrl: ModalController) {}
+  constructor(private service: GuruSwami, private router: Router, private sanitizer: DomSanitizer, private modalCtrl: ModalController,private location: Location) {}
 
 
   ngOnInit() {
-    this.loadGuruswami();
+   this.loadGuruswami();
+   
   }
 
   async loadGuruswami() {
@@ -135,5 +137,9 @@ export class GuruSwamiListComponent {
       Image: guru.profilePic
     } 
   });
+}
+
+goBack() {
+  this.location.back();
 }
 }

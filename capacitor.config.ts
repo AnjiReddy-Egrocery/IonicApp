@@ -8,18 +8,20 @@ const config: CapacitorConfig = {
     cleartext: true,
     allowNavigation: ['www.ayyappatelugu.com']
   },
-
+ 
   plugins: {
     SplashScreen: {
       launchShowDuration: 2500,
       launchAutoHide: true,
-      showSpinner: false,
+     
       androidScaleType: "CENTER_CROP",
       backgroundColor: "#ffffff"
     },
 
-    
-
+   ios: {
+  contentInset: "never"
+},
+ 
     // ✅ ADD LOCATION PERMISSIONS
     Geolocation: {
       locationPermission: 'whenInUse'

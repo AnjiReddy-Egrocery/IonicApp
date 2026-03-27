@@ -41,7 +41,10 @@ import { SwamyDashboardPage } from "./pages/swamy-dashboard/swamy-dashboard.page
 
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'splash', pathMatch: 'full' }, // Start at login by default
+  { path: '', 
+    redirectTo: 'splash', 
+    pathMatch: 'full'
+   }, // Start at login by default
   { path: 'splash', component: SplashPage },
   { path: 'login', component: LoginPage },
   { path: 'register', component: RegisterPage },
@@ -51,8 +54,19 @@ export const routes: Routes = [
   { path: 'nityapooja', component: NityapoojaComponent},
   { path: 'karyakaram-details', component: AyyappakaryamdetailsComponent},
   { path: 'calender', component: CalenderComponent},
-  { path: 'ayyappa_guruswami', component: GuruSwamiListComponent },
-  { path: 'guru_swami_details', component: GuruswamidetailsComponent},
+  {
+    path: 'ayyappa_guruswami',
+    loadComponent: () =>
+      import('./pages/guru-swami-list/guru-swami-list.component')
+        .then(m => m.GuruSwamiListComponent)
+  },
+
+  {
+    path: 'guru_swami_details',
+    loadComponent: () =>
+      import('./pages/guruswamidetails/guruswamidetails.component')
+        .then(m => m.GuruswamidetailsComponent)
+  },
  {
   path: 'ayyappa_bajanamandali',
   loadComponent: () =>
