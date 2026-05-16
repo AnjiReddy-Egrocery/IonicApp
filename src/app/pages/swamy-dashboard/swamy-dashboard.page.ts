@@ -172,6 +172,27 @@ export class SwamyDashboardPage {
     this.router.navigateByUrl('/ayyappabajana-songs');
   }
 
+  goToBlogs() {
+     this.menuCtrl.close();
+    this.router.navigateByUrl('/ayyappa_blogs');
+  }
+
+  goToPadaYatra() {
+     this.menuCtrl.close();
+    this.router.navigateByUrl('/ayyppa-padayatra');
+  }
+
+  gotoImages() {
+     this.menuCtrl.close();
+    this.router.navigateByUrl('/ayyppa-images');
+  }
+
+  gotoVideos() {
+     this.menuCtrl.close();
+    this.router.navigateByUrl('/ayyppa-videos');
+  }
+
+
     goToSharanughosha() {
        this.menuCtrl.close();
     this.router.navigateByUrl('/sharanughosha');

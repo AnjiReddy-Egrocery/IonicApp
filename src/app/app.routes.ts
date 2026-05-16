@@ -38,6 +38,11 @@ import { ForgotPasswordPage } from "./pages/forgot-password/forgot-password.page
 import { IntrosliderPage } from "./pages/introslider/introslider.page";
 import { SplashPage } from "./pages/splash/splash.page";
 import { SwamyDashboardPage } from "./pages/swamy-dashboard/swamy-dashboard.page";
+import { PadayatralistComponent } from "./pages/padayatralist/padayatralist.component";
+import { BloglistComponent } from "./pages/bloglist/bloglist.component";
+import { BlogdetailsComponent } from "./pages/blogdetails/blogdetails.component";
+import { ImagesListComponent } from "./pages/images-list/images-list.component";
+import { VideosListComponent } from "./pages/videos-list/videos-list.component";
 
 
 export const routes: Routes = [
@@ -99,6 +104,12 @@ export const routes: Routes = [
   { path: 'forgotpassword', component: ForgotPasswordPage },
   { path: 'introslider', component: IntrosliderPage },
   { path: 'swamy-dashboard', component: SwamyDashboardPage },
+  { path: 'ayyappa_blogs', component: BloglistComponent },
+  { path: 'ayyppa-padayatra', component: PadayatralistComponent },
+  { path: 'blog_details', component: BlogdetailsComponent },
+  { path: 'padayatra_details', component: BlogdetailsComponent },
+  { path: 'ayyppa-images', component: ImagesListComponent },
+  { path: 'ayyppa-videos', component: VideosListComponent },
   {
     path: 'create-password',
     loadComponent: () => import('./pages/create-password/create-password.page').then( m => m.CreatePasswordPage)

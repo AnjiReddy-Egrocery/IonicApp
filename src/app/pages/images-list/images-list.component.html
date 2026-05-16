@@ -1,0 +1,110 @@
+<ion-header>
+  <ion-toolbar color="danger">
+    <ion-buttons slot="start">
+     <ion-back-button 
+        defaultHref="/home" 
+        color="light"
+        text=""
+        icon="arrow-back-outline"
+        style="margin-left: 14px;">
+  </ion-back-button>
+    </ion-buttons>
+    <div class="custom-toolbar">
+      <h1>స్వామి శరణం అయ్యప్ప</h1>
+      <h2>(www.ayyappatelugu.com)</h2>
+    </div>
+ 
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+  <div class="container">
+ <div class="header-container">
+    <span class="header-title"> అయ్యప్ప పోస్టర్లు</span>
+    <img src="../../../assets/nearby.png" class="header-icon" />
+  </div>
+
+   
+
+ <ion-refresher
+    slot="fixed"
+    (ionRefresh)="getImages($event)">
+
+    <ion-refresher-content>
+    </ion-refresher-content>
+
+  </ion-refresher>
+
+  <ion-card *ngFor="let item of images">
+
+    <img
+      [src]="baseUrl + item.image"
+      class="main-image">
+
+    <ion-row class="ion-padding">
+
+      <ion-col size="6">
+
+        <ion-button
+          expand="block"
+          color="primary"
+          (click)="shareImage(baseUrl + item.image)">
+
+          Share
+
+        </ion-button>
+
+      </ion-col>
+
+      <ion-col size="6">
+
+        <ion-button
+          expand="block"
+          color="success"
+          (click)="downloadImage(baseUrl + item.image, item.image)">
+
+          Download
+
+        </ion-button>
+
+      </ion-col>
+
+    </ion-row>
+
+  </ion-card>
+
+  </div>
+ 
+
+</ion-content>
+
+<ion-footer slot="fixed" class="custom-footer">
+    <ion-toolbar class="custom-footer-toolbar">
+      <ion-grid>
+        <ion-row class="ion-align-items-center ion-justify-content-center">
+
+          <!-- First Item: Icon + Text -->
+          <ion-col size="auto" (click)="goToAnadanam()">
+            <div class="icon-text-row">
+              <ion-img src="../../../assets/location.png" class="bottom-icon"></ion-img>
+              <p class="bottom-text">అన్నదానం</p>
+            </div>
+          </ion-col>
+
+          <!-- Center Icon -->
+          <ion-col class="ion-text-center" size="2.4">
+            <ion-img src="../../../assets/bottomcenter.png" class="bottom-icon"></ion-img>
+          </ion-col>
+
+          <!-- Fifth Item: Text + Icon -->
+          <ion-col size="auto" (click)="goToNityaPooja()">
+            <div class="text-image-row">
+              <p class="bottom-text">నిత్య పూజ</p>
+              <ion-img src="../../../assets/nithyapooja.png" class="bottom-icon"></ion-img>
+            </div>
+          </ion-col>
+
+        </ion-row>
+      </ion-grid>
+    </ion-toolbar>
+  </ion-footer>
