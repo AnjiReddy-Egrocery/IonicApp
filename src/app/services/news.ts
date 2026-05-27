@@ -10,6 +10,29 @@ export interface NewsResponse {
   result?: any[];
 }
 
+export interface NewsDetailsResponse {
+
+  status: string;
+
+  errorCode: string;
+
+  imageUrl: string;
+
+  result: NewsItem[];
+
+}
+export interface NewsItem {
+
+  newsId: string;
+
+  newsTitle: string;
+
+  newsDescription: string;
+
+  image: string;
+
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -47,4 +70,41 @@ export class News {
       throw error;
     }
   }
+
+  async getNewsDetails(
+    newsId:string
+  ):Promise<NewsDetailsResponse>{
+
+    const response =
+      await Http.request({
+
+        method:'POST',
+
+        url:
+        `${this.baseUrl}/info`,
+
+        headers:{
+          'Content-Type':
+          'multipart/form-data'
+        },
+
+        data:{
+          newsId:newsId
+        }
+
+      });
+
+    const parsed =
+
+      typeof response.data === 'string'
+      ? JSON.parse(response.data)
+      : response.data;
+
+    return parsed as
+      NewsDetailsResponse;
+
+  }
+
 }
+
+

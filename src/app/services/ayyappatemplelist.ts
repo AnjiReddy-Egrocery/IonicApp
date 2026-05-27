@@ -10,6 +10,36 @@ export interface TempleResponse {
   result?: any[];
 }
 
+export interface templeDetailsResponse {
+
+  status: string;
+
+  errorCode: string;
+
+  imageUrl: string;
+
+  result: TempleItem[];
+
+}
+export interface TempleItem {
+
+  templeId: string;
+
+  templeName: string;
+
+  templeNameTelugu: string;
+
+  openingTime: string;
+  closingTime: string;
+  location: string;
+  image: string;
+
+  latitude:string;     // ADD
+
+  longitude:string; 
+}
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -47,5 +77,39 @@ export class Ayyappatemplelist {
       throw error;
     }
   }
+
+    async gettempleDetails(
+          templeId:string
+        ):Promise<templeDetailsResponse>{
+      
+          const response =
+            await Http.request({
+      
+              method:'POST',
+      
+              url:
+              `${this.baseUrl}/info`,
+      
+              headers:{
+                'Content-Type':
+                'multipart/form-data'
+              },
+      
+              data:{
+                templeId:templeId
+              }
+      
+            });
+      
+          const parsed =
+      
+            typeof response.data === 'string'
+            ? JSON.parse(response.data)
+            : response.data;
+      
+          return parsed as
+            templeDetailsResponse;
+      
+        }
 }
 

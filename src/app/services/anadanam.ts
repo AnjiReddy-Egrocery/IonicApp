@@ -10,6 +10,40 @@ export interface AnadanamResponse {
   result?: any[];
 }
 
+export interface anadanamDetailsResponse {
+
+  status: string;
+
+  errorCode: string;
+
+  imageUrl: string;
+
+  result: AnadanamItem[];
+
+}
+export interface AnadanamItem {
+
+   annadhanamId:string;
+
+  annadhanamName:string;
+
+  annadhanamNameTelugu:string;
+
+  startTime:string;
+
+  endTime:string;
+
+  location:string;
+
+  image:string;
+  
+  latitude:string;
+
+  longitude:string;
+}
+
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -48,4 +82,38 @@ export class Anadanam {
       throw error;
     }
   }
+
+   async getAnadanamDetails(
+          annadhanamId:string
+        ):Promise<anadanamDetailsResponse>{
+      
+          const response =
+            await Http.request({
+      
+              method:'POST',
+      
+              url:
+              `${this.baseUrl}/info`,
+      
+              headers:{
+                'Content-Type':
+                'multipart/form-data'
+              },
+      
+              data:{
+                annadhanamId:annadhanamId
+              }
+      
+            });
+      
+          const parsed =
+      
+            typeof response.data === 'string'
+            ? JSON.parse(response.data)
+            : response.data;
+      
+          return parsed as
+            anadanamDetailsResponse;
+      
+        }
 }

@@ -96,6 +96,7 @@ toEnglishTransliteration(text: string): string {
   openDetails(item: any) {
   this.router.navigate(['/karyakaram-details'], {
     queryParams: {
+      activitiesId: item.activitiesId,
       title: item.title,
       image: item.image,
       description: item.description

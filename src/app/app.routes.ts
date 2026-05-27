@@ -43,6 +43,9 @@ import { BloglistComponent } from "./pages/bloglist/bloglist.component";
 import { BlogdetailsComponent } from "./pages/blogdetails/blogdetails.component";
 import { ImagesListComponent } from "./pages/images-list/images-list.component";
 import { VideosListComponent } from "./pages/videos-list/videos-list.component";
+import { AnnadhanamComponent } from "./pages/annadhanam/annadhanam.component";
+import { AnadanamListComponentComponent } from "./pages/anadanam-list-component/anadanam-list-component.component";
+import { AnadanamdetailsComponent } from "./pages/anadanamdetails/anadanamdetails.component";
 
 
 export const routes: Routes = [
@@ -87,7 +90,7 @@ export const routes: Routes = [
   { path: 'poojapetam_details', component: PoojapetamdetailsComponent},
   { path: 'products', component: ProductsComponent},
   { path: 'product_details', component: ProductsDetailsComponent},
-  { path: 'anadanam', component: AnadanamtemplesComponent},
+  { path: 'anadanam', component: AnnadhanamComponent},
   { path: 'temples', component: TemplesComponent},
   { path: 'ayyappatemples', component: AyyappatemplesComponent},
   { path: 'aboutUs', component: AboutUsComponent},
@@ -110,6 +113,7 @@ export const routes: Routes = [
   { path: 'padayatra_details', component: BlogdetailsComponent },
   { path: 'ayyppa-images', component: ImagesListComponent },
   { path: 'ayyppa-videos', component: VideosListComponent },
+  { path: 'ayyappaanadanamlistdetails', component: AnadanamdetailsComponent },
   {
     path: 'create-password',
     loadComponent: () => import('./pages/create-password/create-password.page').then( m => m.CreatePasswordPage)

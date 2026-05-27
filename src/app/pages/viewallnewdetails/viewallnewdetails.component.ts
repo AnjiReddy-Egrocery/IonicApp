@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TextToSpeech } from '@capacitor-community/text-to-speech';
 import { IonicModule, NavController } from '@ionic/angular';
+import { News, NewsDetailsResponse } from 'src/app/services/news';
 
 @Component({
   selector: 'app-viewallnewdetails',
@@ -30,24 +31,78 @@ export class ViewallnewdetailsComponent  implements OnInit {
   textChunks: string[] = [];
   currentChunkIndex = 0;
   currentOffset = 0; // character index inside current chunk
+   baseUrl = 'https://www.ayyappatelugu.com/';
 
-  constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer, private router: Router) { }
+  constructor(private route: ActivatedRoute, 
+    private sanitizer: DomSanitizer, private router: Router,  private newsService:News, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
-     this.route.queryParams.subscribe(params => {
-      this.name = params['Name'];
-      this.description = params['Discription'];
-      this.image = params['Image'];
-       this.image = params['Image']?.startsWith('http') 
-        ? params['Image'] 
-        : 'https://www.ayyappatelugu.com/public/assets/news_images/' + params['Image'];
+     this.route.queryParams.subscribe(
+    async params => {
 
-          this.linkifiedDescription = this.description.replace(
-            /(https?:\/\/[^\s]+)/g,
-            '<a href="$1" target="_blank">$1</a>'
+       console.log(
+      'NEWS ID:',
+      params['newsId']
     );
-    });
-  }
+
+      const newsId =
+        params['newsId'];
+
+       
+
+      if(newsId){
+
+        const response:
+        NewsDetailsResponse =
+
+        await this.newsService
+        .getNewsDetails(
+          newsId
+        );
+
+        if(
+          response.result &&
+          response.result.length > 0
+        ){
+
+          const news =
+            response.result[0];
+
+          this.name =
+            news.newsTitle;
+
+          this.description =
+            news.newsDescription;
+
+         this.image =
+                news.image?.startsWith('http')
+                  ? news.image
+                  : 'https://www.ayyappatelugu.com/public/assets/news_images/' +
+                    news.image;
+              console.log('FINAL IMAGE:', this.image);
+                    this.linkifiedDescription =
+              (this.description || '').replace(
+                /(https?:\/\/[^\s]+)/g,
+                '<a href="$1" target="_blank">$1</a>'
+              );
+              this.cdr.detectChanges();
+
+              console.log('NAME:', this.name);
+
+                console.log('IMAGE:', this.image);
+
+                console.log('DESCRIPTION:', this.description);
+
+        }
+
+      }
+
+    }
+  );
+
+}
+  
+
 
     navigate(page: string) {
     this.router.navigate([`/${page}`]);

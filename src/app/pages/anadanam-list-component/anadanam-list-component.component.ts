@@ -1,35 +1,40 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 import { Router } from '@angular/router';
-import { Templelist } from 'src/app/services/templelist';
 import { IonicModule, MenuController, ModalController } from '@ionic/angular';
+import { Anadanam } from 'src/app/services/anadanam';
 
 @Component({
-  selector: 'app-ayyappatemples-list',
-  templateUrl: './ayyappatemple-list.page.html',
-  styleUrls: ['./ayyappatemple-list.page.scss'],
-  standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonicModule]
+  selector: 'app-anadanam-list-component',
+  templateUrl: './anadanam-list-component.component.html',
+  styleUrls: ['./anadanam-list-component.component.scss'],
+
+   standalone: true,
+    imports: [     
+      IonicModule,      // ✅ required for all ion-* components
+      FormsModule,      // ✅ required for [(ngModel)]
+      CommonModule      
+    ]
 })
-export class AyyappatempleListPage implements OnInit {
- templeList: any[] = [];
+export class AnadanamListComponentComponent  implements OnInit {
+
+  templeList: any[] = [];
   filteredList: any[] = [];
   searchQuery: string = '';
-  constructor(private router: Router, private service: Templelist, private modalCtrl: ModalController, private menu: MenuController) { }
+  constructor(private router: Router, private service: Anadanam, private modalCtrl: ModalController, private menu: MenuController) { }
 
   ngOnInit() {
-     this.loadTempleList();
+     this.loadAnadanamList();
   }
 
-   async loadTempleList() {
+   async loadAnadanamList() {
     console.log("📌 Loading temple list...");
 
   try {
-    const res = await this.service.getTempleList();
+    const res = await this.service.getMapList();
 
-    if (res.status === "Success" && res.result) {
+    if (res?.errorCode === '200' && Array.isArray(res?.result)) {
       this.templeList = res.result;
       this.filteredList = [...this.templeList];
       console.log("Temple List Loaded:", this.templeList);
@@ -46,8 +51,8 @@ export class AyyappatempleListPage implements OnInit {
   const query = event.target.value ? event.target.value.toLowerCase() : '';
 
   this.filteredList = this.templeList.filter(item => {
-    const titleTelugu = item.templeName.toLowerCase();
-    const titleEnglish = this.toEnglishTransliteration(item.title).toLowerCase();
+    const titleTelugu = item.annadhanamNameTelugu.toLowerCase();
+    const titleEnglish = this.toEnglishTransliteration(item.annadhanamName).toLowerCase();
 
     return titleTelugu.includes(query) || titleEnglish.includes(query);
   });
@@ -89,29 +94,19 @@ toEnglishTransliteration(text: string): string {
 }
 
   refreshList(event: any) {
-    this.loadTempleList();
+    this.loadAnadanamList();
     event.target.complete();
   }
   
 
   openDetails(item: any) {
-  this.router.navigate(['/ayyappatemplelistdetails'], {
+  this.router.navigate(['/ayyappaanadanamlistdetails'], {
     queryParams: {
-      templeId: item.templeId,
-      templeName: item.templeName,
-      image: item.image,
-      templeNameTelugu: item.templeNameTelugu,
-      openingTime: item.openingTime,
-      closingTime: item.closingTime,
-      location: item.location,
+      annadhanamId: item.annadhanamId,
+    
 
     }
   });
 }
-
- onImageError(event: any) {
-  event.target.src = '../../../assets/ayyapaimage.jpeg'; // fallback static image
-}
-
 
 }

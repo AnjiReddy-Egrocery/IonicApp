@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="danger">
     <ion-buttons slot="start">
-         <ion-back-button 
+      <ion-back-button 
           defaultHref="/home" 
           color="light"
           text=""
@@ -13,37 +13,45 @@
       <h1>స్వామి శరణం అయ్యప్ప</h1>
       <h2>(www.ayyappatelugu.com)</h2>
     </div>
-    </ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="openInfo()">
+        <ion-icon slot="icon-only" name="information-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+
+ <!-- ⭐ MUST wrap content here -->
+
+
+  <ion-segment [(ngModel)]="selectedTab" class="custom-segment" (ionChange)="changeTab(($event.detail.value || '').toString())">
+    <ion-segment-button value="map">
+      <ion-label>మ్యాప్</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="anadanam">
+      <ion-label>అన్నదానం</ion-label>
+    </ion-segment-button>
+  </ion-segment>
 </ion-header>
 
-<ion-content class="ion-padding">
 
-  <!-- Title -->
-  <h2 class="news-title">{{ name }}</h2>
+  <ion-content fullscreen>
+ <div [ngSwitch]="selectedTab" class="tab-content">
 
-  <!-- Image Card -->
-      <ion-card class="news-card">
-        <img
-          *ngIf="image"
-          [src]="image"
-          class="news-image"
-        />
-        
+    <!-- MAP TAB -->
+    <div *ngSwitchCase="'map'">
+      <app-anadanam-map-component></app-anadanam-map-component>
+    </div>
 
-      </ion-card>
-        <!-- Description (replicates WebView HTML) -->
-  <div class="description" [innerHTML]="linkifiedDescription"></div>
+    <!-- TEMPLES TAB -->
+    <div *ngSwitchCase="'anadanam'">
+      <app-anadanam-list-component></app-anadanam-list-component>
+    </div>
 
-<!-- "View More News" clickable -->
-<div class="view-more-container">
-  <ion-button fill="clear" (click)="viewMoreNews()">
-    View More News
-  </ion-button>
-</div>
+  </div>
+  </ion-content>
 
 
-
-</ion-content>
 
 <ion-footer slot="fixed" class="custom-footer">
     <ion-toolbar class="custom-footer-toolbar">
@@ -75,4 +83,3 @@
       </ion-grid>
     </ion-toolbar>
   </ion-footer>
-

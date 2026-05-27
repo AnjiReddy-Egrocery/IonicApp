@@ -131,6 +131,7 @@ export class GuruSwamiListComponent {
   // 👉 Option 1: Navigate to another page with query params
   this.router.navigate(['/guru_swami_details'], { 
     queryParams: { 
+      guruswamiId: guru.guruswamiId,
       Name: guru.guruswamiName,
       Temple: guru.templeName,
       City: guru.cityName,

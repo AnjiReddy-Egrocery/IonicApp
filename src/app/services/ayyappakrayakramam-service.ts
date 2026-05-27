@@ -10,6 +10,29 @@ export interface AyyappaKrayakramamResponse {
   result?: any[];
 }
 
+export interface AyyappaKrayakramamDetailsResponse {
+
+  status: string;
+
+  errorCode: string;
+
+  imageUrl: string;
+
+  result: AyyappaKrayakramamItem[];
+
+}
+export interface AyyappaKrayakramamItem {
+
+  activitiesId: string;
+
+  title: string;
+
+  description: string;
+
+  image: string;
+
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -48,4 +71,38 @@ export class AyyappakrayakramamService {
       throw error;
     }
   }
+
+   async getKaryakaramDetails(
+      activitiesId:string
+    ):Promise<AyyappaKrayakramamDetailsResponse>{
+  
+      const response =
+        await Http.request({
+  
+          method:'POST',
+  
+          url:
+          `${this.baseUrl}/info`,
+  
+          headers:{
+            'Content-Type':
+            'multipart/form-data'
+          },
+  
+          data:{
+            activitiesId:activitiesId
+          }
+  
+        });
+  
+      const parsed =
+  
+        typeof response.data === 'string'
+        ? JSON.parse(response.data)
+        : response.data;
+  
+      return parsed as
+        AyyappaKrayakramamDetailsResponse;
+  
+    }
 }

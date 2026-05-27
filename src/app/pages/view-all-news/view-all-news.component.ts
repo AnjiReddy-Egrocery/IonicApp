@@ -122,9 +122,10 @@ export class ViewAllNewsComponent  implements OnInit {
       // 👉 Option 1: Navigate to another page with query params
       this.router.navigate(['/viewallnews_details'], { 
         queryParams: { 
-          Name: news.newsTitle,          
-          Discription: news.newsDescription,
-          Image: news.image
+          newsId:news.newsId?.replace(/'/g, ''), // ✅ add this
+          // Name: news.newsTitle,          
+          // Discription: news.newsDescription,
+          // Image: news.image
         } 
       });
     }  

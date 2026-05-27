@@ -101,6 +101,7 @@ toEnglishTransliteration(text: string): string {
   openDetails(item: any) {
   this.router.navigate(['/ayyappatemplelistdetails'], {
     queryParams: {
+      templeId: item.templeId,
       templeName: item.templeName,
       image: item.image,
       templeNameTelugu: item.templeNameTelugu,

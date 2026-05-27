@@ -30,6 +30,10 @@ export class GuruswamidetailsComponent  implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
+       const guruswamiId = params['guruswamiId'];
+        console.log('GURUSWAMI ID:',guruswamiId );
+
+
       this.name = params['Name'];
       this.number = params['Number'];
       this.temple = params['Temple'];

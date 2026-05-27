@@ -1,47 +1,51 @@
 <ion-header>
   <ion-toolbar color="danger">
     <ion-buttons slot="start">
-         <ion-back-button 
-          defaultHref="/home" 
-          color="light"
-          text=""
-          icon="arrow-back-outline"
-          style="margin-left: 14px;">
-        </ion-back-button>
+      <ion-back-button 
+        defaultHref="/home" 
+        color="light"
+        text=""
+        icon="arrow-back-outline"
+        style="margin-left: 14px;">
+  </ion-back-button>
     </ion-buttons>
     <div class="custom-toolbar">
       <h1>స్వామి శరణం అయ్యప్ప</h1>
       <h2>(www.ayyappatelugu.com)</h2>
-    </div>
-    </ion-toolbar>
+    </div>   
+  </ion-toolbar>
 </ion-header>
+<ion-content class="ion-padding guru-details-content">
 
-<ion-content class="ion-padding">
-
-  <!-- Title -->
-  <h2 class="news-title">{{ name }}</h2>
-
-  <!-- Image Card -->
-      <ion-card class="news-card">
-        <img
-          *ngIf="image"
-          [src]="image"
-          class="news-image"
-        />
-        
-
-      </ion-card>
-        <!-- Description (replicates WebView HTML) -->
-  <div class="description" [innerHTML]="linkifiedDescription"></div>
-
-<!-- "View More News" clickable -->
-<div class="view-more-container">
-  <ion-button fill="clear" (click)="viewMoreNews()">
-    View More News
-  </ion-button>
+  <!-- Image + Name + Details -->
+  <div class="details-header">
+    <div class="header-container">
+   
+    </div>
+    <ion-img [src]="image" class="guru-img"></ion-img>    
+  </div>
+  <div class="header-container">
+  <span class="header-title">{{ templeName }}</span>
+  <span class="header-title">{{ templeNameTelugu }}</span>
 </div>
 
+<ion-card-content class="details-card">
+  <div class="detail-row">
+    <span class="label">Opening Time</span>
+    <span class="colon">:</span>
+    <span class="value">{{ openingTime }}</span>
+  </div>
 
+  <div class="detail-row">
+    <span class="label">Closing Time</span>
+    <span class="colon">:</span>
+    <span class="value">{{ closingTime }}</span>
+  </div>
+
+  
+    <span class="label">Location</span>
+    <div class="location" [innerHTML]="linkifiedDescription"></div>
+</ion-card-content>
 
 </ion-content>
 
@@ -75,4 +79,3 @@
       </ion-grid>
     </ion-toolbar>
   </ion-footer>
-

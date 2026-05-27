@@ -243,9 +243,11 @@ export class SwamyDashboardPage {
        this.menuCtrl.close();
        this.router.navigate(['/viewallnews_details'], {
     queryParams: { 
-      Name: news.newsTitle,
-      Image: news.image, 
-      Discription: news.newsDescription
+      newsId:
+        news.newsId,
+        Name: news.newsTitle,
+        Image: news.image, 
+        Discription: news.newsDescription
     }
   });
 
