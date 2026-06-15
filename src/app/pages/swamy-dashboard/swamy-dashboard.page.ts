@@ -42,6 +42,7 @@ export class SwamyDashboardPage {
  
 
     async ngOnInit() {
+
         this.platform.ready().then(() => {
             this.platform.backButton.subscribeWithPriority(10, () => {
                 this.showExitConfirmationDialog();
@@ -54,6 +55,19 @@ export class SwamyDashboardPage {
           this.email = user.email;
           this.image = user.image || this.image;
         }
+
+        const userId = localStorage.getItem('userId') || '';
+
+  const profilePic =
+    localStorage.getItem(`profilePic_${userId}`);
+
+  if (profilePic) {
+    this.image = profilePic;
+  } else if (user?.image) {
+    this.image = user.image;
+  } else {
+    this.image = 'assets/ic_launcher.png';
+  }
     this.loadNews();
         this.loadAyyappaTemples();
         this.loadTemples();
@@ -61,6 +75,23 @@ export class SwamyDashboardPage {
         this.menuCtrl.close();
 
   }
+  ionViewWillEnter() {
+
+  const userId =
+    localStorage.getItem('userId') || '';
+
+  this.name =
+    (localStorage.getItem('firstName') || '') +
+    ' ' +
+    (localStorage.getItem('lastName') || '');
+
+  this.email =
+    localStorage.getItem('email') || '';
+
+  this.image =
+    localStorage.getItem(`profilePic_${userId}`) ||
+    'assets/ic_launcher.png';
+}
   async loadTemples() {
      try {
     const res = await this.ayyappatempleservice.getTempleList();
@@ -134,10 +165,20 @@ export class SwamyDashboardPage {
     event.target.complete();
   }
 
-  async logout() {
-    await this.authService.logout();  // ✅ Clear login state
-    this.router.navigateByUrl('/dashboard', { replaceUrl: true });  // ✅ Go back to login
-  }
+async logout() {
+
+  await this.authService.logout();
+
+  localStorage.removeItem('userId');
+  localStorage.removeItem('userMid');
+  localStorage.removeItem('userName');
+
+  // flyer data remove cheyyoddu
+
+  this.router.navigateByUrl('/dashboard', {
+    replaceUrl: true
+  });
+}
   goToAnadanam() {
      this.menuCtrl.close();
     this.router.navigateByUrl('/anadanam');
@@ -181,7 +222,10 @@ export class SwamyDashboardPage {
      this.menuCtrl.close();
     this.router.navigateByUrl('/ayyppa-padayatra');
   }
-
+goToProfile() {
+     this.menuCtrl.close();
+    this.router.navigateByUrl('/ayyappaprofile');
+  }
   gotoImages() {
      this.menuCtrl.close();
     this.router.navigateByUrl('/ayyppa-images');

@@ -33,16 +33,24 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>This app uses the camera to update profile photos.</string>
+
 	<key>NSContactsUsageDescription</key>
-	<string>This app request contact  access to share the application</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Your location is required for accurate map display.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Your location is used to show your current position on the map.</string>
+	<string>This app requests contact access to share the application.</string>
+
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app needs your location to show nearby Annadhanam locations.</string>
+	<string>This app uses your location to show nearby Annadanam centers, temples, and devotional services. For example, your current location is used to display nearby Ayyappa information and Annadanam locations.</string>
+
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>This app uses your location in the background to provide nearby temple alerts, Annadanam notifications, and devotional updates based on your current area, even when the app is not open.</string>
+
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This app uses your location to provide nearby temple information, Annadanam alerts, and location-based devotional notifications.</string>
+
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app uses photo library to select images.</string>
+	<string>This app uses the photo library to select images.</string>
+
+	<key>NSUserNotificationUsageDescription</key>
+	<string>This app sends temple alerts, devotional updates, and Annadanam notifications.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
@@ -73,19 +81,16 @@
 	<key>io.gmaps.ios.sdk.API_KEY</key>
 	<string>AIzaSyCvb7BWjj8jsmp15D1NGogyfHaWWocS2Ys</string>
 
-	<key>NSLocationWhenInUseUsageDescription</key>
-			<string>
-			Nearby temple notifications
-			</string>
 
-			<key>NSLocationAlwaysUsageDescription</key>
-			<string>
-			Nearby temple notifications
-			</string>
+		<key>NSCameraUsageDescription</key>
+	<string>Need camera access to upload flyer profile image.</string>
 
-			<key>NSUserNotificationUsageDescription</key>
-			<string>
-			Temple alerts
-			</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Need photo library access to select flyer profile image.</string>
+
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Need permission to save images.</string>
+
+	
 </dict>
 </plist>

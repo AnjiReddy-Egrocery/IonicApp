@@ -7,6 +7,7 @@ import { IonicModule, ModalController } from '@ionic/angular';
 import { Templelist } from 'src/app/services/templelist';
 import { TemplesMapComponent } from '../temples-map/temples-map.component';
 import { Geolocation } from '@capacitor/geolocation';
+import { LocationTracker } from 'src/app/services/location-tracker';
 
 
 declare var google: any;
@@ -25,7 +26,7 @@ export class AyyappatemplemapPage implements AfterViewInit {
      markers: any[] = [];
      userMarker: any;
    activeInfoWindow: any = null;
-     constructor(private http: HttpClient, private modalCtrl: ModalController,private anadanamService: Templelist,
+     constructor(private http: HttpClient, private modalCtrl: ModalController,private anadanamService: Templelist,private locationTracker: LocationTracker
      ) {}
    
 ngAfterViewInit() {
@@ -33,6 +34,15 @@ ngAfterViewInit() {
     this.initMap();
   }, 300);
 }
+
+ionViewDidEnter() {
+  this.locationTracker.startTracking();
+}
+
+ionViewWillLeave() {
+  this.locationTracker.stopTracking();
+}
+
   initMap() {
    const mapEl = document.getElementById('map');
   if (!mapEl) {

@@ -6,6 +6,7 @@ import { IonicModule, ModalController } from '@ionic/angular';
 import { Geolocation } from '@capacitor/geolocation';
 import { AnadanamDialogComponent } from 'src/app/components/anadanam-dialog/anadanam-dialog.component';
 import { Anadanam } from 'src/app/services/anadanam';
+import { LocationTracker } from 'src/app/services/location-tracker';
 
 declare var google: any;
 
@@ -26,13 +27,21 @@ export class AnadanamMapComponentComponent  implements AfterViewInit {
   markers: any[] = [];
   userMarker: any;
 activeInfoWindow: any = null;
-  constructor(private http: HttpClient, private modalCtrl: ModalController,private anadanamService: Anadanam,
+  constructor(private http: HttpClient, private modalCtrl: ModalController,private anadanamService: Anadanam,private locationTracker: LocationTracker
   ) {}
 
   ngAfterViewInit() {
     this.initMapFirst(); 
     this.loadMap();
   }
+
+  ionViewDidEnter() {
+  this.locationTracker.startTracking();
+}
+
+ionViewWillLeave() {
+  this.locationTracker.stopTracking();
+}
 
   initMapFirst() {
  const mapElement = document.getElementById('map')!;

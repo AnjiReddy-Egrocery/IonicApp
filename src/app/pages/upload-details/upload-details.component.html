@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar color="danger">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/images-list"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Upload Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div class="container">
+
+    <div class="profile-section">
+
+      <img
+        [src]="selectedImage || 'assets/ayyappaphome.png'"
+        class="profile-image"
+        (click)="selectImage()">
+
+    </div>
+
+    <ion-item>
+      <ion-input
+        [(ngModel)]="nameOnFlyer"
+        placeholder="First Name">
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input
+        [(ngModel)]="designationOnFlyer"
+        placeholder="Designation">
+      </ion-input>
+    </ion-item>
+
+    <ion-button
+      expand="block"
+      color="warning"
+      (click)="updateProfile()">
+
+      Update Profile
+
+    </ion-button>
+
+  </div>
+
+</ion-content>

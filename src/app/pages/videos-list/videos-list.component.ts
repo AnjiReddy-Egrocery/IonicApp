@@ -25,6 +25,15 @@ export class VideosListComponent  implements OnInit {
   baseUrl = '';
   currentPlayingVideo?: HTMLVideoElement;
 
+  currentIndex = 0;
+hasMoreData = true;
+isLoading = false;
+
+filteredList: any[] = [];
+searchQuery = '';
+
+
+
   constructor(
      private toastController: ToastController,
     private loadingController: LoadingController,
@@ -32,66 +41,138 @@ export class VideosListComponent  implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.videos = [];
+   this.currentIndex = 0;
     this.getVideos();
   }
+async getVideos(event?: any) {
 
-   async getVideos(event?: any) {
+  if (this.isLoading) return;
 
-    const loading = await this.loadingController.create({
-      message: 'Loading Videos...'
+  this.isLoading = true;
+
+  try {
+
+    const response = await Http.post({
+
+      url: 'https://www.ayyappatelugu.com/APICalls/videosOneByOne',
+
+      headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+                },
+
+      data: {
+        startIndex: this.currentIndex
+      }
+
     });
 
-    if (!event) {
-      await loading.present();
+    const parsedData =
+      typeof response.data === 'string'
+        ? JSON.parse(response.data)
+        : response.data;
+
+    this.baseUrl = parsedData.videoUrl || '';
+
+    const newVideos = parsedData.result || [];
+   
+
+    console.log(
+      'Start Index =',
+      this.currentIndex,
+      newVideos
+    );
+
+    if (newVideos.length > 0) {
+
+      this.videos.push(newVideos[0]);
+      this.filteredList = [...this.videos];
+
+    } else {
+
+      this.hasMoreData = false;
+
     }
 
-    try {
+  } catch (e) {
 
-      const response = await Http.post({
+    console.log(e);
 
-        url: 'https://www.ayyappatelugu.com/APICalls/videos',
+  } finally {
 
-        headers: {
-          'Content-Type': 'application/json'
-        },
+    this.isLoading = false;
 
-        data: {}
-      });
-
-      const parsedData =
-        typeof response.data === 'string'
-          ? JSON.parse(response.data)
-          : response.data;
-
-      console.log('VIDEOS:', parsedData);
-
-      this.baseUrl = parsedData.videoUrl;
-
-      this.videos = parsedData.result;
-
-    } catch (e) {
-
-      console.log(e);
-
-      const toast = await this.toastController.create({
-        message: 'Failed to load videos',
-        duration: 2000,
-        color: 'danger'
-      });
-
-      toast.present();
-
-    } finally {
-
-      if (!event) {
-        loading.dismiss();
-      }
-
-      if (event) {
-        event.target.complete();
-      }
+    if (event) {
+      event.target.complete();
     }
   }
+}
+
+filterResults(event: any) {
+    const query = (event.target.value || '').toLowerCase();
+
+    this.filteredList = this.videos.filter(item => {
+      const nameTelugu = (item. titleTelugu || '').toLowerCase();
+     
+      const nameEnglish = this.toEnglishTransliteration(item.title || '').toLowerCase();
+      
+
+      return nameTelugu.includes(query) ||
+             
+             nameEnglish.includes(query) ;
+    });
+  }
+
+  // ✅ Telugu → English transliteration
+  toEnglishTransliteration(text: string): string {
+    const consonants: any = {
+      'క': 'k', 'ఖ': 'kh', 'గ': 'g', 'ఘ': 'gh', 'ఙ': 'ng',
+      'చ': 'ch', 'ఛ': 'chh', 'జ': 'j', 'ఝ': 'jh', 'ఞ': 'ny',
+      'ట': 't', 'ఠ': 'th', 'డ': 'd', 'ఢ': 'dh', 'ణ': 'n',
+      'త': 't', 'థ': 'th', 'ద': 'd', 'ధ': 'dh', 'న': 'n',
+      'ప': 'p', 'ఫ': 'ph', 'బ': 'b', 'భ': 'bh', 'మ': 'm',
+      'య': 'y', 'ర': 'r', 'ల': 'l', 'వ': 'v', 'శ': 'sh',
+      'ష': 'sh', 'స': 's', 'హ': 'h', 'ళ': 'l', 'ఱ': 'r'
+    };
+
+    const vowels: any = {
+      'అ': 'a', 'ఆ': 'aa', 'ఇ': 'i', 'ఈ': 'ii', 'ఉ': 'u', 'ఊ': 'uu',
+      'ఋ': 'ru', 'ఎ': 'e', 'ఏ': 'ee', 'ఐ': 'ai', 'ఒ': 'o', 'ఓ': 'oo', 'ఔ': 'au',
+      'ం': 'm', 'ః': 'h'
+    };
+
+    const vowelSigns: any = {
+      'ా': 'aa', 'ి': 'i', 'ీ': 'ii', 'ు': 'u', 'ూ': 'uu',
+      'ె': 'e', 'ే': 'ee', 'ై': 'ai', 'ొ': 'o', 'ో': 'oo', 'ౌ': 'au', '్': ''
+    };
+
+    let result = '';
+    for (let i = 0; i < text.length; i++) {
+      const ch = text[i];
+      if (consonants[ch]) result += consonants[ch] + 'a';
+      else if (vowels[ch]) result += vowels[ch];
+      else if (vowelSigns[ch]) result = result.slice(0, -1) + vowelSigns[ch];
+      else result += ch;
+    }
+    return result;
+  }
+
+
+async loadMore(event: any) {
+
+  if (!this.hasMoreData) {
+    event.target.disabled = true;
+    return;
+  }
+
+  this.currentIndex++;
+
+  await this.getVideos(event);
+
+  if (!this.hasMoreData) {
+    event.target.disabled = true;
+  }
+}
 
   playVideo(event: any) {
 

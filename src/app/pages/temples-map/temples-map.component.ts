@@ -8,6 +8,7 @@ import { IonicModule, ModalController } from '@ionic/angular';
 import { Ayyappatemplelist } from 'src/app/services/ayyappatemplelist';
 import { Geolocation } from '@capacitor/geolocation';
 import { TempleNearMapComponent } from 'src/app/components/temple-near-map/temple-near-map.component';
+import { LocationTracker } from 'src/app/services/location-tracker';
 
 declare var google: any;
 
@@ -27,7 +28,7 @@ export class TemplesMapComponent implements AfterViewInit {
 
     userLocation: { latitude: number; longitude: number } | null = null;
   templeList: any[] = [];
-     constructor(private http: HttpClient, private modalCtrl: ModalController,private anadanamService: Ayyappatemplelist,
+     constructor(private http: HttpClient, private modalCtrl: ModalController,private anadanamService: Ayyappatemplelist,private locationTracker: LocationTracker
      ) {}
    
 ngAfterViewInit() {
@@ -35,6 +36,15 @@ ngAfterViewInit() {
     this.initMap();
   }, 300);
 }
+
+ionViewDidEnter() {
+  this.locationTracker.startTracking();
+}
+
+ionViewWillLeave() {
+  this.locationTracker.stopTracking();
+}
+
   initMap() {
    const mapEl = document.getElementById('map');
   if (!mapEl) {

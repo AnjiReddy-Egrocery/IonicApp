@@ -62,6 +62,11 @@ export class RegisterPage {
   if (res.status === "Success" && res.errorCode === "200" && Array.isArray(res.result) && res.result.length > 0) {
     const { registerId, otp } = res.result[0];
     console.log('✅ Navigating to verify-otp:', registerId, otp);
+     localStorage.setItem('userId', registerId);
+    localStorage.setItem('firstName', this.firstName);
+    localStorage.setItem('lastName', this.lastName);
+   localStorage.setItem('email', this.email);
+   localStorage.setItem('mobile', this.mobile);
     this.router.navigate(['/verify-otp'], { queryParams: { registerId, otp } });
     this.showToast('Registration successful! Please verify OTP.');
   } else if (res.errorCode === "203") {

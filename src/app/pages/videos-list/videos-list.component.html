@@ -24,16 +24,18 @@
     <img src="../../../assets/nearby.png" class="header-icon" />
   </div>
 
-   
-
- <ion-refresher slot="fixed" (ionRefresh)="getVideos($event)">
-
+   <ion-searchbar
+  [(ngModel)]="searchQuery"
+  (ionInput)="filterResults($event)"
+  placeholder="Search by title"
+  style="--background: #ffffff; --color: #000000; margin-left: 10px;">
+</ion-searchbar>
+  <ion-refresher slot="fixed" (ionRefresh)="getVideos($event)">
     <ion-refresher-content></ion-refresher-content>
-
   </ion-refresher>
 
   <div
-    *ngFor="let item of videos"
+    *ngFor="let item of filteredList"
     class="video-container">
 
     <video
@@ -102,6 +104,17 @@
 
   </div>
   </div>
+
+  <ion-infinite-scroll
+    threshold="100px"
+    (ionInfinite)="loadMore($event)">
+
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more videos...">
+    </ion-infinite-scroll-content>
+
+  </ion-infinite-scroll>
   
 
 </ion-content>

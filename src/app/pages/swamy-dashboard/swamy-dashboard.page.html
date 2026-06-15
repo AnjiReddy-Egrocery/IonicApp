@@ -4,8 +4,11 @@
     <ion-content class="ion-padding">
       <div class="menu-header">
          <ion-avatar>
-          <img [src]="image" />
-        </ion-avatar>
+            <img
+              [src]="image || 'assets/profile.png'"
+              alt="Profile"
+            />
+</ion-avatar>
         <h4>{{ name }}</h4>
         <p>{{ email }}</p>
       </div>
@@ -57,6 +60,8 @@
           <ion-label>పాదయాత్ర బృందాలు</ion-label>
         </ion-item>
 
+
+
         <ion-item detail="false" button (click)="goToBooks()">
           <div class="custom-circle" slot="start"></div>
           <ion-label>అయ్యప్ప పుస్తకాలు</ion-label>
@@ -80,6 +85,11 @@
          <ion-item detail="false" button (click)="gotoVideos()">
           <div class="custom-circle" slot="start"></div>
           <ion-label>అయ్యప్ప వీడియో</ion-label>
+        </ion-item>
+
+         <ion-item detail="false" button (click)="goToProfile()">
+         <div class="custom-circle" slot="start"></div>
+          <ion-label>ప్రొఫైల్ పేజీ</ion-label>
         </ion-item>
 
         <ion-item detail="false" button (click)="goToAnadanam()">

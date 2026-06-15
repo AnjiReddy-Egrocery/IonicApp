@@ -27,11 +27,14 @@ export class LoginPage {
     private toastCtrl: ToastController) {}
 
       // ✅ Email validation
-  isValidEmail(email: string): boolean {
-    const emailRegex =
-      /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    return emailRegex.test(email);
-  }
+isValidEmailOrMobile(value: string): boolean {
+  const emailRegex =
+    /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+  const mobileRegex = /^[0-9]{10}$/;
+
+  return emailRegex.test(value) || mobileRegex.test(value);
+}
 
 
    
@@ -45,8 +48,8 @@ export class LoginPage {
       return;
     }
 
-    if (!this.isValidEmail(this.email)) {
-      this.showToast('Please enter a valid email address');
+   if (!this.isValidEmailOrMobile(this.email)) {
+      this.showToast('Enter valid Email or Mobile Number');
       return;
     }
 
@@ -59,7 +62,31 @@ export class LoginPage {
 
       if (response.status === 'Success' && response.errorCode === '200') {
 
+         localStorage.removeItem('flyerName');
+          localStorage.removeItem('flyerDesignation');
+          localStorage.removeItem('flyerPic');
+
+
         const user = response.result;
+
+        
+
+             localStorage.setItem('userId', user.userId);
+              localStorage.setItem('userMid', user.userMid);
+              localStorage.setItem('userName', user.userFirstName || '');
+              localStorage.setItem('firstName', user.userFirstName || '');
+              localStorage.setItem('lastName',user.userLastName || '');
+
+localStorage.setItem(
+  'email',
+  user.userEmail || ''
+);
+
+localStorage.setItem(
+  'mobile',
+  user.userMobile || ''
+);
+
 
         const userData = {
           registerId: user.userId,
@@ -68,6 +95,9 @@ export class LoginPage {
           email: user.userEmail || '',
           image: user.userImage || 'assets/ic_launcher.png'
         };
+
+         console.log('userData:', userData);
+
 
         await this.authService.setLoginData(userData);
         await this.showToast('✅ Login Successful');

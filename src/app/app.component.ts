@@ -29,8 +29,7 @@ export class AppComponent {
       async ()=>{
 
         this.push.initPush();
-await this.tracker
-      .startTracking();
+
 
       LocalNotifications
       .addListener(

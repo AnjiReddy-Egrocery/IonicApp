@@ -35,46 +35,116 @@
 
   </ion-refresher>
 
-  <ion-card *ngFor="let item of images">
+<ion-card
+  *ngFor="let item of images; let i = index"
+  class="poster-card"
+  >
+<div
+  class="capture-area"
+  #posterCard>
+  <div class="poster-wrapper">
 
+    <!-- Main Poster -->
     <img
       [src]="baseUrl + item.image"
-      class="main-image">
+      class="poster-image"
+    />
 
-    <ion-row class="ion-padding">
+    <!-- Share Download -->
+    <div class="floating-buttons">
 
-      <ion-col size="6">
+         <ion-button
+              fill="solid"
+              shape="round"
+              color="light"
+              (click)="sharePoster(i)">
 
-        <ion-button
-          expand="block"
-          color="primary"
-          (click)="shareImage(baseUrl + item.image)">
+              <ion-icon
+                slot="icon-only"
+                name="share-social-outline">
+              </ion-icon>
 
-          Share
+            </ion-button>
+
+            <ion-button
+          fill="solid"
+          shape="round"
+          color="light"
+          (click)="downloadPoster(i)">
+
+          <ion-icon
+            slot="icon-only"
+            name="download-outline">
+          </ion-icon>
 
         </ion-button>
 
-      </ion-col>
-
-      <ion-col size="6">
-
-        <ion-button
-          expand="block"
-          color="success"
-          (click)="downloadImage(baseUrl + item.image, item.image)">
-
-          Download
-
-        </ion-button>
-
-      </ion-col>
-
-    </ion-row>
-
-  </ion-card>
+    </div>
 
   </div>
- 
+
+  <!-- Slide 1 Bottom Design -->
+
+  <div class="bottom-section">
+
+    <div class="orange-line top-line"></div>
+
+    <div class="user-details">
+
+      <ng-container *ngIf="hasFlyerData(); else uploadBtn">
+
+        <h2>{{ userName }}</h2>
+
+        <p>{{ userRole }}</p>
+
+      </ng-container>
+
+      <ng-template #uploadBtn>
+
+        <ion-button
+          color="warning"
+           class="upload-btn"
+          (click)="goToUploadDetails()"
+        >
+          Upload Details Here
+        </ion-button>
+
+      </ng-template>
+
+    </div>
+
+    <!-- Profile Image -->
+
+    <div
+      class="profile-circle"
+      *ngIf="hasFlyerData()"
+    >
+      <img
+      crossorigin="anonymous"
+        [src]="profileImage"
+      />
+    </div>
+
+    <div class="orange-line bottom-line"></div>
+
+  </div>
+ </div>
+</ion-card>
+  </div>
+ <!-- Infinite Scroll Start -->
+<ion-infinite-scroll
+  threshold="100px"
+  (ionInfinite)="loadMore($event)">
+
+  <ion-infinite-scroll-content
+    loadingSpinner="bubbles"
+    loadingText="Loading more posters...">
+  </ion-infinite-scroll-content>
+
+</ion-infinite-scroll>
+<!-- Infinite Scroll End -->
+
+
 
 </ion-content>
 

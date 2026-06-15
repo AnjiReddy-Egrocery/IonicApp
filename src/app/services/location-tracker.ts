@@ -12,6 +12,8 @@ import { Templelist } from './templelist';
 export class LocationTracker {
  notified = new Set<string>();
 
+ watchId: any;
+
   constructor(
     private anadanamService: Anadanam,
     private templeService: Ayyappatemplelist,
@@ -24,7 +26,7 @@ export class LocationTracker {
 
     await Geolocation.requestPermissions();
 
-    Geolocation.watchPosition(
+   this.watchId =  Geolocation.watchPosition(
 
       {
         enableHighAccuracy:true,
@@ -373,5 +375,13 @@ export class LocationTracker {
     });
 
   }
+
+  stopTracking() {
+  if (this.watchId) {
+    Geolocation.clearWatch({
+      id: this.watchId
+    });
+  }
+}
 
 }
