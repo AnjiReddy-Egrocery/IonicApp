@@ -5,6 +5,10 @@ import { Router } from '@angular/router';
 import { IonicModule, LoadingController, ToastController } from '@ionic/angular';
 import { Http } from '@capacitor-community/http';
 import { Share } from '@capacitor/share';
+import { VideoMerge } from 'src/app/services/video-merge';
+import { Directory, Filesystem } from '@capacitor/filesystem';
+import { Capacitor } from '@capacitor/core';
+
 
 
 @Component({
@@ -20,34 +24,50 @@ import { Share } from '@capacitor/share';
 })
 export class VideosListComponent  implements OnInit {
 
-  videos: any[] = [];
-
+ videos: any[] = [];
   baseUrl = '';
   currentPlayingVideo?: HTMLVideoElement;
 
+  userName = '';
+  userRole = '';
+  profileImage = '';
+
   currentIndex = 0;
-hasMoreData = true;
-isLoading = false;
+  hasMoreData = true;
+  isLoading = false;
 
-filteredList: any[] = [];
-searchQuery = '';
-
-
+  filteredList: any[] = [];
+  searchQuery = '';
+  isMerging = false;
 
   constructor(
-     private toastController: ToastController,
+    private toastController: ToastController,
     private loadingController: LoadingController,
+    private videoMergeService: VideoMerge,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit() {
-    this.videos = [];
-   this.currentIndex = 0;
+    this.loadUserData();
     this.getVideos();
   }
+
+  ionViewWillEnter() {
+    this.loadUserData();
+  }
+
+  loadUserData() {
+    const userId = localStorage.getItem('userId') || '';
+    this.userName = localStorage.getItem(`flyerName_${userId}`) || '';
+    this.userRole = localStorage.getItem(`flyerDesignation_${userId}`) || '';
+    this.profileImage = localStorage.getItem(`flyerPic_${userId}`) || '';
+  }
+  
+
+
 async getVideos(event?: any) {
 
-  if (this.isLoading) return;
+  if (this.isLoading || this.isMerging) return;
 
   this.isLoading = true;
 
@@ -72,22 +92,35 @@ async getVideos(event?: any) {
         ? JSON.parse(response.data)
         : response.data;
 
+          console.log('API RESPONSE:', parsedData);
+
     this.baseUrl = parsedData.videoUrl || '';
 
     const newVideos = parsedData.result || [];
    
 
-    console.log(
-      'Start Index =',
-      this.currentIndex,
-      newVideos
-    );
+   console.log('NEW VIDEOS:', newVideos);
+    console.log('FIRST VIDEO:', newVideos[0]);
 
     if (newVideos.length > 0) {
 
       this.videos.push(newVideos[0]);
-      this.filteredList = [...this.videos];
+      console.log('ALL VIDEOS:', this.videos);
+      if (this.searchQuery) {
 
+  this.filterResults({
+    target: {
+      value: this.searchQuery
+    }
+  });
+
+    console.log('FILTERED LIST:', this.filteredList);
+
+} else {
+
+  this.filteredList =
+    [...this.videos];
+}
     } else {
 
       this.hasMoreData = false;
@@ -108,18 +141,57 @@ async getVideos(event?: any) {
   }
 }
 
+
+
+hasFlyerData(): boolean {
+
+ return (
+
+  this.userName.trim() !== '' &&
+  this.userRole.trim() !== '' &&
+  this.profileImage.trim() !== ''
+
+ );
+
+}
+
+goToUploadDetails() {
+  this.router.navigate(['/upload-details'], {
+    queryParams: {
+      returnUrl: '/ayyppa-videos'
+    }
+  });
+}
+
 filterResults(event: any) {
-    const query = (event.target.value || '').toLowerCase();
+    const query =
+    (event.target.value || '')
+      .trim()
+      .toLowerCase();
 
-    this.filteredList = this.videos.filter(item => {
-      const nameTelugu = (item. titleTelugu || '').toLowerCase();
-     
-      const nameEnglish = this.toEnglishTransliteration(item.title || '').toLowerCase();
-      
+  if (!query) {
+    this.filteredList = [...this.videos];
+    return;
+  }
 
-      return nameTelugu.includes(query) ||
-             
-             nameEnglish.includes(query) ;
+  this.filteredList =
+    this.videos.filter(item => {
+
+      const title =
+        (item.title ||
+         item.videoTitle ||
+         item.titleTelugu ||
+         '')
+        .toLowerCase();
+
+      const titleEnglish =
+        this.toEnglishTransliteration(title)
+          .toLowerCase();
+
+      return (
+        title.includes(query) ||
+        titleEnglish.includes(query)
+      );
     });
   }
 
@@ -196,44 +268,156 @@ async loadMore(event: any) {
 
     video.pause();
   }
+async createShareDownload(item: any) {
+  if (!this.hasFlyerData()) {
+    this.showToast("Please upload the details first.");
+    return;
+  }
+  if (this.isMerging) return;
+  this.isMerging = true;
 
-  async shareVideo(videoUrl: string) {
+  const loading = await this.loadingController.create({
+    message: 'వీడియో సిద్ధమౌతోంది...'
+  });
+  await loading.present();
 
-    try {
+  try {
+    // 1. Download video
+    const videoPath = await this.videoMergeService.downloadFile(this.baseUrl + item.video);
 
-      await Share.share({
+    // 2. Poster file
+    const posterPath = await this.base64ToFile(this.profileImage);
 
-        title: 'Ayyappa Telugu',
+    // 3. MERGE
+    const outputPath = await this.videoMergeService.merge(videoPath, posterPath, this.userName, this.userRole);
+    console.log("FINAL OUTPUT PATH:", outputPath);
 
-        text: 'Share Video',
-
-        url: videoUrl,
-
-        dialogTitle: 'Share Video'
-      });
-
-    } catch (e) {
-
-      console.log(e);
+    // 4. URL షేరింగ్ కోసం పాత్ సెట్ చేయడం
+    // iOS/Androidలో ఫైల్ పాత్ ఖచ్చితంగా 'file://' తో ఉండాలి
+    let shareUrl = outputPath;
+    if (!shareUrl.startsWith("file://")) {
+      shareUrl = "file://" + shareUrl;
     }
+
+    // 5. SHARE VIA URL
+    // 'files' బదులు 'url' ని ఉపయోగించండి
+    await Share.share({
+      title: 'స్వామి శరణం అయ్యప్ప',
+      text: '',
+      url: shareUrl, 
+      dialogTitle: 'Share'
+    });
+
+  } catch (e) {
+    console.error("Share Error:", e);
+    this.showToast("షేర్ చేయడం విఫలమైంది!");
+  } finally {
+    await loading.dismiss();
+    this.isMerging = false;
+  }
+}
+
+  // ---------------- DOWNLOAD ----------------
+async createDownloadOnly(item: any) {
+
+  if (!this.hasFlyerData()) {
+    this.showToast("Please upload the details first.");
+    return;
   }
 
-  downloadVideo(videoUrl: string, fileName: string) {
+  if (this.isMerging) return;
+  this.isMerging = true;
 
-    const a = document.createElement('a');
+  const loading = await this.loadingController.create({
+    message: 'వీడియో డౌన్‌లోడ్ అవుతోంది...'
+  });
 
-    a.href = videoUrl;
+  await loading.present();
 
-    a.download = fileName;
+  try {
 
-    a.target = '_blank';
+    console.log("🚀 START DOWNLOAD");
 
-    document.body.appendChild(a);
+    // Download video
+    const videoPath =
+      await this.videoMergeService.downloadFile(
+        this.baseUrl + item.video
+      );
 
-    a.click();
+    // Poster
+    const posterPath =
+      await this.base64ToFile(this.profileImage);
 
-    document.body.removeChild(a);
+    // Merge (already saves into Documents)
+    const outputPath =
+      await this.videoMergeService.merge(
+              videoPath, 
+        posterPath, 
+        this.userName,   // కొత్తగా పంపాము
+        this.userRole    // కొత్తగా పంపాము
+      );
+
+    console.log("✅ Saved:", outputPath);
+
+    this.showToast("వీడియో విజయవంతంగా సేవ్ అయింది!");
+
+  } catch (e) {
+
+    console.error(e);
+    this.showToast("డౌన్‌లోడ్ విఫలమైంది!");
+
+  } finally {
+
+    await loading.dismiss();
+    this.isMerging = false;
+
   }
+}
+
+  // ---------------- BLOB TO BASE64 ----------------
+private async blobToBase64(blob: Blob): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64data = reader.result as string;
+        resolve(base64data.split(',')[1]); 
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  async base64ToFile(base64Data: string): Promise<string> {
+    if (!base64Data) return '';
+    const fileName = `poster_${Date.now()}.jpg`;
+    
+    // ఒకవేళ డేటా లో ఆల్రెడీ 'data:image' హెడర్ ఉంటేనే స్ప్లిట్ చేయాలి
+    const base64Content = base64Data.includes(',') ? base64Data.split(',')[1] : base64Data;
+    
+    await Filesystem.writeFile({
+      path: fileName,
+      data: base64Content,
+      directory: Directory.Cache
+    });
+
+    const uri = await Filesystem.getUri({
+      directory: Directory.Cache,
+      path: fileName
+    });
+
+    // FFmpeg కి Native file:// పాత్ కావాలి, కాబట్టి నేరుగా uri.uri రిటర్న్ చేయాలి
+    return uri.uri;
+  }
+
+  async showToast(msg: string) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 2000,
+      position: 'bottom'
+    });
+    await toast.present();
+  }
+
 
  navigate(page: string) {
       this.router.navigate([`/${page}`]);

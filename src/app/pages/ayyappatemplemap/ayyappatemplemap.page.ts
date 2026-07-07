@@ -36,7 +36,7 @@ ngAfterViewInit() {
 }
 
 ionViewDidEnter() {
-  this.locationTracker.startTracking();
+  this.locationTracker.startTracking('ayyappa');
 }
 
 ionViewWillLeave() {

@@ -4,13 +4,22 @@ import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Share } from '@capacitor/share';
+import { Media } from '@capacitor-community/media';
+
 import html2canvas from 'html2canvas';
 
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { register } from 'swiper/element/bundle';
+
+register();
 
 
 import { IonicModule, LoadingController, ToastController } from '@ionic/angular';
 import { Directory, Filesystem } from '@capacitor/filesystem';
 import { Capacitor } from '@capacitor/core';
+
+
+
 
 @Component({
   selector: 'app-images-list',
@@ -22,510 +31,273 @@ import { Capacitor } from '@capacitor/core';
     FormsModule,      // ✅ required for [(ngModel)]
     CommonModule,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ImagesListComponent  implements OnInit {
-@ViewChildren('posterCard', { read: ElementRef })
-posterCards!: QueryList<ElementRef>
+@ViewChildren('posterCard') posterCards!: QueryList<ElementRef>;
 
   images: any[] = [];
   baseUrl: string = '';
-
+  currentIndex = 0;
+  hasMoreData = true;
+  isLoading = false;
   userName = '';
   userRole = '';
   profileImage = '';
 
-   currentIndex = 0;
-  hasMoreData = true;
-  isLoading = false;
+  constructor(private toastController: ToastController, private router: Router) {}
 
-
-
-  constructor(
-  
-    private toastController: ToastController,
-    private loadingController: LoadingController,
-    private router: Router
-  ) { 
-  
-  }
   ngOnInit() {
-      console.log(
-    'flyerName =',
-    localStorage.getItem('flyerName')
-  );
-
-  console.log(
-    'flyerDesignation =',
-    localStorage.getItem('flyerDesignation')
-  );
-
-  console.log(
-    'flyerPic =',
-    localStorage.getItem('flyerPic')
-  );
-
-    const userId =
-      localStorage.getItem('userId') || '';
-
-    this.userName =
-      localStorage.getItem(
-        `flyerName_${userId}`
-      ) || '';
-
-    this.userRole =
-      localStorage.getItem(
-        `flyerDesignation_${userId}`
-      ) || '';
-
-    this.profileImage =
-      localStorage.getItem(
-        `flyerPic_${userId}`
-      ) || '';
-
-  console.log(
-    'HAS DATA =',
-    this.hasFlyerData()
-  );
-
-    this.images = [];
-    this.currentIndex = 0;
+    this.loadFlyerData();
     this.getImages();
   }
 
-    ionViewWillEnter() {
+  loadFlyerData() {
+    const userId = localStorage.getItem('userId') || '';
+    this.userName = localStorage.getItem(`flyerName_${userId}`) || '';
+    this.userRole = localStorage.getItem(`flyerDesignation_${userId}`) || '';
+    this.profileImage = localStorage.getItem(`flyerPic_${userId}`) || '';
+  }
 
-      const userId =
-      localStorage.getItem('userId') || '';
-
-    this.userName =
-      localStorage.getItem(
-        `flyerName_${userId}`
-      ) || '';
-
-    this.userRole =
-      localStorage.getItem(
-        `flyerDesignation_${userId}`
-      ) || '';
-
-    this.profileImage =
-      localStorage.getItem(
-        `flyerPic_${userId}`
-      ) || '';
-
-  console.log('flyerName', this.userName);
-  console.log('flyerDesignation', this.userRole);
-  console.log('flyerPic', this.profileImage);
-}
-
-  goToUploadDetails() {
-  this.router.navigate(['/upload-details']);
-}
-async getImages(event?: any) {
-
+  async getImages(event?: any) {
     if (this.isLoading) return;
-
     this.isLoading = true;
-
     try {
-
       const response = await Http.post({
-
         url: 'https://www.ayyappatelugu.com/APICalls/imagesOneByOne',
-
-         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-                },
-
-        data: {
-          startIndex: this.currentIndex
-        }
-
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        data: { startIndex: this.currentIndex },
       });
-
-      const parsedData =
-        typeof response.data === 'string'
-          ? JSON.parse(response.data)
-          : response.data;
-
+      const parsedData = typeof response.data === 'string' ? JSON.parse(response.data) : response.data;
       this.baseUrl = parsedData.imageUrl || '';
-
-      const newImages = parsedData.result || [];
-
-      console.log(
-        'Start Index =',
-        this.currentIndex,
-        newImages
-      );
-
-      if (newImages.length > 0) {
-
-        this.images.push(newImages[0]);
-
+      if (parsedData.result?.length > 0) {
+        this.images.push(parsedData.result[0]);
       } else {
-
         this.hasMoreData = false;
-
       }
-
     } catch (error) {
-
-      console.log(error);
-
-      const toast =
-        await this.toastController.create({
-          message: 'Failed to load images',
-          duration: 2000,
-          color: 'danger'
-        });
-
-      await toast.present();
-
+      console.error(error);
     } finally {
-
       this.isLoading = false;
-
-      if (event) {
-        event.target.complete();
-      }
+      if (event) event.target.complete();
     }
   }
-
-  async loadMore(event: any) {
-
-    if (!this.hasMoreData) {
-      event.target.disabled = true;
-      return;
-    }
-
-    this.currentIndex++;
-
-    await this.getImages(event);
-
-    if (!this.hasMoreData) {
-      event.target.disabled = true;
-    }
-  }
-
-  async doRefresh(event: any) {
-
-    this.images = [];
-    this.currentIndex = 0;
-    this.hasMoreData = true;
-
-    await this.getImages();
-
-    event.target.complete();
-  }
-
-hasFlyerData(): boolean {
-
-  return (
-    this.userName.trim() !== '' &&
-    this.userRole.trim() !== '' &&
-    this.profileImage.trim() !== ''
-  );
-
-}
-
-async generateImageWithName(imageUrl: string): Promise<string> {
-
-  return new Promise((resolve, reject) => {
-
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-
-    img.onload = async () => {
-
-      try {
-
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-
-        if (!ctx) {
-          reject('Canvas Context Error');
-          return;
-        }
-
-        canvas.width = img.width;
-        canvas.height = img.height;
-
-        // Main Poster
-        ctx.drawImage(
-          img,
-          0,
-          0,
-          canvas.width,
-          canvas.height
-        );
-
-        // Bottom White Area
-        const boxHeight = canvas.height * 0.13;
-
-        ctx.fillStyle = '#ffffff';
-
-        ctx.fillRect(
-          0,
-          canvas.height - boxHeight,
-          canvas.width,
-          boxHeight
-        );
-
-        // Top Orange Line
-        ctx.fillStyle = '#f57c00';
-
-        ctx.fillRect(
-          0,
-          canvas.height - boxHeight,
-          canvas.width,
-          6
-        );
-
-        // Bottom Orange Line
-        ctx.fillRect(
-          0,
-          canvas.height - 6,
-          canvas.width,
-          6
-        );
-
-        // Profile Image
-        if (this.profileImage) {
-
-          try {
-
-            const pImg = new Image();
-            pImg.crossOrigin = 'anonymous';
-
-            await new Promise<void>((res) => {
-              pImg.onload = () => res();
-              pImg.src = this.profileImage;
-            });
-
-            const size = canvas.width * 0.15;
-
-            const x =
-              canvas.width - size - 25;
-
-            const y =
-              canvas.height - boxHeight +
-              (boxHeight - size) / 2;
-
-            ctx.save();
-
-            ctx.beginPath();
-
-            ctx.arc(
-              x + size / 2,
-              y + size / 2,
-              size / 2,
-              0,
-              Math.PI * 2
-            );
-
-            ctx.closePath();
-            ctx.clip();
-
-            ctx.drawImage(
-              pImg,
-              x,
-              y,
-              size,
-              size
-            );
-
-            ctx.restore();
-
-          } catch (e) {
-
-            console.log(
-              'Profile image failed',
-              e
-            );
-          }
-        }
-
-        // Name
-        ctx.fillStyle = '#000000';
-
-        ctx.font =
-          `bold ${canvas.width * 0.035}px Arial`;
-
-        ctx.fillText(
-          this.userName || '',
-          25,
-          canvas.height - boxHeight + 45
-        );
-
-        // Designation
-        ctx.fillStyle = '#444444';
-
-        ctx.font =
-          `${canvas.width * 0.025}px Arial`;
-
-        ctx.fillText(
-          this.userRole || '',
-          25,
-          canvas.height - boxHeight + 85
-        );
-
-        const finalImage =
-          canvas.toDataURL(
-            'image/jpeg',
-            0.95
-          );
-
-        resolve(finalImage);
-
-      } catch (err) {
-
-        console.log(
-          'Canvas Error',
-          err
-        );
-
-        reject(err);
-      }
-    };
-
-    img.onerror = (err) => {
-
-      console.log(
-        'Image Load Error',
-        err
-      );
-
-      reject(err);
-    };
-
-    img.src = imageUrl;
-  });
-}
-private async loadImage(src: string): Promise<HTMLImageElement> {
-  const response = await fetch(src);
-  const blob = await response.blob();
-
-  const bitmap = await createImageBitmap(blob);
-
-  const canvas = document.createElement('canvas');
-  canvas.width = bitmap.width;
-  canvas.height = bitmap.height;
-
-  const ctx = canvas.getContext('2d');
-  if (!ctx) throw new Error('Canvas error');
-
-  ctx.drawImage(bitmap, 0, 0);
-
-  const img = new Image();
-  img.src = canvas.toDataURL();
-
-  await new Promise((res) => {
-    img.onload = res;
-  });
-
-  return img;
-}
 
 async sharePoster(index: number) {
+  console.log("=== [STARTING SHARE PROCESS] ===");
+
+  if (!this.hasFlyerData()) {
+    this.showToast("Please upload details first.");
+    return;
+  }
 
   try {
-
     const item = this.images[index];
+    const imageUrl = this.baseUrl + item.image;
 
-    const imageUrl =
-      this.baseUrl + item.image;
-
-    const imageData =
-      await this.generateImageWithName(imageUrl);
-
-    const result =
-      await Filesystem.writeFile({
-
-        path: `Poster_${Date.now()}.jpg`,
-
-        data: imageData.split(',')[1],
-
-        directory: Directory.Cache
-
-      });
-
-    await Share.share({
-      title: 'Ayyappa Poster',
-      url: result.uri
+    // 1. Download
+    const result = await Filesystem.downloadFile({
+      url: imageUrl,
+      path: 'share_temp.jpg',
+      directory: Directory.Cache
     });
 
-  } catch (e) {
+    const fileUri = await Filesystem.getUri({ path: 'share_temp.jpg', directory: Directory.Cache });
 
-    console.log('SHARE ERROR', e);
-  }
-}
-async downloadPoster(index: number) {
+    // 2. Conversion
+    const finalSrc = (window as any).Ionic?.WebView?.convertFileSrc 
+                     ? (window as any).Ionic.WebView.convertFileSrc(fileUri.uri) 
+                     : Capacitor.convertFileSrc(fileUri.uri);
 
-  try {
+    const img = new Image();
+    img.src = finalSrc;
+    await new Promise((resolve, reject) => { img.onload = resolve; img.onerror = reject; });
 
-    console.log('DOWNLOAD START');
+    const profileImg = new Image();
+    profileImg.src = this.profileImage;
+    await new Promise((resolve) => { profileImg.onload = resolve; profileImg.onerror = () => resolve(null); });
 
-    const imageData = await this.captureCard(index);
+    // 3. Canvas Drawing (Profile Right, Text Left)
+    const stripHeight = 200;
+    const canvas = document.createElement('canvas');
+    canvas.width = img.width;
+    canvas.height = img.height + stripHeight;
+    const ctx = canvas.getContext('2d')!;
 
-    console.log('IMAGE GENERATED');
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0);
 
-    const result = await Filesystem.writeFile({
-      path: `Poster_${Date.now()}.png`,
+    const centerY = img.height + (stripHeight / 2);
+    const profileX = canvas.width - 120; // Position on right
+    const textX = 30;                   // Position on left
+
+    // Draw Profile (Right)
+    if (profileImg.complete && profileImg.naturalWidth > 0) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(profileX, centerY, 70, 0, Math.PI * 2);
+      ctx.clip();
+      ctx.drawImage(profileImg, profileX - 70, centerY - 70, 140, 140);
+      ctx.restore();
+    }
+
+    // Draw Text (Left)
+    ctx.fillStyle = "#333";
+    ctx.font = "bold 50px Arial";
+    ctx.textAlign = "left";
+    ctx.fillText(this.userName, textX, img.height + 90);
+    
+    ctx.fillStyle = "#666";
+    ctx.font = "40px Arial";
+    ctx.fillText(this.userRole, textX, img.height + 150);
+
+    // 4. Saving & Sharing
+    const imageData = canvas.toDataURL('image/jpeg', 0.9);
+    const shareFileName = `share_${Date.now()}.jpg`;
+
+    await Filesystem.writeFile({
+      path: shareFileName,
       data: imageData.split(',')[1],
       directory: Directory.Cache
     });
 
-    console.log('FILE SAVED', result.uri);
+    const shareUri = await Filesystem.getUri({ path: shareFileName, directory: Directory.Cache });
 
     await Share.share({
-      title: 'Ayyappa Poster',
-      url: result.uri
+      title: 'స్వామి శరణం',
+      text: '',
+      files: [shareUri.uri], 
+      dialogTitle: 'Share your poster',
     });
 
-  } catch (e) {
-
-    console.log('DOWNLOAD ERROR =>', e);
+  } catch (e: any) {
+    console.error("Share Error:", e);
+    this.showToast("Share failed");
   }
 }
-async captureCard(index: number): Promise<string> {
 
-  console.log('CAPTURE START');
-
-  const cards = this.posterCards.toArray();
-
-  if (!cards[index]) {
-    throw new Error('Card not found');
-  }
-
-  const element = cards[index].nativeElement;
-
-  const canvas = await html2canvas(element, {
-    scale: 2,
-    useCORS: true,
-    backgroundColor: '#ffffff',
-    removeContainer: false
-  });
-
-  console.log('CANVAS CREATED');
-
-  const image = canvas.toDataURL('image/png');
-
-  console.log('CAPTURE SUCCESS');
-
-  return image;
-}
-  navigate(page: string) {
-      this.router.navigate([`/${page}`]);
-    }
-      goToAnadanam() {
-      this.router.navigate(['/anadanam']);
-    }
+async downloadPoster(index: number) {
+  console.log("=== [STARTING DOWNLOAD PROCESS] ===");
   
-    goToNityaPooja() {
-      this.router.navigate(['/nityapooja']);
+  if (!this.hasFlyerData()) {
+    this.showToast("Please upload details first.");
+    return;
+  }
+
+  try {
+    const item = this.images[index];
+    const imageUrl = this.baseUrl + item.image;
+
+    const result = await Filesystem.downloadFile({
+      url: imageUrl,
+      path: 'poster_temp.jpg',
+      directory: Directory.Cache
+    });
+
+    const fileUri = await Filesystem.getUri({ path: 'poster_temp.jpg', directory: Directory.Cache });
+    const finalSrc = (window as any).Ionic?.WebView?.convertFileSrc 
+                     ? (window as any).Ionic.WebView.convertFileSrc(fileUri.uri) 
+                     : Capacitor.convertFileSrc(fileUri.uri);
+
+    const img = new Image();
+    img.src = finalSrc;
+    await new Promise((resolve, reject) => { img.onload = () => resolve(true); img.onerror = reject; });
+
+    const profileImg = new Image();
+    profileImg.src = this.profileImage;
+    await new Promise((resolve) => { profileImg.onload = () => resolve(true); profileImg.onerror = () => resolve(null); });
+
+    // Canvas Drawing (Profile Right, Text Left)
+    const stripHeight = 200;
+    const canvas = document.createElement('canvas');
+    canvas.width = img.width;
+    canvas.height = img.height + stripHeight;
+    const ctx = canvas.getContext('2d')!;
+
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0);
+
+    const centerY = img.height + (stripHeight / 2);
+    const profileX = canvas.width - 120;
+    const textX = 30;
+
+    if (profileImg.complete && profileImg.naturalWidth > 0) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(profileX, centerY, 70, 0, Math.PI * 2);
+      ctx.clip();
+      ctx.drawImage(profileImg, profileX - 70, centerY - 70, 140, 140);
+      ctx.restore();
     }
 
-}
-function addIcons(arg0: { 'share-social': any; download: any; }) {
-  throw new Error('Function not implemented.');
+    ctx.fillStyle = "#333333";
+    ctx.font = "bold 50px Arial";
+    ctx.textAlign = "left";
+    ctx.fillText(this.userName, textX, img.height + 90);
+    ctx.fillStyle = "#666666";
+    ctx.font = "40px Arial";
+    ctx.fillText(this.userRole, textX, img.height + 150);
+
+    // Saving
+    const imageData = canvas.toDataURL('image/jpeg', 1.0);
+    const fileName = `poster_${Date.now()}.jpg`;
+
+    await Filesystem.writeFile({
+      path: fileName,
+      data: imageData.split(',')[1],
+      directory: Directory.Documents
+    });
+
+    const finalUri = await Filesystem.getUri({ path: fileName, directory: Directory.Documents });
+    await Media.savePhoto({ path: finalUri.uri });
+    
+    this.showToast("Poster Downloaded Successfully!");
+
+  } catch (e: any) {
+    console.error("=== CRITICAL ERROR ===", e);
+    this.showToast("Download failed.");
+  }
 }
 
+// హెల్పర్ ఫంక్షన్: Blob నుండి Base64 కి మార్చడానికి
+blobToBase64(blob: Blob): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result as string);
+    reader.onerror = reject;
+    reader.readAsDataURL(blob);
+  });
+}
+ async showToast(msg: string) {
+    const toast = await this.toastController.create({
+      message: msg,
+      duration: 2000,
+      position: 'bottom'
+    });
+    await toast.present();
+  }
+
+
+
+  async loadMore(event: any) {
+  // ఇండెక్స్‌ని పెంచి మళ్ళీ డేటా ఫెచ్ చేయడం
+  this.currentIndex++;
+  await this.getImages(event);
+}
+
+  hasFlyerData(): boolean {
+    return this.userName.trim() !== '' && this.userRole.trim() !== '' && this.profileImage.trim() !== '';
+  }
+
+  goToUploadDetails() {
+  this.router.navigate(['/upload-details'], {
+    queryParams: {
+      returnUrl: '/ayyppa-images'
+    }
+  });
+}
+  goToAnadanam() { this.router.navigate(['/anadanam']); }
+  goToNityaPooja() { this.router.navigate(['/nityapooja']); }
+}

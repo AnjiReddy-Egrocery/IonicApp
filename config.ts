@@ -4,7 +4,7 @@ export const config: CapacitorConfig = {
   appId: 'com.dst.ayyapatelugu',
   appName: 'AyyappaTelugu',
   webDir: 'www',
-  bundledWebRuntime: false, // Top-level only
+ 
   plugins: {
     SplashScreen: {
      launchShowDuration: 0,

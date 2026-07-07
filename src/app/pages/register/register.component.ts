@@ -21,6 +21,7 @@ export class RegisterPage {
   email = '';
   mobile = '';
   password = '';
+  isIOS = '1';
 
   constructor(
     private toastCtrl: ToastController,
@@ -51,7 +52,8 @@ export class RegisterPage {
     this.lastName,
     this.email,
     this.mobile,
-    this.password
+    this.password,
+    this.isIOS
   );
 
   console.log('Registration API response:', rawRes);

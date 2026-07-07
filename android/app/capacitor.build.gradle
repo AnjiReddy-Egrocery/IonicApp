@@ -12,6 +12,7 @@ dependencies {
     implementation project(':capacitor-community-contacts')
     implementation project(':capacitor-community-fcm')
     implementation project(':capacitor-community-http')
+    implementation project(':capacitor-community-media')
     implementation project(':capacitor-community-text-to-speech')
     implementation project(':capacitor-app')
     implementation project(':capacitor-camera')
@@ -25,6 +26,7 @@ dependencies {
     implementation project(':capacitor-share')
     implementation project(':capacitor-splash-screen')
     implementation project(':capacitor-status-bar')
+    implementation project(':whiteguru-capacitor-plugin-video-editor')
 
 }
 

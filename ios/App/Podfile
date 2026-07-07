@@ -1,6 +1,7 @@
 require_relative '../../node_modules/@capacitor/ios/scripts/pods_helpers'
 
-platform :ios, '14.0'
+platform :ios, '15.0'
+ENV['IPHONEOS_DEPLOYMENT_TARGET'] = '15.0'
 use_frameworks!
 
 # workaround to avoid Xcode caching of Pods that requires
@@ -14,6 +15,7 @@ def capacitor_pods
   pod 'CapacitorCommunityContacts', :path => '../../node_modules/@capacitor-community/contacts'
   pod 'CapacitorCommunityFcm', :path => '../../node_modules/@capacitor-community/fcm'
   pod 'CapacitorCommunityHttp', :path => '../../node_modules/@capacitor-community/http'
+  pod 'CapacitorCommunityMedia', :path => '../../node_modules/@capacitor-community/media'
   pod 'CapacitorCommunityTextToSpeech', :path => '../../node_modules/@capacitor-community/text-to-speech'
   pod 'CapacitorApp', :path => '../../node_modules/@capacitor/app'
   pod 'CapacitorCamera', :path => '../../node_modules/@capacitor/camera'
@@ -27,11 +29,14 @@ def capacitor_pods
   pod 'CapacitorShare', :path => '../../node_modules/@capacitor/share'
   pod 'CapacitorSplashScreen', :path => '../../node_modules/@capacitor/splash-screen'
   pod 'CapacitorStatusBar', :path => '../../node_modules/@capacitor/status-bar'
+  pod 'WhiteguruCapacitorPluginVideoEditor', :path => '../../node_modules/@whiteguru/capacitor-plugin-video-editor'
+  pod 'Ayyappavideomerger', :path => '../../video-merger/AyyappaVideoMerger/ayyappa-video-merger'
 end
 
 target 'App' do
   capacitor_pods
   # Add your Pods here
+
 end
 
 post_install do |installer|

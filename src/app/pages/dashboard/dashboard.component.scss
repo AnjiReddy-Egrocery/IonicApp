@@ -1,7 +1,10 @@
 .dashboard-content {
   padding: 16px;
 }
-
+.menu-btn {
+  --color: #ffffff !important;
+  color: #ffffff !important;
+}
 .menu-header {
   text-align: center;
  
@@ -655,10 +658,10 @@ ion-footer {
 }
 
 .header-title {
-  font-size: 16px;
-  font-weight: bold;
-  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
   color: #fff;
+  margin-bottom: 25px;
 }
 .header-container {
   display: flex;
@@ -729,8 +732,11 @@ ion-footer {
 }
 
 .view-all-btn {
-  --color: #9F0707;
-  font-weight: 600;
+   --background: #e53935;
+  --color: #fff;
+  --border-radius: 12px;
+  height: 48px;
+  font-size: 16px;
 }
 
 .temple-name {
@@ -742,4 +748,24 @@ ion-footer {
   text-overflow: ellipsis;
   line-height: 18px;          /* adjust based on font-size */
   max-height: 36px;           /* line-height * number of lines */
+}
+.center-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Vertical Center */
+  align-items: center;     /* Horizontal Center */
+  text-align: center;
+  padding: 20px;
+}
+ion-content {
+  --padding-top: 0;
+}
+
+.container {
+  min-height: calc(100vh - 56px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

@@ -20,12 +20,23 @@ export class LocationTracker {
     private ayyappaTempleService: Templelist
   ) {}
 
-  async startTracking() {
+  async startTracking(type: string) {
 
+    const notifyPerm =
     await LocalNotifications.requestPermissions();
 
-    await Geolocation.requestPermissions();
+      console.log(
+        'Notification Permission:',
+        notifyPerm
+      );
 
+      const locationPerm =
+          await Geolocation.requestPermissions();
+
+      console.log(
+        'Location Permission:',
+        locationPerm
+      );
    this.watchId =  Geolocation.watchPosition(
 
       {
@@ -46,26 +57,38 @@ export class LocationTracker {
         const userLng =
         position.coords.longitude;
 
-        console.log(
-          'USER:',
-          userLat,
-          userLng
-        );
+                  console.log(
+            'USER LOCATION:',
+            userLat,
+            userLng
+          );
 
-        await this.checkAnnadanam(
-          userLat,
-          userLng
-        );
+                if (type === 'annadanam') {
 
-        await this.checkTemples(
-          userLat,
-          userLng
-        );
+            await this.checkAnnadanam(
+              userLat,
+              userLng
+            );
 
-        await this.checkAyyappaTemples(
-          userLat,
-          userLng
-        );
+          }
+
+          if (type === 'temple') {
+
+            await this.checkTemples(
+              userLat,
+              userLng
+            );
+
+          }
+
+          if (type === 'ayyappa') {
+
+            await this.checkAyyappaTemples(
+              userLat,
+              userLng
+            );
+
+          }
 
       }
 
@@ -208,10 +231,8 @@ export class LocationTracker {
     );
 
     console.log(
-      name,
-      distance
-    );
-
+  `${name} Distance = ${distance} KM`
+);
     const fiveKm =
     id+'_5';
 

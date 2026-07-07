@@ -61,48 +61,86 @@
     </video>
 
     <!-- RIGHT BUTTONS -->
+           <div class="side-buttons">
 
-    <div class="side-buttons">
+              <ion-button fill="clear" class="icon-btn"
+                (click)="createShareDownload(item)">
+                <ion-icon name="share-social-outline"></ion-icon>
+              </ion-button>
 
-      <ion-button
+              <ion-button fill="clear" class="icon-btn"
+                (click)="createDownloadOnly(item)">
+                <ion-icon name="download-outline"></ion-icon>
+              </ion-button>
 
-        fill="solid"
+            </div>
 
-        shape="round"
+          <div class="bottom-section" #footerRef> 
 
-        color="light"
+         <div class="top-line"></div>
 
-        (click)="shareVideo(baseUrl + item.video)">
 
-        <ion-icon
-          slot="icon-only"
-          name="share-social-outline">
 
-        </ion-icon>
+        <!-- Profile Circle -->
 
-      </ion-button>
+        <div
+          class="profile-circle"
+          *ngIf="hasFlyerData()">
 
-      <ion-button
+           <img
+          [src]="profileImage">
 
-        fill="solid"
+        </div>
 
-        shape="round"
 
-        color="light"
 
-        (click)="downloadVideo(baseUrl + item.video, item.video)">
+        <div class="user-details">
 
-        <ion-icon
-          slot="icon-only"
-          name="download-outline">
 
-        </ion-icon>
+          <ng-container *ngIf="hasFlyerData(); else uploadBtn">
 
-      </ion-button>
 
-    </div>
+            <h2>
+              {{userName}}
+            </h2>
 
-  </div>
+
+            <p>
+              {{userRole}}
+            </p>
+
+
+          </ng-container>
+
+
+
+          <ng-template #uploadBtn>
+
+
+            <ion-button
+              color="warning"
+              class="upload-btn"
+              (click)="goToUploadDetails()">
+
+
+              Upload Details Here
+
+
+            </ion-button>
+
+
+          </ng-template>
+
+
+        </div>
+
+
+
+       <div class="bottom-line"></div>
+
+
+      </div>
+
   </div>
 
   <ion-infinite-scroll
@@ -116,6 +154,7 @@
 
   </ion-infinite-scroll>
   
+  </div>
 
 </ion-content>
 

@@ -18,10 +18,19 @@
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvb7BWjj8jsmp15D1NGogyfHaWWocS2Ys&libraries=marker"></script>
+<meta http-equiv="Content-Security-Policy" content="
+default-src 'self' capacitor://localhost ionic://localhost https://www.ayyappatelugu.com https://unpkg.com data: blob: filesystem:;
+style-src 'self' 'unsafe-inline';
+script-src 'self' 'unsafe-inline' https://maps.googleapis.com https://unpkg.com;
+img-src 'self' data: blob: capacitor://localhost ionic://localhost https://www.ayyappatelugu.com https: http:;
+media-src * data: blob:;
+connect-src 'self' capacitor://localhost ionic://localhost https://www.ayyappatelugu.com https://maps.googleapis.com;
+">
 </head>
 
 <body>
   <app-root></app-root>
+  
 </body>
 
 </html>

@@ -7,6 +7,7 @@ export interface BajanamandaliResponse {
   status: string;
   errorCode: string;
   message?: string;
+  imageUrl?: string;
   result?: any[];
 }
 

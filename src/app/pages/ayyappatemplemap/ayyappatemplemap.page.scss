@@ -73,3 +73,23 @@
   width: 24px;
   height: 24px;
 }
+
+::ng-deep .custom-card {
+  background: #fff !important;
+  color: #000 !important;
+}
+
+::ng-deep .custom-card .title {
+  color: #000 !important;
+}
+
+::ng-deep .custom-card .location {
+  color: #000 !important;
+}
+::ng-deep .gm-ui-hover-effect {
+  opacity: 1 !important;
+}
+
+::ng-deep .gm-ui-hover-effect span {
+  background-color: #000 !important;
+}

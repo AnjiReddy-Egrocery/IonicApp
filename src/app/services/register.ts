@@ -15,14 +15,14 @@ export class RegisterService {
 
    private baseUrl = 'https://www.ayyappatelugu.com/APICalls/Users';
 
- async register(firstName: string, lastName: string, email: string, mobile: string, password: string) {
+ async register(firstName: string, lastName: string, email: string, mobile: string, password: string,isIOS: string) {
   // ✅ Prepare key-value pairs like Postman form-data
   const data: any = {
     firstName: firstName,
     lastName: lastName,
     emailId: email,
     mobileNumber: mobile,
-    isIOS: '1'
+    isIOS: isIOS
   };
 
   // ✅ Only append password if user entered one
@@ -30,7 +30,10 @@ export class RegisterService {
     data.pwd = password;
   }
 
-  console.log('➡️ RegisterService FormData:', data);
+  console.log('====================');
+  console.log('REQUEST URL:', `${this.baseUrl}/userRegistration`);
+  console.log('REQUEST DATA:', data);
+  console.log('====================');
 
   try {
     // ✅ Send as multipart/form-data (same as Postman)

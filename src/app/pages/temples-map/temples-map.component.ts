@@ -38,7 +38,7 @@ ngAfterViewInit() {
 }
 
 ionViewDidEnter() {
-  this.locationTracker.startTracking();
+  this.locationTracker.startTracking('temple');
 }
 
 ionViewWillLeave() {
@@ -71,6 +71,7 @@ ionViewWillLeave() {
   // Optional: Load user location marker
   this.loadUserLocation();
   }
+
  async loadUserLocation() {
     try {
     const pos = await Geolocation.getCurrentPosition({
@@ -97,6 +98,7 @@ ionViewWillLeave() {
   }
   }
      
+  
    
  
     async loadTempleData() {
@@ -203,6 +205,8 @@ ionViewWillLeave() {
 
 
               async displayNearByTemples() {
+                console.log("USER LOCATION", this.userLocation);
+  console.log("TEMPLES", this.templeList);
    if (!this.userLocation || !this.templeList?.length) return alert("Location or temple list not available.");
 
   const modal = await this.modalCtrl.create({

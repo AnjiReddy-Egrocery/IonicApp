@@ -1,6 +1,6 @@
 <ion-app>
   <!-- Side Menu -->
-  <ion-menu side="start" menuId="first" contentId="main-content" type="overlay">
+  <!-- <ion-menu side="start" menuId="first" contentId="main-content" type="overlay">
     <ion-content class="ion-padding">
       <div class="menu-header">
          <ion-avatar>
@@ -19,16 +19,16 @@
        
       </ion-list>
     </ion-content>
-  </ion-menu>
+  </ion-menu> -->
 
   <!-- Main Content -->
   <div class="ion-page" id="main-content">
     <!-- App Bar / Toolbar -->
    <ion-header>
   <ion-toolbar color="danger">
-    <ion-buttons slot="start">
+    <!-- <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
-    </ion-buttons>
+    </ion-buttons> -->
 
     <!-- Custom Header Layout -->
     <div class="custom-toolbar">
@@ -40,38 +40,49 @@
 
     <ion-content fullscreen>
     
-       <div class="container">
+       <div class="container center-content">
 
-          <div class="container home-bg">
+                     
+                    <span class="header-title">For More Details, Plz Register Ayyappa App Info</span>
+                  
 
-                <!-- First Section (Image + Text) -->
+
+                    <div class="view-all-wrapper">
+                        <ion-button class="view-all-btn" (click)="goToSwamiLogin()">
+                          Swami Registration / Login
+                        </ion-button>
+                      </div>
+
+
+          <!-- <div class="container home-bg">
+
                 <div class="nityapooja-card" (click)="goToNityaPooja()">
                   <ion-img src="../../../assets/ayyappaphome.png" class="nityapooja-img"></ion-img>
                   <h2 class="nityapooja-title">అయ్యప్ప స్వామి నిత్యపూజా విధానం</h2>
                 </div>
 
-                <!-- Second Section (Below Image) -->
+                
                 <div class="below-img">
                   <ion-img src="../../../assets/ayyappa_below.png"></ion-img>
                 </div>
 
-                <!-- Third Section (Image + Text) -->
+                
                 <div class="sharanughosha-card" (click)="goToSharanughosha()">
                   <ion-img src="../../../assets/background.jpeg" class="sharanughosha-img"></ion-img>
                   <h2 class="sharanughosha-title">శరణుఘొష</h2>
                 </div>
 
-              </div>
-             <ion-card class="anadanam-card anadanamno-gap-card" (click)="goToAnadanam()" style="margin-top: 30px; margin-bottom: -15px;">
+              </div> -->
+             <!-- <ion-card class="anadanam-card anadanamno-gap-card" (click)="goToAnadanam()" style="margin-top: 30px; margin-bottom: -15px;">
                 <ion-grid class="anadanamno-gap-card">
                   <ion-row class="ion-align-items-center ion-no-padding">
 
-                    <!-- Image Column -->
+                 
                     <ion-col size="auto" class="ion-text-center">
                       <ion-img src="assets/location.png" class="anadanam-img"></ion-img>
                     </ion-col>
 
-                    <!-- Text Column -->
+                   
                     <ion-col class="ion-text-center">
                       <div class="text-container">
                         <h2 class="anadanam-title">అన్నప్రసాదం</h2>
@@ -83,9 +94,9 @@
 
                   </ion-row>
                 </ion-grid>
-              </ion-card>
+              </ion-card> -->
 
-              <ion-card class="abacus-card no-gap-card" (click)="goToAnadanam()">
+              <!-- <ion-card class="abacus-card no-gap-card" (click)="goToAnadanam()">
                 <ion-grid class="no-gap-grid">
                   <ion-row>
                     <ion-col>
@@ -93,8 +104,8 @@
                     </ion-col>
                   </ion-row>
                 </ion-grid>
-              </ion-card>
-                      <div>
+              </ion-card> -->
+                      <!-- <div>
                           <div class="header-container">
                           <span class="header-title">వార్తలు</span>   
                           <img src="../../../assets/seva.png" class="header-icon" />                       
@@ -107,18 +118,17 @@
                           </ion-card>
                         </div>
 
-                        <!-- View All Button -->
                       <div class="view-all-wrapper">
                         <ion-button class="view-all-btn" (click)="viewAllNews()">
                           View All
                         </ion-button>
                       </div>
-                      </div>                 
+                      </div>                  -->
                
 
                    
 
-                      <ion-grid class="two-productcard-row" style="margin-top: 40px;">
+                      <!-- <ion-grid class="two-productcard-row" style="margin-top: 40px;">
                         <ion-row class="ion-no-padding ion-align-items-center">
 
                           <ion-col size="6">
@@ -140,16 +150,15 @@
                           </ion-col>
 
                         </ion-row>
-                      </ion-grid>
+                      </ion-grid> -->
 
-                  <div class="temple-section">
-  <!-- Header -->
+                  <!-- <div class="temple-section">
+
                   <div class="header-container">
                     <span class="header-title">అయ్యప్ప స్వామి దేవాలయాలు</span>
                     <img src="../../../assets/seva.png" class="header-icon" />
                   </div>
 
-                  <!-- Scrollable List with Arrows -->
                   <div class="temple-scroll-wrapper">
                     <ion-icon name="chevron-back-outline" (click)="scrollLeft()" class="nav-arrow"></ion-icon>
 
@@ -171,22 +180,21 @@
                     <ion-icon name="chevron-forward-outline" (click)="scrollRight()" class="nav-arrow"></ion-icon>
                   </div>
 
-                  <!-- View All Button -->
                   <div class="view-all-wrapper">
                     <ion-button fill="clear" class="view-all-btn" (click)="viewAllTemples()">
                       View All
                     </ion-button>
                   </div>
-                </div>
+                </div> -->
 
-                                  <div class="temple-section">
-  <!-- Header -->
+                                  <!-- <div class="temple-section">
+ 
                   <div class="header-container">
                     <span class="header-title">సకల దేవతల ఆలయాలు</span>
                     <img src="../../../assets/seva.png" class="header-icon" />
                   </div>
 
-                  <!-- Scrollable List with Arrows -->
+                
                   <div class="temple-scroll-wrapper">
                     <ion-icon name="chevron-back-outline" (click)="ayyappascrollLeft()" class="nav-arrow"></ion-icon>
 
@@ -208,26 +216,25 @@
                     <ion-icon name="chevron-forward-outline" (click)="ayyapascrollRight()" class="nav-arrow"></ion-icon>
                   </div>
 
-                  <!-- View All Button -->
                   <div class="view-all-wrapper">
                     <ion-button fill="clear" class="view-all-btn" (click)="viewAllAyyappaTemples()">
                       View All
                     </ion-button>
                   </div>
                 </div>             
-                                             
+                                              -->
                      
 
         </div>
       
     </ion-content>
-     
+<!--      
 <ion-footer slot="fixed" class="custom-footer">
     <ion-toolbar class="custom-footer-toolbar">
       <ion-grid>
         <ion-row class="ion-align-items-center ion-justify-content-center">
 
-          <!-- First Item: Icon + Text -->
+         
           <ion-col size="auto" (click)="goToAnadanam()">
             <div class="icon-text-row">
               <ion-img src="../../../assets/location.png" class="bottom-icon"></ion-img>
@@ -235,12 +242,10 @@
             </div>
           </ion-col>
 
-          <!-- Center Icon -->
           <ion-col class="ion-text-center" size="2.4">
             <ion-img src="../../../assets/bottomcenter.png" class="bottom-icon"></ion-img>
           </ion-col>
 
-          <!-- Fifth Item: Text + Icon -->
           <ion-col size="auto" (click)="goToNityaPooja()">
             <div class="text-image-row">
               <p class="bottom-text">నిత్య పూజ</p>
@@ -251,7 +256,7 @@
         </ion-row>
       </ion-grid>
     </ion-toolbar>
-  </ion-footer>
+  </ion-footer> -->
 
   </div>
 </ion-app>

@@ -4,9 +4,15 @@ const config: CapacitorConfig = {
   appId: 'com.dst.ayyapatelugu',
   appName: 'AyyappaTelugu',
   webDir: 'www',
-  server: {
-    cleartext: true,
-    allowNavigation: ['www.ayyappatelugu.com']
+ server: {
+   cleartext: true, 
+  iosScheme: 'capacitor',
+  androidScheme: 'capacitor',
+  allowNavigation: [
+    'www.ayyappatelugu.com',
+    '*.ayyappatelugu.com' // ఇది అన్ని సబ్-డొమైన్స్‌ను అనుమతిస్తుంది
+  ]
+
   },
  
   plugins: {

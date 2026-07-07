@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, IonicModule, LoadingController, ToastController } from '@ionic/angular';
 import {
   Camera,
@@ -21,18 +21,26 @@ import { Http } from '@capacitor-community/http';
       CommonModule,
     ],
 })
-export class UploadDetailsComponent  {
+export class UploadDetailsComponent  implements OnInit  {
  nameOnFlyer = '';
   designationOnFlyer = '';
 
   selectedImage = '';
 
+  returnUrl = '/ayyppa-images';
+
   constructor(
-    private router: Router,
+     private router: Router,
+  private route: ActivatedRoute,
     private toastController: ToastController,
     private loadingController: LoadingController,
     private alertController: AlertController
   ) {}
+  ngOnInit(): void {
+    this.returnUrl =
+    this.route.snapshot.queryParamMap.get('returnUrl')
+    || '/ayyppa-images';
+  }
 
   async selectImage() {
 
@@ -61,6 +69,39 @@ export class UploadDetailsComponent  {
     await alert.present();
   }
 
+  async compressImage(base64: string): Promise<string> {
+  return new Promise((resolve) => {
+    const img = new Image();
+
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+
+      const maxWidth = 500;
+
+      let width = img.width;
+      let height = img.height;
+
+      if (width > maxWidth) {
+        height = height * (maxWidth / width);
+        width = maxWidth;
+      }
+
+      canvas.width = width;
+      canvas.height = height;
+
+      ctx?.drawImage(img, 0, 0, width, height);
+
+      const compressed =
+        canvas.toDataURL('image/jpeg', 0.6);
+
+      resolve(compressed);
+    };
+
+    img.src = base64;
+  });
+}
+
   async openCamera() {
 
     try {
@@ -71,8 +112,12 @@ export class UploadDetailsComponent  {
         resultType: CameraResultType.Base64
       });
 
-      this.selectedImage =
-        `data:image/jpeg;base64,${image.base64String}`;
+     
+const base64 =
+  `data:image/jpeg;base64,${image.base64String}`;
+
+this.selectedImage =
+  await this.compressImage(base64);
 
     } catch (e) {
       console.log(e);
@@ -89,8 +134,12 @@ export class UploadDetailsComponent  {
         resultType: CameraResultType.Base64
       });
 
-      this.selectedImage =
-        `data:image/jpeg;base64,${image.base64String}`;
+      
+const base64 =
+  `data:image/jpeg;base64,${image.base64String}`;
+
+this.selectedImage =
+  await this.compressImage(base64);
 
     } catch (e) {
       console.log(e);
@@ -152,10 +201,6 @@ export class UploadDetailsComponent  {
         this.selectedImage || ''
     };
 
-    console.log(
-      'REQUEST DATA',
-      JSON.stringify(data)
-    );
 
     const response =
       await Http.request({
@@ -245,10 +290,10 @@ export class UploadDetailsComponent  {
       setTimeout(() => {
 
         this.router.navigateByUrl(
-          '/ayyppa-images',
-          {
-            replaceUrl: true
-          }
+          this.returnUrl,
+            {
+              replaceUrl: true
+            }
         );
 
       }, 500);

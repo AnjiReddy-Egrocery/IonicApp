@@ -7,6 +7,7 @@ import { LocationTracker } from './services/location-tracker';
 import {
 LocalNotifications
 } from '@capacitor/local-notifications';
+import { createFFmpeg } from '@ffmpeg/ffmpeg';
 
 
 @Component({
@@ -17,45 +18,32 @@ LocalNotifications
 })
 export class AppComponent {
  constructor(
-    private platform:Platform,
-    private push:Push,
-    private tracker:
-      LocationTracker,
-          private router:
-    Router
+    private platform: Platform,
+    private push: Push,
+    private tracker: LocationTracker,
+    private router: Router
   ) {
+    this.platform.ready().then(async () => {
+      // 1. Push notification init
+      this.push.initPush();
 
-    this.platform.ready().then(
-      async ()=>{
+      // 2. FFmpeg Init - ఇక్కడ FFmpeg ని లోడ్ చేయండి
+      try {
+        const ffmpeg = createFFmpeg({ log: true });
+        await ffmpeg.load();
+        (window as any).ffmpeg = ffmpeg;
+        console.log("✅ FFmpeg Loaded Successfully in AppComponent");
+      } catch (err) {
+        console.error("❌ FFmpeg Load Failed:", err);
+      }
 
-        this.push.initPush();
-
-
-      LocalNotifications
-      .addListener(
-
-        'localNotificationActionPerformed',
-
-        (event)=>{
-
-          const route =
-
-          event.notification
-          .extra?.route;
-
-          if(route){
-
-            this.router
-            .navigate([route]);
-
-          }
-
+      // 3. Local Notifications
+      LocalNotifications.addListener('localNotificationActionPerformed', (event) => {
+        const route = event.notification.extra?.route;
+        if (route) {
+          this.router.navigate([route]);
         }
-
-      );
-
+      });
     });
-
   }
-
 }

@@ -4,6 +4,10 @@
   justify-content: center;
   gap: 5px; /* spacing between image and text */
 }
+.custom-back-button {
+  --color: white !important;
+  margin-left: 14px !important;
+}
 .text-image-row {
   display: flex;
   align-items: center;

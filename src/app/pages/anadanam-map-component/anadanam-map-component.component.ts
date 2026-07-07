@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { Geolocation } from '@capacitor/geolocation';
@@ -21,7 +21,7 @@ declare var google: any;
     CommonModule,
   ]
 })
-export class AnadanamMapComponentComponent  implements AfterViewInit {
+export class AnadanamMapComponentComponent  implements AfterViewInit , OnDestroy {
   map: any;
   currentZoomLevel = 15;
   markers: any[] = [];
@@ -29,19 +29,26 @@ export class AnadanamMapComponentComponent  implements AfterViewInit {
 activeInfoWindow: any = null;
   constructor(private http: HttpClient, private modalCtrl: ModalController,private anadanamService: Anadanam,private locationTracker: LocationTracker
   ) {}
+  
 
   ngAfterViewInit() {
     this.initMapFirst(); 
     this.loadMap();
+
+    this.locationTracker.startTracking('annadanam');
   }
 
   ionViewDidEnter() {
-  this.locationTracker.startTracking();
+  this.locationTracker.startTracking('annadanam');
 }
 
 ionViewWillLeave() {
   this.locationTracker.stopTracking();
 }
+
+ngOnDestroy() {
+    this.locationTracker.stopTracking();
+  }
 
   initMapFirst() {
  const mapElement = document.getElementById('map')!;
