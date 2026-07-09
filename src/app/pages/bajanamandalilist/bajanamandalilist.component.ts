@@ -23,7 +23,7 @@ export class BajanamandalilistComponent implements OnInit   {
  bajanamandaliList: any[] = [];
   filteredList: any[] = [];
   searchQuery: string = '';
-  imageUrl: string = '';
+
 
   constructor(private service: Bajanamandali, private router: Router, private sanitizer: DomSanitizer, private modalCtrl: ModalController, private menu: MenuController) {}
 
@@ -35,10 +35,6 @@ export class BajanamandalilistComponent implements OnInit   {
   async loadBajanamandaliList() {
   try {
     const res = await this.service.getBajanaMandali(); // <-- Promise-based
-    this.imageUrl = (res.imageUrl || '')
-      .replace('/assets/user_images/', '/public/assets/user_images/');
-      console.log('Image URL:', this.imageUrl);
-
     console.log('✅ Response:', res);
     this.bajanamandaliList = res.result || [];
     this.filteredList = [...this.bajanamandaliList];

@@ -1,88 +1,271 @@
-/* Outer modal wrapper */
-:host {
-  display: block;
-  --background: transparent; /* remove default Ionic gray */
-}
-
-/* Modal card style */
-.alert-style-modal .modal-wrapper {
-  background: #ffffff;        /* white background */
-  border-radius: 12px;        /* rounded corners like Android */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* soft shadow */
-  max-height: 80%;            /* prevent full screen */
-  margin: 16px;               /* spacing from screen edges */
-  overflow: hidden;
-}
-
-/* Header styling */
 ion-header {
-  background: #ffffff;
-  border-bottom: 1px solid #ccc;
-}
-
-ion-title {
-  font-size: 18px;
-  font-weight: bold;
-  color: #000;
-}
-
-ion-buttons ion-button ion-icon {
-  font-size: 20px;
-  color: #333333;
-}
-
-/* Radio buttons row */
-ion-radio-group {
-  display: flex;
-  justify-content: space-around;
-  margin: 12px 0;
-  ion-item {
-    --padding-start: 0px;
-    --inner-padding-end: 0px;
+  ion-toolbar {
+    --background: #DA1D0F;
+    --color: white;
+    --border-width: 0;
+    
+    ion-title {
+      font-weight: 600;
+      font-size: 18px;
+    }
+    
+    ion-button {
+      --color: white;
+    }
   }
 }
 
-/* Temple list items */
-ion-list {
-  max-height: 300px;  /* scrollable list if too long */
-  overflow-y: auto;
+// Loading Container
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  min-height: 200px;
+  
+  ion-spinner {
+    --color: #DA1D0F;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+  }
+  
+  p {
+    color: #666;
+    font-size: 16px;
+    margin: 0;
+  }
+}
 
-  ion-item {
-    border-bottom: 1px solid #eee;
+// Radius Selector
+.radius-selector {
+  padding: 16px;
+  background: #f8f8f8;
+  border-bottom: 1px solid #e8e8e8;
+  
+  .radius-label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #333;
+    letter-spacing: 0.3px;
+  }
+  
+  .radius-buttons {
+    display: flex;
+    gap: 10px;
+    
+    .radius-btn {
+      flex: 1;
+      --border-radius: 20px;
+      --padding-start: 12px;
+      --padding-end: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      height: 36px;
+      text-transform: none;
+      letter-spacing: 0.3px;
+      
+      &.button-outline {
+        --border-color: #DA1D0F;
+      }
+    }
+  }
+}
+
+// Results Count
+.results-count {
+  padding: 12px 16px;
+  background: white;
+  border-bottom: 1px solid #f0f0f0;
+  
+  ion-text {
+    font-size: 14px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    
+    .result-icon {
+      font-size: 18px;
+      color: #DA1D0F;
+    }
+    
+    strong {
+      color: #DA1D0F;
+      font-size: 16px;
+    }
+  }
+}
+
+// No Results
+.no-results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  min-height: 300px;
+  
+  .no-result-icon {
+    font-size: 64px;
+    color: #ddd;
+    margin-bottom: 16px;
+  }
+  
+  p {
+    font-size: 16px;
+    color: #666;
+    margin: 4px 0;
+    text-align: center;
+    
+    &.sub-text {
+      font-size: 14px;
+      color: #999;
+      margin-top: 8px;
+    }
+  }
+}
+
+// Temple List Items
+.temple-item {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --min-height: 85px;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:active {
+    --background: #f5f5f5;
+    transform: scale(0.98);
+  }
+  
+  &:last-child {
+    border-bottom: none;
+  }
+  
+  .location-icon {
+    font-size: 22px;
+    color: #DA1D0F;
+  }
+  
+  h2 {
+    font-size: 17px;
+    font-weight: 600;
+    color: #222;
+    margin: 0 0 4px 0;
+  }
+  
+  .location-text {
+    font-size: 13px;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin: 2px 0;
+    
+    .icon-small {
+      font-size: 14px;
+      color: #888;
+    }
+  }
+  
+  .distance-text {
+    font-size: 12px;
+    color: #DA1D0F;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin: 2px 0;
+    font-weight: 500;
+    
+    .icon-small {
+      font-size: 13px;
+    }
+  }
+  
+  .navigate-btn {
+    --color: #DA1D0F;
+    --padding-start: 8px;
+    --padding-end: 8px;
+    height: 44px;
+    
+    ion-icon {
+      font-size: 28px;
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 480px) {
+  .radius-selector {
+    padding: 12px;
+    
+    .radius-buttons {
+      gap: 6px;
+      
+      .radius-btn {
+        font-size: 11px;
+        height: 32px;
+        --padding-start: 8px;
+        --padding-end: 8px;
+      }
+    }
+  }
+  
+  .temple-item {
+    --min-height: 70px;
     --padding-start: 12px;
     --padding-end: 12px;
-
+    
     h2 {
-      font-size: 16px;
-      font-weight: bold;
-      margin: 0;
-      color: #000;
+      font-size: 15px;
     }
-
-    p {
-      margin: 2px 0 0 0;
-      font-size: 14px;
-      color: #555;
-    }
-
-    ion-button {
-      --border-radius: 6px;
-      --padding-start: 8px;
-      --padding-end: 8px;
+    
+    .location-text {
       font-size: 12px;
-      --color: #3C54DA;
-      --background: #f5f5f5;
-      border: 1px solid #3C54DA;
+    }
+    
+    .distance-text {
+      font-size: 11px;
+    }
+    
+    .location-icon {
+      font-size: 18px;
+    }
+    
+    .navigate-btn ion-icon {
+      font-size: 24px;
     }
   }
 }
 
-/* Scrollbar for Android look */
-ion-list::-webkit-scrollbar {
-  width: 6px;
+@media (min-width: 481px) and (max-width: 768px) {
+  .radius-selector {
+    .radius-buttons {
+      .radius-btn {
+        font-size: 13px;
+        height: 40px;
+      }
+    }
+  }
 }
 
-ion-list::-webkit-scrollbar-thumb {
-  background-color: rgba(0,0,0,0.2);
-  border-radius: 3px;
+// Modal Style
+:host {
+  --background: white;
+}
+
+.alert-style-modal {
+  --height: 80%;
+  --width: 90%;
+  --border-radius: 16px;
+  
+  @media (min-width: 768px) {
+    --width: 60%;
+    --height: 70%;
+  }
 }

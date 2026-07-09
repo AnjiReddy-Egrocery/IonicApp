@@ -78,12 +78,14 @@
   margin-top: 15px;
   border: 1px solid #ccc;
   border-radius: 8px;
-  background: #ccc;
+  
+  background: #ccc !important;
 }
 
 .login-btn {
   margin-top: 20px;
   --border-radius: 12px;
+  color: white !important;
 }
 
 .links {
@@ -93,6 +95,7 @@
 
 .forgot-link {
   font-weight: bold;
+  color: white !important;
   cursor: pointer;
 }
 
@@ -102,6 +105,7 @@
   margin-top: 20px;
   font-weight: bold;
   padding: 10px;
+  color: white !important;
   border: 1px solid #f90a0a;
   border-radius: 8px;
 }

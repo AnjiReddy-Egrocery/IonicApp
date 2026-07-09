@@ -3,3 +3,9 @@
 :root {
   --ion-font-family: 'Helvetica', 'Arial', sans-serif;
 }
+
+@media (prefers-color-scheme: dark) {
+  ion-menu-button {
+    --color: #ffffff;
+  }
+}

@@ -48,6 +48,7 @@ import { AnadanamListComponentComponent } from "./pages/anadanam-list-component/
 import { AnadanamdetailsComponent } from "./pages/anadanamdetails/anadanamdetails.component";
 import { UploadDetailsComponent } from "./pages/upload-details/upload-details.component";
 import { ProfilePageComponent } from "./pages/profile-page/profile-page.component";
+import { PadayatradetailsComponent } from "./pages/padayatradetails/padayatradetails.component";
 
 
 export const routes: Routes = [
@@ -112,7 +113,7 @@ export const routes: Routes = [
   { path: 'ayyappa_blogs', component: BloglistComponent },
   { path: 'ayyppa-padayatra', component: PadayatralistComponent },
   { path: 'blog_details', component: BlogdetailsComponent },
-  { path: 'padayatra_details', component: BlogdetailsComponent },
+  { path: 'padayatra_details', component: PadayatradetailsComponent },
   { path: 'ayyppa-images', component: ImagesListComponent },
   { path: 'ayyppa-videos', component: VideosListComponent },
   { path: 'upload-details', component: UploadDetailsComponent },

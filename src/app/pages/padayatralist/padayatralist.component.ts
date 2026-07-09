@@ -120,9 +120,11 @@ export class PadayatralistComponent  implements OnInit {
   }
 
   openDetails(padayatra: any) {
+    console.log("Padayatra Data:", padayatra);
+    console.log("Image:", padayatra.image);
     this.router.navigate(['/padayatra_details'], {
       queryParams: {
-        Name: padayatra.padayatrabrundamTelugu,          
+          Name: padayatra.padayatrabrundamTelugu,          
           Discription: padayatra.descriptionTelugu,
           Image: padayatra.image
       }

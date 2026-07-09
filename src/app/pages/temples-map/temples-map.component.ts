@@ -204,21 +204,46 @@ ionViewWillLeave() {
              }
 
 
-              async displayNearByTemples() {
-                console.log("USER LOCATION", this.userLocation);
-  console.log("TEMPLES", this.templeList);
-   if (!this.userLocation || !this.templeList?.length) return alert("Location or temple list not available.");
+  //             async displayNearByTemples() {
+  //               console.log("USER LOCATION", this.userLocation);
+  // console.log("TEMPLES", this.templeList);
+  //  if (!this.userLocation || !this.templeList?.length) return alert("Location or temple list not available.");
 
-  const modal = await this.modalCtrl.create({
-    component: TempleNearMapComponent,
-    componentProps: {
-      templeList: this.templeList,
-      userLocation: this.userLocation
-    },
-    cssClass: 'alert-style-modal',
-    backdropDismiss: true
-  });
+  // const modal = await this.modalCtrl.create({
+  //   component: TempleNearMapComponent,
+  //   componentProps: {
+  //     templeList: this.templeList,
+  //     userLocation: this.userLocation
+  //   },
+  //   cssClass: 'alert-style-modal',
+  //   backdropDismiss: true
+  // });
 
-  await modal.present();
+  // await modal.present();
+  // }
+
+  async displayNearByTemples() {
+    console.log("USER LOCATION", this.userLocation);
+    console.log("TEMPLES", this.templeList);
+    
+    if (!this.userLocation || !this.templeList?.length) {
+      alert("Location or temple list not available.");
+      return;
+    }
+
+    const modal = await this.modalCtrl.create({
+      component: TempleNearMapComponent,
+      componentProps: {
+        templeList: this.templeList,
+        userLocation: {
+          lat: this.userLocation.latitude,
+          lng: this.userLocation.longitude
+        }
+      },
+      cssClass: 'alert-style-modal',
+      backdropDismiss: true
+    });
+
+    await modal.present();
   }
 }

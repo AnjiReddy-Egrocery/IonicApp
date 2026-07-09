@@ -83,10 +83,28 @@ export class ImagesListComponent  implements OnInit {
     }
   }
 
-async sharePoster(index: number) {
+  private async captureSlide(index: number, design: number): Promise<HTMLCanvasElement> {
+    const el = document.getElementById(`poster-${index}-${design}`) as HTMLElement;
+    if (!el) throw new Error('Slide element not found');
+
+    el.classList.add('capturing'); // hides floating buttons via CSS
+    try {
+      const canvas = await html2canvas(el, {
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#ffffff',
+        scale: 2,
+      });
+      return canvas;
+    } finally {
+      el.classList.remove('capturing');
+    }
+  }
+
+async sharePoster(index: number, design: number = 1) {
   console.log("=== [STARTING SHARE PROCESS] ===");
 
-  if (!this.hasFlyerData()) {
+  if (design !== 1 && !this.hasFlyerData()) {
     this.showToast("Please upload details first.");
     return;
   }
@@ -177,10 +195,10 @@ async sharePoster(index: number) {
   }
 }
 
-async downloadPoster(index: number) {
+async downloadPoster(index: number, design: number = 1) {
   console.log("=== [STARTING DOWNLOAD PROCESS] ===");
   
-  if (!this.hasFlyerData()) {
+  if (design !== 1 &&!this.hasFlyerData()) {
     this.showToast("Please upload details first.");
     return;
   }

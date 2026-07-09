@@ -1,42 +1,84 @@
-<p>
-  temple-near-map works!
-</p>
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeModal()">
+        <ion-icon name="arrow-back-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-title>Nearby Temples</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="dismiss()">
-        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      <ion-button (click)="closeModal()">
+        <ion-icon name="close-outline" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <ion-radio-group [(ngModel)]="selectedRadius" (ionChange)="filterTemples()">
-    <ion-item>
-      <ion-label>5 km</ion-label>
-      <ion-radio slot="start" value="5000"></ion-radio>
-    </ion-item>
-    <ion-item>
-      <ion-label>10 km</ion-label>
-      <ion-radio slot="start" value="10000"></ion-radio>
-    </ion-item>
-    <ion-item>
-      <ion-label>20 km</ion-label>
-      <ion-radio slot="start" value="20000"></ion-radio>
-    </ion-item>
-  </ion-radio-group>
+<ion-content>
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="loading-container">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Finding nearby temples...</p>
+  </div>
 
-  <ion-list>
-    <ion-item *ngFor="let temple of filteredTemples" >
-      <ion-label>
-        <h2>{{ temple.templeName }}</h2>
-        <p>{{ temple.location }}</p>
-      </ion-label>
-      <ion-button fill="outline" slot="end" >
-        Navigate
-      </ion-button>
-    </ion-item>
-  </ion-list>
+  <!-- Content -->
+  <div *ngIf="!isLoading">
+    <!-- Radius Selection -->
+    <div class="radius-selector">
+      <ion-label class="radius-label">Select Radius:</ion-label>
+      <div class="radius-buttons">
+        <ion-button 
+          *ngFor="let option of radiusOptions"
+          [color]="selectedRadius === option.value ? 'danger' : 'medium'"
+          fill="outline"
+          size="small"
+          (click)="selectedRadius = option.value; onRadiusChange()"
+          class="radius-btn">
+          {{ option.label }}
+        </ion-button>
+      </div>
+    </div>
+
+    <!-- Results Count -->
+    <div class="results-count" *ngIf="filteredTemples.length > 0">
+      <ion-text color="dark">
+        <ion-icon name="location-outline" class="result-icon"></ion-icon>
+        <strong>{{ filteredTemples.length }}</strong> temples found within {{ selectedRadius }} KM
+      </ion-text>
+    </div>
+
+    <!-- No Results -->
+    <div class="no-results" *ngIf="filteredTemples.length === 0">
+      <ion-icon name="location-outline" class="no-result-icon"></ion-icon>
+      <p>No temples found within {{ selectedRadius }} KM</p>
+      <p class="sub-text">Try increasing the radius or check your location</p>
+    </div>
+
+    <!-- Temple List -->
+    <ion-list *ngIf="filteredTemples.length > 0">
+      <ion-item 
+        *ngFor="let temple of filteredTemples"
+        class="temple-item"
+        (click)="navigateToTemple(temple.latitude, temple.longitude)">
+        
+        <ion-icon name="location" slot="start" color="danger" class="location-icon"></ion-icon>
+        
+        <ion-label>
+          <h2>{{ temple.templeNameTelugu }}</h2>
+          <p class="location-text">
+            <ion-icon name="pin-outline" class="icon-small"></ion-icon>
+            {{ temple.location || 'Location not available' }}
+          </p>
+          <p class="distance-text" *ngIf="userLocation">
+            <ion-icon name="navigate-outline" class="icon-small"></ion-icon>
+            {{ getDistanceText(temple) }}
+          </p>
+        </ion-label>
+        
+        <ion-button slot="end" fill="clear" color="danger" class="navigate-btn">
+          <ion-icon name="navigate-circle-outline" size="large"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+  </div>
 </ion-content>

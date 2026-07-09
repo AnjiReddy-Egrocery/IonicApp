@@ -172,3 +172,42 @@
 ::ng-deep .gm-ui-hover-effect span {
   background-color: #000 !important;
 }
+
+.nearest-btn {
+  position: absolute;
+  bottom: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  --border-radius: 25px;
+  --box-shadow: 0 4px 15px rgba(218, 29, 15, 0.4);
+  --background: #DA1D0F;
+  --color: white;
+  font-weight: 600;
+  text-transform: none;
+  padding: 0 24px;
+  height: 48px;
+  z-index: 999;
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+  
+  ion-icon {
+    font-size: 20px;
+    margin-right: 8px;
+  }
+  
+  &:hover {
+    --box-shadow: 0 6px 20px rgba(218, 29, 15, 0.5);
+  }
+  
+  @media (max-width: 480px) {
+    bottom: 100px;
+    height: 42px;
+    font-size: 13px;
+    padding: 0 16px;
+    
+    ion-icon {
+      font-size: 17px;
+      margin-right: 6px;
+    }
+  }
+}

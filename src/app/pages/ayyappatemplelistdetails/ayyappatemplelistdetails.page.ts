@@ -39,20 +39,20 @@ export class AyyappatemplelistdetailsPage implements OnInit {
 
       console.log("Received Params:", params);
       console.log('templeId:',params['templeId']);
-    //   this.templeName = params['templeName'];
-    //   this.templeNameTelugu = params['templeNameTelugu']
-    //   this.openingTime = params[ 'openingTime' ]
-    //   this.closingTime = params['closingTime'];
-    //   this.image = params['image'];
-    //  this.location = params['location'];
-    //    this.image = params['image']?.startsWith('http') 
-    //     ? params['image'] 
-    //     : 'https://www.ayyappatelugu.com/public/assets/img/temple_images/' + params['image'];
+      this.templeName = params['templeName'];
+      this.templeNameTelugu = params['templeNameTelugu']
+      this.openingTime = params[ 'openingTime' ]
+      this.closingTime = params['closingTime'];
+      this.image = params['image'];
+     this.location = params['location'];
+       this.image = params['image']?.startsWith('http') 
+        ? params['image'] 
+        : 'https://www.ayyappatelugu.com/public/assets/img/temple_images/' + params['image'];
 
-    //     this.linkifiedDescription = this.location.replace(
-    //         /(https?:\/\/[^\s]+)/g,
-    //         '<a href="$1" target="_blank">$1</a>'
-    //             );
+        this.linkifiedDescription = this.location.replace(
+            /(https?:\/\/[^\s]+)/g,
+            '<a href="$1" target="_blank">$1</a>'
+                );
 
        const templeId = params['templeId'];
           if(templeId){

@@ -749,3 +749,19 @@ ion-footer {
   line-height: 18px;          /* adjust based on font-size */
   max-height: 36px;           /* line-height * number of lines */
 }
+
+
+ion-menu-button {
+  --color: #ffffff !important;
+  color: #ffffff !important;
+}
+
+/* ఒకవేళ కేవలం డార్క్ మోడ్‌లో మాత్రమే ఫోర్స్ చేయాలంటే */
+@media (prefers-color-scheme: dark) {
+  ion-toolbar {
+    --color: #ffffff;
+  }
+  ion-menu-button {
+    --color: #ffffff !important;
+  }
+}

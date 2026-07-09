@@ -28,13 +28,20 @@ export class PadayatradetailsComponent  implements OnInit {
 
   ngOnInit() {
      this.route.queryParams.subscribe(params => {
-      this.name = params['Name'];
-      this.description = params['Discription'];
-      this.image = params['Image'];
-       this.image = params['Image']?.startsWith('http') 
-        ? params['Image'] 
-        : 'https://www.ayyappatelugu.com/public/assets/img/padayatrabrundams/' + params['Image'];
+      console.log("PadayatraDetails Opened");
+      console.log("All Params:", params);
+        console.log("Received Image:", params['Image']);
 
+        this.name = params['Name'];
+        this.description = params['Discription'];
+
+        const img = params['Image'];
+
+        this.image = img
+          ? `https://www.ayyappatelugu.com/public/assets/uploads/padayatrabrundams/${img}`
+          : '';
+
+        console.log("Final Image URL:", this.image);
           this.linkifiedDescription = this.description.replace(
             /(https?:\/\/[^\s]+)/g,
             '<a href="$1" target="_blank">$1</a>'

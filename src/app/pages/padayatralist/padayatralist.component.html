@@ -3,10 +3,9 @@
     <ion-buttons slot="start">
      <ion-back-button 
         defaultHref="/home" 
-        color="light"
         text=""
         icon="arrow-back-outline"
-        style="margin-left: 14px;">
+        style="color: white !important; margin-left: 14px;">
   </ion-back-button>
     </ion-buttons>
     <div class="custom-toolbar">
@@ -15,7 +14,7 @@
     </div>
     <ion-buttons slot="end">
       <ion-button (click)="openInfo()">
-        <ion-icon slot="icon-only" name="information-circle-outline"></ion-icon>
+        <ion-icon slot="icon-only" name="information-circle-outline" style="color: white;"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -44,7 +43,7 @@
       <ion-col size="6" *ngFor="let padayatra of filteredList">
         <ion-card class="padayatra-card" (click)="openDetails(padayatra)">
           <div class="img-container">
-            <ion-img [src]="'https://www.ayyappatelugu.com/public/assets/img/padayatrabrundams/' + padayatra.image"></ion-img>
+            <ion-img [src]="'https://www.ayyappatelugu.com/public/assets/uploads/padayatrabrundams/' + padayatra.image"></ion-img>
           </div>
          
 

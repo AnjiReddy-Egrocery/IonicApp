@@ -77,7 +77,7 @@
 .input-item {
   margin-top: 12px;
   border-radius: 8px;
-  background: #fff;
+  background: #fff !important;
   padding: 0 0px;
 }
 
@@ -85,7 +85,7 @@
 .register-btn {
   margin-top: 14px;
   --border-radius: 12px;
-  color: #fff;
+  color: #fff !important;
   font-weight: bold;
 }
 

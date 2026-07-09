@@ -1,7 +1,8 @@
 <ion-header>
   <ion-toolbar color="danger">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/home" color="light" text="" icon="arrow-back-outline"></ion-back-button>
+      <ion-back-button defaultHref="/home" text="" icon="arrow-back-outline"
+        style="color: white !important; margin-left: 14px;"></ion-back-button>
     </ion-buttons>
     <div class="custom-toolbar">
       <h1>స్వామి శరణం అయ్యప్ప</h1>
@@ -21,112 +22,145 @@
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
 
-    <ion-card  #posterCard class="poster-card" *ngFor="let item of images; let i = index" >
-      <swiper-container slides-per-view="1" pagination="true" auto-height="true" observer="true" observe-parents="true">
-        
-        <swiper-slide>
-          <div class="capture-area" [id]="'poster-' + i">
-            <div class="poster-wrapper" >
+    <!-- One card per poster; each card is a 3-design swiper -->
+    <ion-card class="poster-card" *ngFor="let item of images; let i = index">
+      <swiper-container
+        slides-per-view="1"
+        pagination="true"
+        auto-height="true"
+        observer="true"
+        observe-parents="true">
+
+        <!-- ===================================================== -->
+        <!-- SLIDE 1  (poster_slide1) : plain poster + buttons     -->
+        <!-- ===================================================== -->
+
+              <swiper-slide>
+          <div class="capture-area design-3" [id]="'poster-' + i + '-3'">
+            <div class="poster-wrapper">
               <img class="poster-image" [src]="baseUrl + item.image">
               <div class="floating-buttons">
-                <ion-button fill="solid" shape="round" color="light" (click)="sharePoster(i)">
+                <ion-button fill="solid" shape="round" color="light" (click)="sharePoster(i, 3)">
                   <ion-icon name="share-social-outline"></ion-icon>
                 </ion-button>
-                <ion-button fill="solid" shape="round" color="light" (click)="downloadPoster(i)">
+                <ion-button fill="solid" shape="round" color="light" (click)="downloadPoster(i, 3)">
                   <ion-icon name="download-outline"></ion-icon>
                 </ion-button>
               </div>
             </div>
-            <div class="bottom-section">
-              <div class="user-details">
-                <ng-container *ngIf="hasFlyerData(); else uploadBtn">
-                  <h2>{{userName}}</h2>
-                  <p>{{userRole}}</p>
+
+            <div class="bottom-strip strip-left">
+              <span class="orange-line line-top"></span>
+              <span class="orange-line line-bottom"></span>
+
+              <div class="strip-content">
+                <ng-container *ngIf="hasFlyerData(); else uploadBtn3">
+                  <h2 class="name">{{ userName }}</h2>
+                  <p class="role">{{ userRole }}</p>
                 </ng-container>
-                <ng-template #uploadBtn>
-                  <ion-button class="upload-btn" color="warning" (click)="goToUploadDetails()">Upload Details Here</ion-button>
+                <ng-template #uploadBtn3>
+                  <h2 class="name">&nbsp;</h2>
+                  <p class="role">&nbsp;</p>
+                  <ion-button class="upload-btn" color="warning" (click)="goToUploadDetails()">
+                    Upload Details Here
+                  </ion-button>
                 </ng-template>
               </div>
-              <div class="profile-circle" *ngIf="hasFlyerData()">
-                <img [src]="profileImage" class="profile-image">
+
+              <div class="profile-circle">
+                <img [src]="hasFlyerData() ? profileImage : '../../../assets/userimage.png'"
+                  class="profile-image">
+              </div>
+            </div>
+          </div>
+        </swiper-slide>
+       
+
+        <!-- ===================================================== -->
+        <!-- SLIDE 2  (poster_slide2) : centered name/designation  -->
+        <!-- ===================================================== -->
+        <swiper-slide>
+          <div class="capture-area design-2" [id]="'poster-' + i + '-2'">
+            <div class="poster-wrapper">
+              <img class="poster-image" [src]="baseUrl + item.image">
+              <div class="floating-buttons">
+                <ion-button fill="solid" shape="round" color="light" (click)="sharePoster(i, 2)">
+                  <ion-icon name="share-social-outline"></ion-icon>
+                </ion-button>
+                <ion-button fill="solid" shape="round" color="light" (click)="downloadPoster(i, 2)">
+                  <ion-icon name="download-outline"></ion-icon>
+                </ion-button>
+              </div>
+            </div>
+
+            <div class="bottom-strip strip-centered">
+              <span class="orange-line line-top"></span>
+              <span class="orange-line line-bottom"></span>
+
+              <div class="strip-content">
+                <ng-container *ngIf="hasFlyerData(); else uploadBtn2">
+                  <h2 class="name">{{ userName }}</h2>
+                  <p class="role">{{ userRole }}</p>
+                </ng-container>
+                <ng-template #uploadBtn2>
+                  <ion-button class="upload-btn" color="warning" (click)="goToUploadDetails()">
+                    Upload Details Here
+                  </ion-button>
+                </ng-template>
               </div>
             </div>
           </div>
         </swiper-slide>
 
-        </swiper-container>
+        <!-- ===================================================== -->
+        <!-- SLIDE 3  (poster_slide3) : name left + profile right  -->
+        <!-- ===================================================== -->
+  
+      <swiper-slide>
+          <div class="capture-area design-1" [id]="'poster-' + i + '-1'">
+            <div class="poster-wrapper">
+              <img class="poster-image" [src]="baseUrl + item.image">
+              <div class="floating-buttons">
+                <ion-button fill="solid" shape="round" color="light" (click)="sharePoster(i, 1)">
+                  <ion-icon name="share-social-outline"></ion-icon>
+                </ion-button>
+                <ion-button fill="solid" shape="round" color="light" (click)="downloadPoster(i, 1)">
+                  <ion-icon name="download-outline"></ion-icon>
+                </ion-button>
+              </div>
+            </div>
+          </div>
+        </swiper-slide>
+      </swiper-container>
     </ion-card>
   </div>
 
   <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMore($event)">
-    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more posters..."></ion-infinite-scroll-content>
+    <ion-infinite-scroll-content loadingSpinner="bubbles"
+      loadingText="Loading more posters..."></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>
 
-<ion-footer
-  slot="fixed"
-  class="custom-footer">
-
+<ion-footer slot="fixed" class="custom-footer">
   <ion-toolbar class="custom-footer-toolbar">
-
     <ion-grid>
-
-      <ion-row
-        class="ion-align-items-center ion-justify-content-center">
-
-        <ion-col
-          size="auto"
-          (click)="goToAnadanam()">
-
+      <ion-row class="ion-align-items-center ion-justify-content-center">
+        <ion-col size="auto" (click)="goToAnadanam()">
           <div class="icon-text-row">
-
-            <ion-img
-              src="../../../assets/location.png"
-              class="bottom-icon">
-            </ion-img>
-
-            <p class="bottom-text">
-              అన్నదానం
-            </p>
-
+            <ion-img src="../../../assets/location.png" class="bottom-icon"></ion-img>
+            <p class="bottom-text">అన్నదానం</p>
           </div>
-
         </ion-col>
-
-        <ion-col
-          class="ion-text-center"
-          size="2.4">
-
-          <ion-img
-            src="../../../assets/bottomcenter.png"
-            class="bottom-icon">
-          </ion-img>
-
+        <ion-col class="ion-text-center" size="2.4">
+          <ion-img src="../../../assets/bottomcenter.png" class="bottom-icon"></ion-img>
         </ion-col>
-
-        <ion-col
-          size="auto"
-          (click)="goToNityaPooja()">
-
+        <ion-col size="auto" (click)="goToNityaPooja()">
           <div class="text-image-row">
-
-            <p class="bottom-text">
-              నిత్య పూజ
-            </p>
-
-            <ion-img
-              src="../../../assets/nithyapooja.png"
-              class="bottom-icon">
-            </ion-img>
-
+            <p class="bottom-text">నిత్య పూజ</p>
+            <ion-img src="../../../assets/nithyapooja.png" class="bottom-icon"></ion-img>
           </div>
-
         </ion-col>
-
       </ion-row>
-
     </ion-grid>
-
   </ion-toolbar>
-
 </ion-footer>

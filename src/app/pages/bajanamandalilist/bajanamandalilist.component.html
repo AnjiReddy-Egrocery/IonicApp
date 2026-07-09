@@ -43,7 +43,7 @@
       <ion-col size="6" *ngFor="let bajana of filteredList">
         <ion-card class="bajana-card" (click)="openDetails(bajana)">
           <div class="img-container">
-            <ion-img [src]="imageUrl + bajana.profilePic"></ion-img>
+            <ion-img [src]="'https://www.ayyappatelugu.com/public/assets/user_images/' + bajana.profilePic"></ion-img> 
           </div>
          
 
