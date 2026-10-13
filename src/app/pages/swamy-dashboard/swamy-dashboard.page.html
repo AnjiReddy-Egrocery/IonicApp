@@ -150,30 +150,63 @@
 </ion-header>
 
     <ion-content fullscreen>
+
+       <app-pinch-zoom>
     
        <div class="container">
 
-          <div class="container home-bg">
+          <!-- ================= HERO SECTION (dynamic: APICalls/banner-images) ================= -->
+          <section class="hero" *ngIf="heroBanners.length">
+            <div class="hero-track" #heroTrack (scroll)="onHeroScroll()" (touchstart)="stopHeroAutoSlide()" (touchend)="startHeroAutoSlide()">
+              <div class="hero-slide" *ngFor="let b of heroBanners" [class.clickable]="!!b.buttonUrl1" (click)="openLink(b.buttonUrl1)">
+                <!-- image (19:6) with text + buttons overlaid on it -->
+                <img class="hero-img" [src]="heroBaseUrl + b.image" alt="" />
 
-                <!-- First Section (Image + Text) -->
-                <div class="nityapooja-card" (click)="goToNityaPooja()">
-                  <ion-img src="../../../assets/ayyappaphome.png" class="nityapooja-img"></ion-img>
-                  <h2 class="nityapooja-title">అయ్యప్ప స్వామి నిత్యపూజా విధానం</h2>
+                <!-- overlay at image bottom-middle: title + subtitle (light box), buttons below -->
+                <div class="hero-panel">
+                  <div class="hero-text">
+                    <h2 class="hero-title" *ngIf="b.title">{{ b.title }}</h2>
+                    <p class="hero-subtitle" *ngIf="b.description">{{ b.description }}</p>
+                  </div>
+
+                  <div class="hero-actions" *ngIf="b.buttonText1 && b.buttonUrl1 || b.buttonText2 && b.buttonUrl2">
+                    <span class="hero-btn primary" *ngIf="b.buttonText1 && b.buttonUrl1"
+                          (click)="openLink(b.buttonUrl1); $event.stopPropagation()">{{ b.buttonText1 }} &nbsp;›</span>
+                    <span class="hero-btn secondary" *ngIf="b.buttonText2 && b.buttonUrl2"
+                          (click)="openLink(b.buttonUrl2); $event.stopPropagation()">{{ b.buttonText2 }}</span>
+                  </div>
                 </div>
-
-                <!-- Second Section (Below Image) -->
-                <div class="below-img">
-                  <ion-img src="../../../assets/ayyappa_below.png"></ion-img>
-                </div>
-
-                <!-- Third Section (Image + Text) -->
-                <div class="sharanughosha-card" (click)="goToSharanughosha()">
-                  <ion-img src="../../../assets/background.jpeg" class="sharanughosha-img"></ion-img>
-                  <h2 class="sharanughosha-title">శరణుఘొష</h2>
-                </div>
-
               </div>
-             <ion-card class="anadanam-card anadanamno-gap-card" (click)="goToAnadanam()" style="margin-top: 30px; margin-bottom: -15px;">
+            </div>
+
+            <!-- gold separator line under the hero -->
+            <div class="hero-divider"></div>
+
+            <div class="hero-dots" *ngIf="heroBanners.length > 1">
+              <span *ngFor="let x of heroBanners; let i = index" class="hero-dot" [class.active]="i === heroIndex" (click)="goToHeroSlide(i)"></span>
+            </div>
+          </section>
+
+          <!-- ================= THREE TILES under hero ================= -->
+          <div class="hero-boxes">
+            <div class="hero-tile" (click)="goToNityaPooja()">
+              <img class="tile-img ring" src="assets/ayyappaphome.png" alt="" />
+              <span class="tile-text">అయ్యప్ప స్వామి<br/>నిత్యపూజా విధానం</span>
+            </div>
+
+            <div class="hero-tile" (click)="goToSharanughosha()">
+              <img class="tile-img" src="assets/background.jpeg" alt="" />
+              <span class="tile-text">శరణుఘోష</span>
+            </div>
+
+            <div class="hero-tile" (click)="goToToures()">
+              <img class="tile-img ring" src="assets/shabarimalayatra.png" alt="" />
+              <span class="tile-text">శబరిమల యాత్ర</span>
+              <span class="price-chip">₹9,999/-</span>
+            </div>
+          </div>
+
+          <ion-card class="anadanam-card anadanamno-gap-card" (click)="goToAnadanam()" style="margin-top: 30px; margin-bottom: -15px;">
                 <ion-grid class="anadanamno-gap-card">
                   <ion-row class="ion-align-items-center ion-no-padding">
 
@@ -196,15 +229,15 @@
                 </ion-grid>
               </ion-card>
 
-              <ion-card class="abacus-card no-gap-card" (click)="goToAnadanam()">
-                <ion-grid class="no-gap-grid">
-                  <ion-row>
-                    <ion-col>
-                      <ion-img src="../../../assets/abacusad.png" class="ad-image"></ion-img>
-                    </ion-col>
-                  </ion-row>
-                </ion-grid>
-              </ion-card>
+              <!-- ================= ADS CAROUSEL (dynamic, hidden when API has no data) ================= -->
+              <div class="ads-wrap" *ngIf="ads.length">
+                <div class="ads-track" #adsTrack (scroll)="onAdsScroll()" (touchstart)="stopAdsAutoSlide()" (touchend)="startAdsAutoSlide()">
+                  <img *ngFor="let ad of ads" class="ads-img" [src]="adsBaseUrl + ad.image" alt="" (click)="openAd(ad.adimageUrl)" />
+                </div>
+                <div class="ads-dots" *ngIf="ads.length > 1">
+                  <span *ngFor="let a of ads; let i = index" class="ads-dot" [class.active]="i === adsIndex"></span>
+                </div>
+              </div>
 
                 <ion-grid class="two-card-row">
                     <ion-row class="ion-no-padding ion-align-items-center">
@@ -230,27 +263,7 @@
                     </ion-row>
                   </ion-grid>
 
-                  <ion-grid>
-                    <ion-row class="ion-no-padding ion-align-items-center">
-                      <ion-col size="12">
-                        <ion-card class="yatra-card" (click)="goToToures()">
-                          <div class="yatracard-content">
-                            
-                            <!-- Image Left -->
-                            <ion-img src="../../../assets/shabarimalayatra.png" class="yatra-img"></ion-img>
-                            
-                            <!-- Text Right -->
-                            <div class="yatra-text">
-                              <h2 class="guru-title">శబరిమల యాత్ర</h2>
-                              <h4>Package Starts From</h4>
-                              <h6>9,999/-</h6>
-                            </div>
-
-                          </div>
-                        </ion-card>
-                      </ion-col>
-                    </ion-row>
-                  </ion-grid>
+                  
 
                    <div>
                           <div class="header-container">
@@ -409,6 +422,8 @@
                      
 
         </div>
+
+         </app-pinch-zoom>
       
     </ion-content>
      

@@ -166,3 +166,98 @@
   filter: brightness(0) !important;
   opacity: 1 !important;
 }
+
+/* =====================================================================
+   INFO CARD — same design as Android custom_info_window.xml
+   (card is created in TS inside the map, so ::ng-deep is required)
+   ===================================================================== */
+:host ::ng-deep .an-card {
+  width: min(300px, calc(100vw - 32px));      /* max 300, screen - 16px each side */
+  box-sizing: border-box;
+  background: #fff;
+  border: 1px solid #9E9494;
+  border-radius: 8px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);  /* elevation 6dp */
+  font-family: Roboto, Arial, 'Noto Sans Telugu', sans-serif;
+  color: #000;
+  cursor: default;
+}
+
+:host ::ng-deep .an-card .an-body { padding: 12px; }
+
+:host ::ng-deep .an-card .an-head {
+  display: flex;
+  align-items: flex-start;
+}
+:host ::ng-deep .an-card .an-title {
+  flex: 1;
+  font-size: 16px;
+  font-weight: bold;
+  color: #000;
+}
+:host ::ng-deep .an-card .an-close {
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  margin: -6px -6px 0 0;
+  padding: 8px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+:host ::ng-deep .an-card .an-close:active { background: rgba(0, 0, 0, 0.1); }
+
+:host ::ng-deep .an-card .an-loc {
+  margin-top: 8px;
+  text-align: center;
+  font-size: 14px;
+  color: #000;
+}
+
+:host ::ng-deep .an-card .an-times-title {
+  margin-top: 8px;
+  margin-left: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #000;
+}
+
+:host ::ng-deep .an-card .an-row {
+  display: flex;
+  margin-top: 8px;
+}
+:host ::ng-deep .an-card .an-cell {
+  flex: 1;
+  font-size: 14px;
+  color: #000;
+}
+:host ::ng-deep .an-card .an-cell-first { margin-left: 5px; }
+
+:host ::ng-deep .an-card .an-nav-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+/* Start Navigation button (navigation_bg: blue guess — send navigation_bg.xml for exact) */
+:host ::ng-deep .an-card .an-nav-btn {
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  background: #3C54DA;
+  border-radius: 8px;
+  cursor: pointer;
+}
+:host ::ng-deep .an-card .an-nav-btn span {
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+}
+:host ::ng-deep .an-card .an-nav-btn img {
+  width: 32px;
+  height: 32px;
+  filter: brightness(0) invert(1);            /* white icon (navigation_icon_white) */
+}

@@ -21,6 +21,7 @@
 </ion-header>
 
 <ion-content fullscreen>
+   
   <div class="container">
  <div class="header-container">
     <span class="header-title">న్యూస్</span>
@@ -33,7 +34,7 @@
   <ion-refresher slot="fixed" (ionRefresh)="refreshList($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-
+<app-pinch-zoom>
   <!-- List of activities -->
   <ion-grid>
     <ion-row>
@@ -52,10 +53,9 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-
+</app-pinch-zoom>
   </div>
- 
-
+  
 </ion-content>
 
  <ion-footer slot="fixed" class="custom-footer">

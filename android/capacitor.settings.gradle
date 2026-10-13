@@ -41,6 +41,9 @@ project(':capacitor-keyboard').projectDir = new File('../node_modules/@capacitor
 include ':capacitor-local-notifications'
 project(':capacitor-local-notifications').projectDir = new File('../node_modules/@capacitor/local-notifications/android')
 
+include ':capacitor-preferences'
+project(':capacitor-preferences').projectDir = new File('../node_modules/@capacitor/preferences/android')
+
 include ':capacitor-push-notifications'
 project(':capacitor-push-notifications').projectDir = new File('../node_modules/@capacitor/push-notifications/android')
 
@@ -55,3 +58,6 @@ project(':capacitor-status-bar').projectDir = new File('../node_modules/@capacit
 
 include ':whiteguru-capacitor-plugin-video-editor'
 project(':whiteguru-capacitor-plugin-video-editor').projectDir = new File('../node_modules/@whiteguru/capacitor-plugin-video-editor/android')
+
+include ':ayyappavideomerger'
+project(':ayyappavideomerger').projectDir = new File('../video-merger/AyyappaVideoMerger/ayyappa-video-merger/android')

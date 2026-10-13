@@ -5,6 +5,7 @@ import { IonicModule, MenuController, ModalController } from '@ionic/angular';
 import { CommonModule } from '@angular/common'; 
 import { AyyappakrayakramamService } from 'src/app/services/ayyappakrayakramam-service';
 import { InfoDialogComponent } from 'src/app/info-dialog/info-dialog.component';
+import { PinchZoomComponent } from 'src/app/components/pinch-zoom/pinch-zoom.component';
 
 @Component({
   selector: 'app-ayyappakaryam',
@@ -15,6 +16,7 @@ import { InfoDialogComponent } from 'src/app/info-dialog/info-dialog.component';
     IonicModule,      // ✅ required for all ion-* components
     FormsModule,      // ✅ required for [(ngModel)]
     CommonModule,
+    PinchZoomComponent
   ]
 })
 export class AyyappakaryamComponent{

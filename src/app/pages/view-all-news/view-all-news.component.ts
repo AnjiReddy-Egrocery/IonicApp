@@ -5,6 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { IonicModule, MenuController, ModalController } from '@ionic/angular';
 import { NewsDialogComponent } from 'src/app/components/news-dialog/news-dialog.component';
+import { PinchZoomComponent } from 'src/app/components/pinch-zoom/pinch-zoom.component';
 import { InfoDialogComponent } from 'src/app/info-dialog/info-dialog.component';
 import { News } from 'src/app/services/news';
 
@@ -17,6 +18,7 @@ import { News } from 'src/app/services/news';
     IonicModule,      // ✅ required for all ion-* components
     FormsModule,      // ✅ required for [(ngModel)]
     CommonModule,
+    PinchZoomComponent
   ]
 })
 export class ViewAllNewsComponent  implements OnInit {

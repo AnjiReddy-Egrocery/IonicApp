@@ -1,0 +1,49 @@
+<ion-header>
+
+  <ion-toolbar color="primary">
+
+    <ion-title>
+      Nearby Places
+    </ion-title>
+
+    <ion-buttons slot="end">
+
+      <ion-button (click)="close()">
+
+        Close
+
+      </ion-button>
+
+    </ion-buttons>
+
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+
+  <ion-list>
+
+    <ion-item
+      *ngFor="let item of places"
+    >
+
+      <ion-label>
+
+        <h2>
+          {{item.templeName || item.annadhanamName}}
+        </h2>
+
+        <p>
+
+          {{item.distance | number:'1.1-1'}} KM
+
+        </p>
+
+      </ion-label>
+
+    </ion-item>
+
+  </ion-list>
+
+</ion-content>

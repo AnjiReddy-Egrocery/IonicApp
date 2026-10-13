@@ -16,6 +16,8 @@
 </ion-header>
 <ion-content class="ion-padding guru-details-content">
 
+   <app-pinch-zoom>
+
   <!-- Image + Name + Details -->
   <div class="details-header">
     <div class="header-container">
@@ -60,7 +62,7 @@
     <span class="label">వివరణ</span>
     <div class="description" [innerHTML]="linkifiedDescription"></div>
 </ion-card-content>
-
+</app-pinch-zoom>
 </ion-content>
 
  <ion-footer slot="fixed" class="custom-footer">

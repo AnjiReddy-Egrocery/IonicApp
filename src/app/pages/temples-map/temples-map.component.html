@@ -18,4 +18,45 @@
   </div>
 </ion-fab>
 
+<!-- Find Nearest Temples button -->
+<ion-fab vertical="bottom" horizontal="start" slot="fixed" class="nearest-fab">
+  <button type="button" class="nearest-btn" (click)="findNearestTemples()">Find Nearest Temples</button>
+</ion-fab>
 
+<!-- Nearest temples dialog: radius radio buttons + list -->
+<ion-modal [isOpen]="showNearby" (didDismiss)="closeNearby()" class="nearby-modal" [backdropDismiss]="true">
+  <ng-template>
+    <div class="nearby-dialog">
+      <div class="nearby-head">
+        <div class="nearby-title">Nearest Temples</div>
+        <button type="button" class="nearby-close" aria-label="Close" (click)="closeNearby()">
+          <svg viewBox="0 0 24 24" width="24" height="24"><path fill="#555" d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </div>
+
+      <div class="nearby-radios">
+        <label class="radius-opt" *ngFor="let r of radiusOptions">
+          <input type="radio" name="radius" [value]="r" [checked]="selectedRadius === r" (change)="selectRadius(r)" />
+          <span class="radius-dot"></span>
+          <span class="radius-text">{{ r }} km</span>
+        </label>
+      </div>
+
+      <div class="nearby-list">
+        <div class="nearby-empty" *ngIf="!nearbyTemples.length">No temples found within {{ selectedRadius }} km.</div>
+
+        <div class="nearby-item" *ngFor="let t of nearbyTemples">
+          <div class="nearby-info">
+            <div class="nearby-name">{{ t.templeNameTelugu || t.templeName }}</div>
+            <div class="nearby-loc">{{ t.location }}</div>
+            <div class="nearby-dist">{{ t.distanceKm | number:'1.1-1' }} km away</div>
+          </div>
+          <div class="tp-nav-btn nearby-nav" (click)="navigateToTemple(t)">
+            <span>Navigate</span>
+            <img src="assets/navigation_icon.png" alt="" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</ion-modal>

@@ -1,18 +1,35 @@
 import { Injectable } from '@angular/core';
 import { Geolocation } from '@capacitor/geolocation';
 import { LocalNotifications } from '@capacitor/local-notifications';
+import { Preferences } from '@capacitor/preferences';
+
 import { Anadanam } from './anadanam';
 import { Ayyappatemplelist } from './ayyappatemplelist';
 import { Templelist } from './templelist';
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class LocationTracker {
- notified = new Set<string>();
+  private nearbyPlaces: any[] = [];
 
- watchId: any;
+getNearbyPlaces(): any[] {
+  return this.nearbyPlaces;
+}
+
+  private watchId: string | null = null;
+
+  // Prevent duplicate notifications
+  private notified = new Set<string>();
+
+  // API Cache
+  private annadanamList: any[] = [];
+  private templeList: any[] = [];
+  private ayyappaTempleList: any[] = [];
+
+  // Notification interval
+  private lastNotificationTime = 0;
+  private readonly NOTIFICATION_INTERVAL = 5 * 60 * 1000; // 5 Minutes
 
   constructor(
     private anadanamService: Anadanam,
@@ -20,371 +37,326 @@ export class LocationTracker {
     private ayyappaTempleService: Templelist
   ) {}
 
-  async startTracking(type: string) {
+  async startTracking(type: 'annadanam' | 'temple' | 'ayyappa') {
 
-    const notifyPerm =
+    if (this.watchId) {
+      return;
+    }
+
     await LocalNotifications.requestPermissions();
+    await Geolocation.requestPermissions();
 
-      console.log(
-        'Notification Permission:',
-        notifyPerm
-      );
+    // Load API only once
+    if (type === 'annadanam' && this.annadanamList.length === 0) {
+      const res = await this.anadanamService.getMapList();
+      this.annadanamList = res?.result || [];
+    }
 
-      const locationPerm =
-          await Geolocation.requestPermissions();
+    if (type === 'temple' && this.templeList.length === 0) {
+      const res = await this.templeService.getTempleList();
+      this.templeList = res?.result || [];
+    }
 
-      console.log(
-        'Location Permission:',
-        locationPerm
-      );
-   this.watchId =  Geolocation.watchPosition(
+    if (type === 'ayyappa' && this.ayyappaTempleList.length === 0) {
+      const res = await this.ayyappaTempleService.getTempleList();
+      this.ayyappaTempleList = res?.result || [];
+    }
 
+    this.watchId = await Geolocation.watchPosition(
       {
-        enableHighAccuracy:true,
-        timeout:10000
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 5000
       },
+      async (position, err) => {
 
-      async(position,err)=>{
-
-        if(err || !position){
+        if (err || !position) {
           console.log(err);
           return;
         }
 
-        const userLat =
-        position.coords.latitude;
+        const userLat = position.coords.latitude;
+        const userLng = position.coords.longitude;
 
-        const userLng =
-        position.coords.longitude;
+        console.log(
+          'USER LOCATION',
+          userLat,
+          userLng
+        );
 
-                  console.log(
-            'USER LOCATION:',
-            userLat,
-            userLng
-          );
+        switch (type) {
 
-                if (type === 'annadanam') {
+          case 'annadanam':
+            await this.checkAnnadanam(userLat, userLng);
+            break;
 
-            await this.checkAnnadanam(
-              userLat,
-              userLng
-            );
+          case 'temple':
+            await this.checkTemples(userLat, userLng);
+            break;
 
-          }
+          case 'ayyappa':
+            await this.checkAyyappaTemples(userLat, userLng);
+            break;
 
-          if (type === 'temple') {
-
-            await this.checkTemples(
-              userLat,
-              userLng
-            );
-
-          }
-
-          if (type === 'ayyappa') {
-
-            await this.checkAyyappaTemples(
-              userLat,
-              userLng
-            );
-
-          }
+        }
 
       }
-
     );
 
   }
+    async checkAnnadanam(
+    userLat: number,
+    userLng: number
+  ) {
 
-  async checkAnnadanam(
-    userLat:number,
-    userLng:number
-  ){
+    const nearbyList: any[] = [];
 
-    const response =
-    await this.anadanamService
-    .getMapList();
+    this.annadanamList.forEach((item: any) => {
 
-    response.result?.forEach(
-      (item:any)=>{
-
-      this.processDistance(
-
+      const distance = this.calculateDistance(
         userLat,
         userLng,
-
         Number(item.latitude),
-        Number(item.longitude),
-
-        'ANNA_'+
-        item.annadhanamId,
-
-        item.annadhanamName,
-
-        '/anadanam',
-
-        '🍛 Annadanam'
-
+        Number(item.longitude)
       );
 
+      console.log(
+        `${item.annadhanamName} = ${distance.toFixed(2)} KM`
+      );
+
+      if (distance <= 5) {
+
+        nearbyList.push({
+          ...item,
+          distance
+        });
+
+      }
+
     });
+
+    if (nearbyList.length > 0) {
+
+      await this.sendNearbyNotification(
+        '🍛 Annadanam',
+        nearbyList,
+        '/anadanam'
+      );
+
+    }
 
   }
 
   async checkTemples(
-    userLat:number,
-    userLng:number
-  ){
+    userLat: number,
+    userLng: number
+  ) {
 
-    const response =
-    await this.templeService
-    .getTempleList();
+    const nearbyList: any[] = [];
 
-    response.result?.forEach(
-      (item:any)=>{
+    this.templeList.forEach((item: any) => {
 
-      this.processDistance(
-
+      const distance = this.calculateDistance(
         userLat,
         userLng,
-
         Number(item.latitude),
-        Number(item.longitude),
-
-        'TEMP_'+
-        item.templeId,
-
-        item.templeName,
-
-        '/temples',
-
-        '🏛 Temple'
-
+        Number(item.longitude)
       );
 
+      console.log(
+        `${item.templeName} = ${distance.toFixed(2)} KM`
+      );
+
+      if (distance <= 5) {
+
+        nearbyList.push({
+          ...item,
+          distance
+        });
+
+      }
+
     });
+
+    if (nearbyList.length > 0) {
+
+      await this.sendNearbyNotification(
+        '🏛 Temple',
+        nearbyList,
+        '/temples'
+      );
+
+    }
 
   }
 
   async checkAyyappaTemples(
-    userLat:number,
-    userLng:number
-  ){
+    userLat: number,
+    userLng: number
+  ) {
 
-    const response =
-    await this.ayyappaTempleService
-    .getTempleList();
+    const nearbyList: any[] = [];
 
-    response.result?.forEach(
-      (item:any)=>{
+    this.ayyappaTempleList.forEach((item: any) => {
 
-      this.processDistance(
-
+      const distance = this.calculateDistance(
         userLat,
         userLng,
-
         Number(item.latitude),
-        Number(item.longitude),
-
-        'AYY_'+
-        item.templeId,
-
-        item.templeName,
-
-        '/ayyappatemples',
-
-        '🙏 Ayyappa Temple'
-
+        Number(item.longitude)
       );
+
+      console.log(
+        `${item.templeName} = ${distance.toFixed(2)} KM`
+      );
+
+      if (distance <= 5) {
+
+        nearbyList.push({
+          ...item,
+          distance
+        });
+
+      }
 
     });
 
-  }
+    if (nearbyList.length > 0) {
 
-  processDistance(
-
-    userLat:number,
-    userLng:number,
-
-    lat:number,
-    lng:number,
-
-    id:string,
-
-    name:string,
-
-    route:string,
-
-    title:string
-
-  ){
-
-    const distance =
-    this.calculateDistance(
-
-      userLat,
-      userLng,
-
-      lat,
-      lng
-
-    );
-
-    console.log(
-  `${name} Distance = ${distance} KM`
-);
-    const fiveKm =
-    id+'_5';
-
-    const twoKm =
-    id+'_2';
-
-    if(
-      distance<=5 &&
-      !this.notified.has(
-        fiveKm
-      )
-    ){
-
-      this.notified.add(
-        fiveKm
-      );
-
-      this.sendNotification(
-
-        title,
-
-        `${name}
-        5KM దగ్గరలో ఉంది`,
-
-        route
-
-      );
-
-    }
-
-    if(
-      distance<=2 &&
-      !this.notified.has(
-        twoKm
-      )
-    ){
-
-      this.notified.add(
-        twoKm
-      );
-
-      this.sendNotification(
-
-        title,
-
-        `${name}
-        2KM లో ఉంది`,
-
-        route
-
+      await this.sendNearbyNotification(
+        '🙏 Ayyappa Temple',
+        nearbyList,
+        '/ayyappatemples'
       );
 
     }
 
   }
-
-  calculateDistance(
-
-    lat1:number,
-    lon1:number,
-
-    lat2:number,
-    lon2:number
-
-  ){
+    calculateDistance(
+    lat1: number,
+    lon1: number,
+    lat2: number,
+    lon2: number
+  ): number {
 
     const R = 6371;
 
-    const dLat =
-    (lat2-lat1)
-    *Math.PI/180;
-
-    const dLon =
-    (lon2-lon1)
-    *Math.PI/180;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
 
     const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1 * Math.PI / 180) *
+      Math.cos(lat2 * Math.PI / 180) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
 
-    Math.sin(
-      dLat/2
-    ) *
-    Math.sin(
-      dLat/2
-    )
-
-    +
-
-    Math.cos(
-      lat1*Math.PI/180
-    )
-
-    *
-
-    Math.cos(
-      lat2*Math.PI/180
-    )
-
-    *
-
-    Math.sin(
-      dLon/2
-    )
-
-    *
-
-    Math.sin(
-      dLon/2
-    );
-
-    const c =
-
-    2*
-    Math.atan2(
+    const c = 2 * Math.atan2(
       Math.sqrt(a),
-      Math.sqrt(1-a)
+      Math.sqrt(1 - a)
     );
 
-    return R*c;
+    return R * c;
 
   }
 
-  async sendNotification(
+  async sendNearbyNotification(
 
-    title:string,
+    title: string,
 
-    body:string,
+    nearbyList: any[],
 
-    route:string
+    route: string
 
-  ){
+  ) {
 
-    await LocalNotifications
-    .schedule({
+    if (nearbyList.length === 0) {
+      return;
+    }
 
-      notifications:[
+    // Sort nearest first
+    nearbyList.sort((a, b) => a.distance - b.distance);
+
+    // Prevent notification spam (5 minutes)
+    const now = Date.now();
+
+    if (
+      now - this.lastNotificationTime <
+      this.NOTIFICATION_INTERVAL
+    ) {
+      return;
+    }
+
+    this.lastNotificationTime = now;
+
+    // Save nearby list
+    this.nearbyPlaces = nearbyList
+    await Preferences.set({
+
+      key: 'nearby_places',
+
+      value: JSON.stringify(nearbyList)
+
+    });
+
+    // Save route
+    await Preferences.set({
+
+      key: 'nearby_route',
+
+      value: route
+
+    });
+
+    const nearest = nearbyList[0];
+
+    let body = '';
+
+    if (nearbyList.length === 1) {
+
+      body =
+        `${nearest.templeName ||
+        nearest.annadhanamName}
+        
+${nearest.distance.toFixed(1)} KM దూరంలో ఉంది`;
+
+    } else {
+
+      body =
+        `${nearbyList.length} places మీ సమీపంలో ఉన్నాయి.
+        
+Nearest:
+${nearest.templeName ||
+nearest.annadhanamName}
+
+${nearest.distance.toFixed(1)} KM`;
+
+    }
+
+    await LocalNotifications.schedule({
+
+      notifications: [
 
         {
 
-          id:Date.now(),
+          id: 1001,
 
-          title:title,
+          title,
 
-          body:body,
+          body,
 
-          extra:{
-            route:route
+          extra: {
+
+            route,
+
+            count: nearbyList.length
+
           },
 
-          schedule:{
+          schedule: {
 
-            at:new Date(
-              Date.now()+1000
+            at: new Date(
+              Date.now() + 1000
             )
 
           }
@@ -395,14 +367,96 @@ export class LocationTracker {
 
     });
 
+    console.log(
+      'Notification Sent',
+      nearbyList.length
+    );
+
+  }
+    /**
+   * Stop Location Tracking
+   */
+  async stopTracking(): Promise<void> {
+
+    try {
+
+      if (this.watchId) {
+
+        await Geolocation.clearWatch({
+          id: this.watchId
+        });
+
+        console.log('✅ Location tracking stopped');
+
+        this.watchId = null;
+      }
+
+    } catch (e) {
+
+      console.error('Stop Tracking Error', e);
+
+    }
+
   }
 
-  stopTracking() {
-  if (this.watchId) {
-    Geolocation.clearWatch({
-      id: this.watchId
-    });
+  /**
+   * Clear all delivered notifications
+   */
+  async clearNotifications(): Promise<void> {
+
+    try {
+
+      await LocalNotifications.removeAllDeliveredNotifications();
+
+      console.log('✅ Notifications Cleared');
+
+    } catch (e) {
+
+      console.error(e);
+
+    }
+
   }
-}
+
+  /**
+   * Clear API cache
+   */
+  clearCache(): void {
+
+    this.annadanamList = [];
+    this.templeList = [];
+    this.ayyappaTempleList = [];
+
+    this.notified.clear();
+
+    console.log('✅ Cache Cleared');
+
+  }
+
+  /**
+   * Reset complete tracker
+   */
+  async resetTracking(): Promise<void> {
+
+    await this.stopTracking();
+
+    await this.clearNotifications();
+
+    this.clearCache();
+
+    this.lastNotificationTime = 0;
+    this.nearbyPlaces = [];
+
+    await Preferences.remove({
+      key: 'nearby_places'
+    });
+
+    await Preferences.remove({
+      key: 'nearby_route'
+    });
+
+    console.log('✅ Tracker Reset Completed');
+
+  }
 
 }

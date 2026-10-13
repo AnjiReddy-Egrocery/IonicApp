@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonicModule, ModalController, ToastController } from '@ionic/angular';
+import { PinchZoomComponent } from 'src/app/components/pinch-zoom/pinch-zoom.component';
 import { TourseDialogComponent } from 'src/app/components/tourse-dialog/tourse-dialog.component';
 import { InfoDialogComponent } from 'src/app/info-dialog/info-dialog.component';
 import { Yatralu } from 'src/app/services/yatralu';
@@ -17,6 +18,7 @@ import { Yatralu } from 'src/app/services/yatralu';
       IonicModule,      // ✅ required for all ion-* components
       FormsModule,      // ✅ required for [(ngModel)]
       CommonModule,
+      PinchZoomComponent
     ]
 })
 export class TourespageComponent  implements OnInit {

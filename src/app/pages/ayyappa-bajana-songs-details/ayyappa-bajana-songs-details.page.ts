@@ -5,6 +5,7 @@ import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/stan
 import { IonicModule } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
+import { PinchZoomComponent } from 'src/app/components/pinch-zoom/pinch-zoom.component';
 
 @Component({
   selector: 'app-ayyappa-bajana-songs-details',
@@ -15,6 +16,7 @@ import { DomSanitizer } from '@angular/platform-browser';
       IonicModule,      // ✅ required for all ion-* components
       FormsModule,      // ✅ required for [(ngModel)]
       CommonModule,
+      PinchZoomComponent
     ]
 })
 export class AyyappaBajanaSongsDetailsPage implements OnInit {

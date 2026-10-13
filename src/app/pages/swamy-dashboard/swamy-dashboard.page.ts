@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
@@ -8,16 +8,18 @@ import { News } from 'src/app/services/news';
 import { Templelist } from 'src/app/services/templelist';
 import { Ayyappatemplelist } from 'src/app/services/ayyappatemplelist';
 import { Auth } from 'src/app/services/auth';
+import { Ads, AdItem, BannerItem } from 'src/app/services/ads';
 import { App } from '@capacitor/app';
+import { PinchZoomComponent } from 'src/app/components/pinch-zoom/pinch-zoom.component';
 
 @Component({
   selector: 'app-swamy-dashboard',
   templateUrl: './swamy-dashboard.page.html',
   styleUrls: ['./swamy-dashboard.page.scss'],
   standalone: true,
- imports: [IonicModule, CommonModule],
+ imports: [IonicModule, CommonModule,PinchZoomComponent],
 })
-export class SwamyDashboardPage {
+export class SwamyDashboardPage implements OnInit, OnDestroy {
 
    newsList: any[] = [];
      name: string = '';
@@ -28,13 +30,164 @@ export class SwamyDashboardPage {
               @ViewChild('ayyappatempleScroll', { read: ElementRef }) ayyappatempleScroll!: ElementRef;
 
 
+
+  // ---------- Hero section (static data, same as Android HomeActivity) ----------
+  @ViewChild('heroTrack') heroTrack?: ElementRef<HTMLDivElement>;
+  heroIndex = 0;
+  private heroTimer: any = null;
+  private readonly HERO_AUTO_SLIDE_MS = 4000;
+
+  heroBanners: BannerItem[] = [];
+  heroBaseUrl = '';
+
+  async loadHero() {
+    try {
+      const res = await this.adsService.getBannerImages();
+      if (res && res.errorCode === '200' && res.result?.length) {
+        this.heroBaseUrl = res.imageUrl || '';
+        this.heroBanners = res.result;
+        this.heroIndex = 0;
+        this.startHeroAutoSlide();
+      } else {
+        this.hideHero();
+      }
+    } catch (err) {
+      console.error('HERO_API error', err);
+      this.hideHero();
+    }
+  }
+
+  private hideHero() {
+    this.stopHeroAutoSlide();
+    this.heroBanners = [];
+  }
+
+  /** Opens banner button / ad links: http(s) -> browser, "/route" -> in-app route */
+  openLink(url?: string) {
+    if (!url || !url.trim()) return;
+    const link = url.trim();
+    if (link.startsWith('/')) {
+      this.router.navigateByUrl(link);
+      return;
+    }
+    window.open(link, '_blank');
+  }
+
+  // ---------- Ads carousel (API: APICalls/ad-images) ----------
+  @ViewChild('adsTrack') adsTrack?: ElementRef<HTMLDivElement>;
+  ads: AdItem[] = [];
+  adsBaseUrl = '';
+  adsIndex = 0;
+  private adsTimer: any = null;
+  private readonly ADS_AUTO_SLIDE_MS = 3000;
+
+  async loadAds() {
+    try {
+      const res = await this.adsService.getAdImages();
+      if (res && res.errorCode === '200' && res.result?.length) {
+        this.adsBaseUrl = res.imageUrl || '';
+        this.ads = res.result;
+        this.adsIndex = 0;
+        this.startAdsAutoSlide();
+      } else {
+        this.hideAds();
+      }
+    } catch (err) {
+      console.error('ADS_API error', err);
+      this.hideAds();
+    }
+  }
+
+  private hideAds() {
+    this.stopAdsAutoSlide();
+    this.ads = [];
+  }
+
+  onAdsScroll() {
+    const el = this.adsTrack?.nativeElement;
+    if (!el || !el.clientWidth) return;
+    const idx = Math.round(el.scrollLeft / el.clientWidth);
+    if (idx !== this.adsIndex) {
+      this.adsIndex = idx;
+      this.startAdsAutoSlide();
+    }
+  }
+
+  startAdsAutoSlide() {
+    this.stopAdsAutoSlide();
+    if (this.ads.length < 2) return;
+    this.adsTimer = setTimeout(() => {
+      const el = this.adsTrack?.nativeElement;
+      if (!el) return;
+      const next = (this.adsIndex + 1) % this.ads.length; // loops back to first
+      el.scrollTo({ left: next * el.clientWidth, behavior: 'smooth' });
+    }, this.ADS_AUTO_SLIDE_MS);
+  }
+
+  stopAdsAutoSlide() {
+    if (this.adsTimer) {
+      clearTimeout(this.adsTimer);
+      this.adsTimer = null;
+    }
+  }
+
+  openAd(url: string) {
+    this.openLink(url);   // adds nothing special: http(s) -> browser, "/route" -> in-app
+  }
+
+  onHeroScroll() {
+    const el = this.heroTrack?.nativeElement;
+    if (!el || !el.clientWidth) return;
+    const idx = Math.round(el.scrollLeft / el.clientWidth);
+    if (idx !== this.heroIndex) {
+      this.heroIndex = idx;
+      this.startHeroAutoSlide(); // restart timer after swipe / slide change
+    }
+  }
+
+  goToHeroSlide(i: number) {
+    const el = this.heroTrack?.nativeElement;
+    if (!el) return;
+    el.scrollTo({ left: i * el.clientWidth, behavior: 'smooth' });
+  }
+
+  startHeroAutoSlide() {
+    this.stopHeroAutoSlide();
+    if (this.heroBanners.length < 2) return;
+    this.heroTimer = setTimeout(() => {
+      this.goToHeroSlide((this.heroIndex + 1) % this.heroBanners.length); // loops back to first
+    }, this.HERO_AUTO_SLIDE_MS);
+  }
+
+  stopHeroAutoSlide() {
+    if (this.heroTimer) {
+      clearTimeout(this.heroTimer);
+      this.heroTimer = null;
+    }
+  }
+
+  ionViewDidEnter() {
+    this.startHeroAutoSlide();
+    this.startAdsAutoSlide();
+  }
+
+  ionViewWillLeave() {
+    this.stopHeroAutoSlide();
+    this.stopAdsAutoSlide();
+  }
+
+  ngOnDestroy() {
+    this.stopHeroAutoSlide();
+    this.stopAdsAutoSlide();
+  }
+
   ayyappaTemples: any[] = [];
   temples: any[] =[];
   
    
   constructor(private router: Router,private menu: MenuController,private service: News,
     private templeservice: Templelist,private ayyappatempleservice: Ayyappatemplelist, 
-    private authService: Auth, private alertCtrl: AlertController, private platform: Platform,private menuCtrl: MenuController
+    private authService: Auth, private adsService: Ads, private alertCtrl: AlertController, private platform: Platform,private menuCtrl: MenuController
     
 ) {
     
@@ -69,6 +222,8 @@ export class SwamyDashboardPage {
     this.image = 'assets/ic_launcher.png';
   }
     this.loadNews();
+        this.loadHero();
+        this.loadAds();
         this.loadAyyappaTemples();
         this.loadTemples();
 

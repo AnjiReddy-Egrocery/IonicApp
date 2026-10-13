@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonicModule, MenuController, ModalController } from '@ionic/angular';
+import { PinchZoomComponent } from 'src/app/components/pinch-zoom/pinch-zoom.component';
 import { Ayyappatemplelist } from 'src/app/services/ayyappatemplelist';
 import { Templelist } from 'src/app/services/templelist';
 
@@ -14,7 +15,8 @@ import { Templelist } from 'src/app/services/templelist';
     imports: [     
       IonicModule,      // ✅ required for all ion-* components
       FormsModule,      // ✅ required for [(ngModel)]
-      CommonModule      
+      CommonModule,
+      PinchZoomComponent    
     ]
 })
 export class TemplesListComponent  implements OnInit {

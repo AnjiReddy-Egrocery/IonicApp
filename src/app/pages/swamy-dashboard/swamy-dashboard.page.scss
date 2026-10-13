@@ -164,6 +164,22 @@ ion-item {
   margin: 0;
 }
 
+
+ad-card {
+ 
+  padding: 12px;
+}
+.ad-gap-card {
+  margin: 50px 5px 30px 5px; /* top right bottom left */
+  padding: 0;
+  --background: none; /* optional if you want no default card background */
+}
+
+.ad-gap-card{
+  padding: 0;
+  margin: 0;
+}
+
 .no-gap-card {
   margin: 0px 0px 5px 0px; /* top right bottom left */
   padding: 0;
@@ -765,3 +781,237 @@ ion-menu-button {
     --color: #ffffff !important;
   }
 }
+
+$gold: #F5B83D;
+$cream: #FFEED3;
+$red: #D42628;
+$ring-gold: #F3B300;
+$brown-text: #3A1608;
+
+.hero {
+  margin: -12px -12px 0;                 /* full width: cancels .container margin */
+}
+
+.hero-track {
+  display: flex;                         /* slides stretch to the tallest one */
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+.hero-slide {
+  position: relative;                    /* text + buttons overlay the image */
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+
+  &.clickable { cursor: pointer; }
+}
+
+.hero-img {                              /* banners are 950x300 (19:6) */
+  display: block;
+  width: 100%;
+  aspect-ratio: 19 / 6;
+  min-height: 190px;                     /* room for title, subtitle and buttons */
+  object-fit: cover;
+  background: #F3B300;
+}
+
+.hero-panel {                            /* overlay on the image: bottom-middle stack */
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;             /* stack sits at the bottom */
+  align-items: center;                   /* and centered horizontally */
+  padding: 8px 16px 10px;
+}
+
+.hero-text {                             /* title + subtitle share ONE light transparent box */
+  max-width: 100%;
+  padding: 6px 14px;
+  border-radius: 12px;
+  background: rgba(255, 238, 211, 0.65); /* transparent light cream */
+  backdrop-filter: blur(2px);
+}
+
+.hero-title {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  text-align: center;
+  color: $brown-text;
+}
+
+.hero-subtitle {
+  margin: 2px 0 0;
+  font-size: 13px;
+  text-align: center;
+  color: $brown-text;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.hero-actions {                          /* buttons below the text box */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.hero-btn {
+  padding: 6px 16px;
+  border-radius: 26px;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+
+  &.primary {
+    background: $gold;
+    color: $brown-text;
+  }
+  &.secondary {
+    margin-left: 12px;
+    color: $cream;
+    border: 2px solid $cream;
+    background: rgba(0, 0, 0, 0.35);
+  }
+}
+
+.hero-divider {                          /* 3dp gold line */
+  height: 3px;
+  background: $gold;
+}
+
+.hero-dots {
+  display: flex;
+  justify-content: center;
+  margin: 8px 0 4px;
+}
+
+.hero-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin: 0 4px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.55);
+  transition: all 0.25s ease;
+
+  &.active { background: $gold; width: 18px; border-radius: 4px; }
+}
+
+/* ---------- three tiles ---------- */
+.hero-boxes {
+  display: flex;
+  margin: 12px 0;
+}
+
+.hero-tile {
+  flex: 1;
+  height: 150px;
+  padding: 6px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: $cream;                 /* hero_tile_bg */
+  border-radius: 20px;
+  cursor: pointer;
+
+  &:nth-child(1) { margin-right: 6px; }
+  &:nth-child(2) { margin: 0 3px; }
+  &:nth-child(3) { margin-left: 6px; }
+}
+
+.tile-img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+
+  &.ring {
+    object-fit: cover;
+    padding: 3px;
+    border-radius: 50%;
+    border: 3px solid $red;           /* hero_tile_img_ring */
+    background: $ring-gold;
+    box-sizing: border-box;
+  }
+}
+
+.tile-text {
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.3;
+  text-align: center;
+  color: #2B1B1B;
+}
+
+.price-chip {
+  margin-top: 6px;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  background: $red;                   /* hero_price_chip */
+}
+
+
+/* ============ ADS CAROUSEL — append to swamy-dashboard.page.scss ============ */
+.ads-wrap {
+  display: block;
+  margin: 50px 0;                 /* gap above and below the slider */
+}
+
+.ads-wrap .ads-track {
+  display: flex;
+  align-items: flex-start;        /* don't stretch images to the tallest slide */
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.ads-wrap .ads-track::-webkit-scrollbar { display: none; }
+
+.ads-wrap .ads-img {
+  flex: 0 0 100%;
+  width: 100%;
+  height: auto;                   /* keep the image's real aspect ratio */
+  object-fit: contain;            /* never squash / stretch */
+  scroll-snap-align: start;
+  display: block;
+}
+
+.ads-wrap .ads-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  margin: 10px auto 0;
+  padding: 5px 10px;
+  border-radius: 12px;
+  
+}
+
+.ads-wrap .ads-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin: 0 4px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.55);
+  transition: all 0.25s ease;
+}
+
+.ads-wrap .ads-dot.active {
+  width: 18px;
+  border-radius: 4px;
+  background: #F5B83D;
+}
+

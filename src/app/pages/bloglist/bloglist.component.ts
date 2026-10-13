@@ -5,6 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { IonicModule, MenuController, ModalController } from '@ionic/angular';
 import { BloglistcomponentComponent } from 'src/app/components/bloglistcomponent/bloglistcomponent.component';
+import { PinchZoomComponent } from 'src/app/components/pinch-zoom/pinch-zoom.component';
 import { Bloglist } from 'src/app/services/bloglist';
 
 @Component({
@@ -16,6 +17,7 @@ import { Bloglist } from 'src/app/services/bloglist';
     IonicModule,      // ✅ required for all ion-* components
     FormsModule,      // ✅ required for [(ngModel)]
     CommonModule,
+    PinchZoomComponent
   ]
 })
 export class BloglistComponent  implements OnInit {

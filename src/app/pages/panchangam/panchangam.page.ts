@@ -6,6 +6,7 @@ import { Router, RouterModule } from '@angular/router';
 import { AlertController, IonicModule, ModalController, NavController, ToastController } from '@ionic/angular';
 import * as moment from 'moment';
 import { Panchangam } from 'src/app/services/panchangam';
+import { PinchZoomComponent } from 'src/app/components/pinch-zoom/pinch-zoom.component';
 
 @Component({
   selector: 'app-panchangam',
@@ -16,7 +17,8 @@ import { Panchangam } from 'src/app/services/panchangam';
       IonicModule,      // ✅ required for all ion-* components
       FormsModule,      // ✅ required for [(ngModel)]
       CommonModule,
-      RouterModule
+      RouterModule,
+      PinchZoomComponent
     ]
 })
 export class PanchangamPage implements OnInit {

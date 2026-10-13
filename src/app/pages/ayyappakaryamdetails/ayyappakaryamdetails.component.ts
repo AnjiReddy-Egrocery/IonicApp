@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
+import { PinchZoomComponent } from 'src/app/components/pinch-zoom/pinch-zoom.component';
 import { AyyappaKrayakramamDetailsResponse, AyyappakrayakramamService } from 'src/app/services/ayyappakrayakramam-service';
 
 
@@ -16,6 +17,7 @@ import { AyyappaKrayakramamDetailsResponse, AyyappakrayakramamService } from 'sr
     IonicModule,      // ✅ required for all ion-* components
     FormsModule,      // ✅ required for [(ngModel)]
     CommonModule,
+    PinchZoomComponent
   ]
 })
 

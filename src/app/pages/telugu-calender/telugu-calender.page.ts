@@ -6,6 +6,7 @@ import { AlertController, IonicModule, MenuController, NavController, Platform }
 import { Router, RouterModule } from '@angular/router';
 import { Telugucalender } from 'src/app/services/telugucalender';
 import { Keyboard } from '@capacitor/keyboard';
+import { PinchZoomComponent } from 'src/app/components/pinch-zoom/pinch-zoom.component';
 
 export interface PanchangDay {
   date?: string;
@@ -30,7 +31,8 @@ export interface PanchangDay {
       IonicModule,      // ✅ required for all ion-* components
       FormsModule,      // ✅ required for [(ngModel)]
       CommonModule,
-      RouterModule
+      RouterModule,
+      PinchZoomComponent
     ]
 })
 export class TeluguCalenderPage implements OnInit {

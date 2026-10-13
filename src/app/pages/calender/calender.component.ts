@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AlertController, IonicModule, ModalController, NavController, ToastController } from '@ionic/angular';
 import { CalenderDialogComponent } from 'src/app/components/calender-dialog/calender-dialog.component';
+import { PinchZoomComponent } from 'src/app/components/pinch-zoom/pinch-zoom.component';
 import { InfoDialogComponent } from 'src/app/info-dialog/info-dialog.component';
 import { Calender } from 'src/app/services/calender';
 
@@ -16,7 +17,8 @@ import { Calender } from 'src/app/services/calender';
       IonicModule,      // ✅ required for all ion-* components
       FormsModule,      // ✅ required for [(ngModel)]
       CommonModule,
-      RouterModule
+      RouterModule,
+      PinchZoomComponent
     ]
 })
 export class CalenderComponent  implements OnInit {

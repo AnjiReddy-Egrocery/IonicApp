@@ -5,6 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { IonicModule, MenuController, ModalController } from '@ionic/angular';
 import { PadayatracomponentComponent } from 'src/app/components/padayatracomponent/padayatracomponent.component';
+import { PinchZoomComponent } from 'src/app/components/pinch-zoom/pinch-zoom.component';
 import { Padayatra } from 'src/app/services/padayatra';
 
 @Component({
@@ -16,6 +17,7 @@ import { Padayatra } from 'src/app/services/padayatra';
     IonicModule,      // ✅ required for all ion-* components
     FormsModule,      // ✅ required for [(ngModel)]
     CommonModule,
+    PinchZoomComponent
   ]
 })
 export class PadayatralistComponent  implements OnInit {

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { IonicModule, ModalController } from '@ionic/angular';
+import { PinchZoomComponent } from 'src/app/components/pinch-zoom/pinch-zoom.component';
 import { PoojapetamDialogComponent } from 'src/app/components/poojapetam-dialog/poojapetam-dialog.component';
 import { InfoDialogComponent } from 'src/app/info-dialog/info-dialog.component';
 import { Poojapetam } from 'src/app/services/poojapetam';
@@ -17,6 +18,7 @@ import { Poojapetam } from 'src/app/services/poojapetam';
     IonicModule,      // ✅ required for all ion-* components
     FormsModule,      // ✅ required for [(ngModel)]
     CommonModule,
+    PinchZoomComponent
   ]
 })
 export class PoojapetamComponent  implements OnInit {

@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { templeDetailsResponse, Templelist } from 'src/app/services/templelist';
+import { PinchZoomComponent } from 'src/app/components/pinch-zoom/pinch-zoom.component';
 
 @Component({
   selector: 'app-ayyappatemplelistdetails',
@@ -16,6 +17,7 @@ import { templeDetailsResponse, Templelist } from 'src/app/services/templelist';
      IonicModule,      // ✅ required for all ion-* components
      FormsModule,      // ✅ required for [(ngModel)]
      CommonModule,
+     PinchZoomComponent
    ]
  
 })

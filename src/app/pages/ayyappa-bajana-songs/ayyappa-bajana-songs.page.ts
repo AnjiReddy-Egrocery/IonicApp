@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AyyappaBajanaSongs } from 'src/app/services/ayyappa-bajana-songs';
 import { BajanamandaliDialogComponent } from 'src/app/components/bajanamandali-dialog/bajanamandali-dialog.component';
+import { PinchZoomComponent } from 'src/app/components/pinch-zoom/pinch-zoom.component';
 
 @Component({
   selector: 'app-ayyappa-bajana-songs',
@@ -17,6 +18,7 @@ import { BajanamandaliDialogComponent } from 'src/app/components/bajanamandali-d
      IonicModule,      // ✅ required for all ion-* components
      FormsModule,      // ✅ required for [(ngModel)]
      CommonModule,
+     PinchZoomComponent
    ]
 })
 export class AyyappaBajanaSongsPage implements OnInit {

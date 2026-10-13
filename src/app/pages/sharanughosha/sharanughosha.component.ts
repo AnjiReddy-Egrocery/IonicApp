@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, NavController, ToastController } from '@ionic/angular';
+import { PinchZoomComponent } from 'src/app/components/pinch-zoom/pinch-zoom.component';
 import { Sharanughosha, SharanughoshaModel } from 'src/app/services/sharanughosha';
 
 @Component({
@@ -14,6 +15,7 @@ import { Sharanughosha, SharanughoshaModel } from 'src/app/services/sharanughosh
     IonicModule,      // ✅ required for all ion-* components
     FormsModule,      // ✅ required for [(ngModel)]
     CommonModule,
+    PinchZoomComponent
   ]
 })
 export class SharanughoshaComponent  implements OnInit {

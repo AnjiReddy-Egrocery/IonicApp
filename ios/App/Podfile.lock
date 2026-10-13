@@ -34,6 +34,8 @@ PODS:
     - Capacitor
   - CapacitorLocalNotifications (7.0.6):
     - Capacitor
+  - CapacitorPreferences (8.0.1):
+    - Capacitor
   - CapacitorPushNotifications (7.0.6):
     - Capacitor
   - CapacitorShare (7.0.4):
@@ -125,6 +127,7 @@ DEPENDENCIES:
   - "CapacitorHaptics (from `../../node_modules/@capacitor/haptics`)"
   - "CapacitorKeyboard (from `../../node_modules/@capacitor/keyboard`)"
   - "CapacitorLocalNotifications (from `../../node_modules/@capacitor/local-notifications`)"
+  - "CapacitorPreferences (from `../../node_modules/@capacitor/preferences`)"
   - "CapacitorPushNotifications (from `../../node_modules/@capacitor/push-notifications`)"
   - "CapacitorShare (from `../../node_modules/@capacitor/share`)"
   - "CapacitorSplashScreen (from `../../node_modules/@capacitor/splash-screen`)"
@@ -179,6 +182,8 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@capacitor/keyboard"
   CapacitorLocalNotifications:
     :path: "../../node_modules/@capacitor/local-notifications"
+  CapacitorPreferences:
+    :path: "../../node_modules/@capacitor/preferences"
   CapacitorPushNotifications:
     :path: "../../node_modules/@capacitor/push-notifications"
   CapacitorShare:
@@ -191,26 +196,27 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@whiteguru/capacitor-plugin-video-editor"
 
 SPEC CHECKSUMS:
-  Ayyappavideomerger: 7ce0b82a265eae97145a8c8993f577aa944f24dd
-  Capacitor: 35242afe195b1e53c58ca1b827d1b444c5e6602b
-  CapacitorApp: 26587c2ce485d88ddb39adb21cac64f8e481afe3
-  CapacitorCamera: 9e952270be355797f769aa835bb7643a96c871fe
-  CapacitorCommunityContacts: aaa9f95f2da72b5de15d5fa935d736d07c644db2
-  CapacitorCommunityFcm: 6d6a8ceb4e7b0f7d2b92fe3fab89ea777acc0bec
-  CapacitorCommunityHttp: 7eba71da94e070e37a26a60483350285a33e3903
-  CapacitorCommunityMedia: 862ba42957f75b74e403fc3a35bb1b286bfe9410
-  CapacitorCommunityTextToSpeech: 4e82235c0e184d2edbd1b2d81ef22af531bda13e
+  Ayyappavideomerger: 033ce9615a215aac742e5aa799f4e0d0a93b12f4
+  Capacitor: 9c34c6eb2165694e51758f5b425d470cb00f5bea
+  CapacitorApp: 846d4b4a1dbb19dd1e9029c08ba6f028aa7be862
+  CapacitorCamera: fdbf24f93bc44ca13c4209866368a1972349d3d2
+  CapacitorCommunityContacts: d49af9c4727480c8f0e3d40bf61af9f3acbdd77c
+  CapacitorCommunityFcm: 71af8dd973ce70236458b0d22a5fe29352a9e43e
+  CapacitorCommunityHttp: 7be90668527ef14ee10d08135b0e00fac9cf8247
+  CapacitorCommunityMedia: 8df4385e2dece6e0811badaab0fb155d1bcb9f69
+  CapacitorCommunityTextToSpeech: 2564247444f4797a8ac9d322418e049c9b08a978
   CapacitorCordova: eebe6bcf807b1b06f3f48237650f96bbcd0eef09
-  CapacitorDevice: 81ae78d5d1942707caad79276badd458bf6ec603
-  CapacitorFilesystem: c63fc54df41e5a6761785a7f3c49dc696c22e296
-  CapacitorGeolocation: 84f868bea4c2499aebc3bb3a88fd0a508f87ab87
-  CapacitorHaptics: b3fb2869e72c4466e18ce9ccbeb60a3d8723b3d4
-  CapacitorKeyboard: a2e0869edd229490ce36aed2549c0d6b95e27ee8
-  CapacitorLocalNotifications: 2e3f5b717ec9cd2bd64d93c99a9470941e1c80be
-  CapacitorPushNotifications: b8e30637549ce91468b8c4dddbef2657be831f4c
-  CapacitorShare: 25f7fc5dd0e4edbde5d6801c6de5d14a8b450a41
-  CapacitorSplashScreen: 157947576b59d913792063a8d442a79e6d283ee5
-  CapacitorStatusBar: 0659ddc7b1713764a05831463d215b177a15d054
+  CapacitorDevice: a50a45f0d075e55e2392c7a4be5404d4f69515de
+  CapacitorFilesystem: f54cd6b76be06fa7ceb219cf313d32e0d626ea87
+  CapacitorGeolocation: b96474c3259dd4a294227ea8ec19140b1837cceb
+  CapacitorHaptics: 09d96bcb5a2b74ede8fd039b4cdf58fc43dcacf1
+  CapacitorKeyboard: c94c84755e1500d2c6dccd74bad018bb359e3543
+  CapacitorLocalNotifications: ae0b5008877d68731d693156fe21d786d30a4feb
+  CapacitorPreferences: 0fa33b3affebf12d96358b491ed7c2b39bec3270
+  CapacitorPushNotifications: c6158ba6f3777f281a675aa43e4011e9723e822b
+  CapacitorShare: 14b5d7f0a2c6de86dcad8995da80fb707ee32f62
+  CapacitorSplashScreen: 8d6c8cb0542a8e81585c593815db8785ed8ce454
+  CapacitorStatusBar: 7d8fcbd6768db014bd721d75e246590b014928e8
   Firebase: a8539b633d474fbeb654c7043f9c1649e274045b
   FirebaseCore: 2e86a4ea1684d4381707069e4a6d89ac808e901e
   FirebaseCoreInternal: 6ab6a02c94446c026d2cf35cf5383842ebaa4992
@@ -223,8 +229,8 @@ SPEC CHECKSUMS:
   nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
   PromisesObjC: 752c3227f599e3467650e47ea36f433eeb10c273
   SDWebImage: e9fc87c1aab89a8ab1bbd74eba378c6f53be8abf
-  WhiteguruCapacitorPluginVideoEditor: ac049444159a909570b9c9ea8c8dc29d8c1cb133
+  WhiteguruCapacitorPluginVideoEditor: fd2d259ff9d1e0ad8bd0289e0a2e7b63bea8733d
 
-PODFILE CHECKSUM: a8ba49232d73c24f91898d5506bddb8d3cb4fcdd
+PODFILE CHECKSUM: a1ee910a2a5e41d2a25ae146343ceee40c164626
 
 COCOAPODS: 1.16.2

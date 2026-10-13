@@ -93,3 +93,216 @@
 ::ng-deep .gm-ui-hover-effect span {
   background-color: #000 !important;
 }
+
+/* =====================================================================
+   INFO CARD — same design as Android custom_temple_window.xml
+   (card is created in TS inside the map, so ::ng-deep is required)
+   ===================================================================== */
+:host ::ng-deep .tp-card {
+  width: min(300px, calc(100vw - 32px));      /* max 300, screen - 16px each side */
+  box-sizing: border-box;
+  background: #fff;
+  border: 1px solid #9E9494;
+  border-radius: 8px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);  /* elevation 6dp */
+  font-family: Roboto, Arial, 'Noto Sans Telugu', sans-serif;
+  color: #000;
+  cursor: default;
+}
+
+:host ::ng-deep .tp-card .tp-body { padding: 12px; }
+
+:host ::ng-deep .tp-card .tp-head {
+  display: flex;
+  align-items: flex-start;
+}
+:host ::ng-deep .tp-card .tp-title {
+  flex: 1;
+  font-size: 16px;
+  font-weight: bold;
+  color: #000;
+}
+:host ::ng-deep .tp-card .tp-close {
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  margin: -6px -6px 0 0;
+  padding: 8px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+:host ::ng-deep .tp-card .tp-close:active { background: rgba(0, 0, 0, 0.1); }
+
+:host ::ng-deep .tp-card .tp-loc {
+  margin-top: 6px;
+  text-align: center;
+  font-size: 14px;
+  color: #000;
+}
+
+:host ::ng-deep .tp-card .tp-nav-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+/* Start Navigation button (navigation_bg: blue guess — send navigation_bg.xml for exact) */
+:host ::ng-deep .tp-card .tp-nav-btn {
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  background: #3C54DA;
+  border-radius: 8px;
+  cursor: pointer;
+}
+:host ::ng-deep .tp-card .tp-nav-btn span {
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+}
+:host ::ng-deep .tp-card .tp-nav-btn img {
+  width: 32px;
+  height: 32px;
+  filter: brightness(0) invert(1);            /* white icon (navigation_icon_white) */
+}
+
+/* =====================================================================
+   FIND NEAREST TEMPLES button + dialog
+   ===================================================================== */
+.nearest-fab {
+  margin-bottom: 370px;                 /* same level as the zoom buttons */
+  margin-left: 12px;
+}
+
+.nearest-btn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 4px;
+  background: #DA1D0F;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+ion-modal.nearby-modal {
+  --width: 92%;
+  --max-width: 420px;
+  --height: 70%;
+  --border-radius: 12px;
+  --background: #fff;
+}
+
+.nearby-dialog {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 12px;
+  box-sizing: border-box;
+  font-family: Roboto, Arial, 'Noto Sans Telugu', sans-serif;
+  color: #000;
+}
+
+.nearby-head {
+  display: flex;
+  align-items: center;
+}
+.nearby-title {
+  flex: 1;
+  font-size: 18px;
+  font-weight: bold;
+}
+.nearby-close {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  &:active { background: rgba(0, 0, 0, 0.1); }
+}
+
+.nearby-radios {
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 0 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* each option = its own radio button (plain HTML, works in every Ionic version) */
+.radius-opt {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+
+  input { position: absolute; opacity: 0; pointer-events: none; }
+
+  .radius-dot {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #555;
+    border-radius: 50%;
+    box-sizing: border-box;
+    display: inline-block;
+    position: relative;
+  }
+  .radius-text { font-size: 14px; color: #000; }
+
+  input:checked + .radius-dot {
+    border-color: #DA1D0F;
+    &::after {
+      content: '';
+      position: absolute;
+      top: 3px; left: 3px; right: 3px; bottom: 3px;
+      border-radius: 50%;
+      background: #DA1D0F;
+    }
+  }
+}
+
+.nearby-list {
+  flex: 1;
+  overflow-y: auto;
+  margin-top: 8px;
+}
+
+.nearby-empty {
+  padding: 24px 8px;
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+}
+
+.nearby-item {
+  display: flex;
+  align-items: center;
+  padding: 10px 4px;
+  border-bottom: 1px solid #eee;
+}
+.nearby-info { flex: 1; min-width: 0; }
+.nearby-name { font-size: 15px; font-weight: bold; }
+.nearby-loc  { margin-top: 2px; font-size: 13px; color: #333; }
+.nearby-dist { margin-top: 2px; font-size: 12px; color: #DA1D0F; font-weight: 500; }
+
+.nearby-nav {                           /* reuses the blue Start Navigation look */
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  margin-left: 8px;
+  background: #3C54DA;
+  border-radius: 8px;
+  cursor: pointer;
+
+  span { color: #fff; font-size: 13px; font-weight: bold; }
+  img  { width: 32px; height: 32px; filter: brightness(0) invert(1); }
+}

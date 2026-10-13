@@ -17,6 +17,8 @@
 
 <ion-content class="ion-padding">
 
+   <app-pinch-zoom>
+
   <!-- Title -->
   <h2 class="news-title">{{ name }}</h2>
 
@@ -28,7 +30,7 @@
   <!-- Description (replicates WebView HTML) -->
   <div class="description" [innerHTML]="linkifiedDescription"></div>
 
-
+</app-pinch-zoom>
 </ion-content>
 
 <ion-footer slot="fixed" class="custom-footer">

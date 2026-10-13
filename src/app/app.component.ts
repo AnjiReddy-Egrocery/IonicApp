@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 
-import { IonicModule, IonRouterOutlet, Platform } from '@ionic/angular';
+import { IonicModule, IonRouterOutlet, ModalController, Platform } from '@ionic/angular';
 import { Push } from './services/push';
 import { LocationTracker } from './services/location-tracker';
 import {
 LocalNotifications
 } from '@capacitor/local-notifications';
 import { createFFmpeg } from '@ffmpeg/ffmpeg';
+import { Preferences } from '@capacitor/preferences';
+import { NearbyTempleDialogComponent } from './components/nearby-temple-dialog/nearby-temple-dialog.component';
 
 
 @Component({
@@ -20,7 +22,10 @@ export class AppComponent {
  constructor(
     private platform: Platform,
     private push: Push,
-    private tracker: LocationTracker,
+   private modalCtrl:ModalController,
+
+private tracker:LocationTracker,
+
     private router: Router
   ) {
     this.platform.ready().then(async () => {
@@ -37,13 +42,27 @@ export class AppComponent {
         console.error("❌ FFmpeg Load Failed:", err);
       }
 
-      // 3. Local Notifications
-      LocalNotifications.addListener('localNotificationActionPerformed', (event) => {
-        const route = event.notification.extra?.route;
-        if (route) {
-          this.router.navigate([route]);
-        }
-      });
+        LocalNotifications.addListener(
+
+'localNotificationActionPerformed',
+
+async()=>{
+
+const modal=await this.modalCtrl.create({
+
+component:NearbyTempleDialogComponent,
+
+componentProps:{
+
+places:this.tracker.getNearbyPlaces()
+
+}
+
+});
+
+await modal.present();
+
+});
     });
   }
 }

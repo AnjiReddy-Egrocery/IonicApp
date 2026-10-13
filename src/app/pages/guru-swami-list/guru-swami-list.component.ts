@@ -8,6 +8,7 @@ import { GuruswamyDialogComponent } from 'src/app/components/guruswamy-dialog/gu
 import { InfoDialogComponent } from 'src/app/info-dialog/info-dialog.component';
 import { GuruSwami } from 'src/app/services/guru-swami';
 import { Location } from '@angular/common';
+import { PinchZoomComponent } from 'src/app/components/pinch-zoom/pinch-zoom.component';
 @Component({
   selector: 'app-guru-swami-list',
     standalone: true,
@@ -15,6 +16,7 @@ import { Location } from '@angular/common';
     IonicModule,      // ✅ required for all ion-* components
     FormsModule,      // ✅ required for [(ngModel)]
     CommonModule,
+    PinchZoomComponent,   // pinch-to-zoom wrapper
   ],
   templateUrl: './guru-swami-list.component.html',
   styleUrls: ['./guru-swami-list.component.scss'],

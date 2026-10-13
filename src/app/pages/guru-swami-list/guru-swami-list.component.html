@@ -34,24 +34,27 @@
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
-  <ion-grid>
-    <ion-row>
-      <ion-col size="6" *ngFor="let guru of filteredList">
-        <ion-card class="guru-card" (click)="openDetails(guru)">
-          <div class="img-container">
-            <ion-img [src]="'https://www.ayyappatelugu.com/public/assets/user_images/' + guru.profilePic"></ion-img>
-          </div>
-         
-          <ion-card-header>
-               <div class="text-wrapper">
-              <p class="guru-name">{{ guru.guruswamiName }}</p>
-              <p class="guru-city">{{ guru.cityName }}</p>
+  <!-- pinch-to-zoom (Android ZoomLayout) wraps only the list -->
+  <app-pinch-zoom>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6" *ngFor="let guru of filteredList">
+          <ion-card class="guru-card" (click)="openDetails(guru)">
+            <div class="img-container">
+              <ion-img [src]="'https://www.ayyappatelugu.com/public/assets/user_images/' + guru.profilePic"></ion-img>
             </div>
-          </ion-card-header>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+         
+            <ion-card-header>
+                 <div class="text-wrapper">
+                <p class="guru-name">{{ guru.guruswamiName }}</p>
+                <p class="guru-city">{{ guru.cityName }}</p>
+              </div>
+            </ion-card-header>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </app-pinch-zoom>
 
   </div>
  

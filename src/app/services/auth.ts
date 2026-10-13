@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -50,4 +52,6 @@ export class Auth {
     await this._storage?.remove('user');
     await this._storage?.set('isLoggedIn', false);
   }
+
+
 }

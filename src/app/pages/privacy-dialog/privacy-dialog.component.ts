@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
+import { PinchZoomComponent } from 'src/app/components/pinch-zoom/pinch-zoom.component';
 
 @Component({
   selector: 'app-privacy-dialog',
@@ -9,7 +10,8 @@ import { IonicModule, ModalController } from '@ionic/angular';
   standalone: true,
   imports: [
     IonicModule, // ✅ For ion-button, ion-label, ion-checkbox, etc.
-    FormsModule  // ✅ For [(ngModel)]
+    FormsModule,  // ✅ For [(ngModel)]
+    PinchZoomComponent
   ]
 })
 export class PrivacyDialogComponent  {

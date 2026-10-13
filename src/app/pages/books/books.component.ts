@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonicModule, ModalController, ToastController } from '@ionic/angular';
 import { BooksDialogComponent } from 'src/app/components/books-dialog/books-dialog.component';
+import { PinchZoomComponent } from 'src/app/components/pinch-zoom/pinch-zoom.component';
 import { InfoDialogComponent } from 'src/app/info-dialog/info-dialog.component';
 import { Bookservices } from 'src/app/services/bookservices';
 
@@ -19,6 +20,7 @@ import { Bookservices } from 'src/app/services/bookservices';
       IonicModule,      // ✅ required for all ion-* components
       FormsModule,      // ✅ required for [(ngModel)]
       CommonModule,
+      PinchZoomComponent
     ]
 })
 export class BooksComponent  implements OnInit {

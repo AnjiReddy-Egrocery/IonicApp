@@ -15,7 +15,7 @@
   <ion-refresher slot="fixed" (ionRefresh)="refreshList($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-
+<app-pinch-zoom>
   <!-- List of activities -->
    <ion-list fullscreen>
     <ion-item *ngFor="let temple  of filteredList" button (click)="openDetails(temple )">
@@ -29,6 +29,8 @@
       </ion-label>
     </ion-item>
   </ion-list>
+
+  </app-pinch-zoom>
 
  
 

@@ -16,6 +16,8 @@
 </ion-header>
 <ion-content class="ion-padding">
 
+    <app-pinch-zoom>
+
   <!-- Book Image -->
   <div class="image-container">
     <img [src]="image" alt="Book Image" />
@@ -37,7 +39,7 @@
     <ion-button fill="outline" class="qty-btn" (click)="increaseQty()">+</ion-button>
   </div>
 </div>
-
+</app-pinch-zoom>
 </ion-content>
  <ion-footer slot="fixed" class="custom-footer">
     <ion-toolbar class="custom-footer-toolbar">

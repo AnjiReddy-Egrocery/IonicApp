@@ -8,6 +8,7 @@ import { InfoDialogComponent } from 'src/app/info-dialog/info-dialog.component';
 import { Products } from 'src/app/services/products';
 import { ProductsDetailsComponent } from '../products-details/products-details.component';
 import { ProductsDialogComponent } from 'src/app/components/products-dialog/products-dialog.component';
+import { PinchZoomComponent } from 'src/app/components/pinch-zoom/pinch-zoom.component';
 
 @Component({
   selector: 'app-products',
@@ -18,6 +19,7 @@ import { ProductsDialogComponent } from 'src/app/components/products-dialog/prod
     IonicModule,      // ✅ required for all ion-* components
     FormsModule,      // ✅ required for [(ngModel)]
     CommonModule,
+    PinchZoomComponent
   ]
 })
 export class ProductsComponent  implements OnInit {

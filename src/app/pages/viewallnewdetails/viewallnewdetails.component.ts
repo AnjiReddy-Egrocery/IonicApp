@@ -6,6 +6,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TextToSpeech } from '@capacitor-community/text-to-speech';
 import { IonicModule, NavController } from '@ionic/angular';
+import { PinchZoomComponent } from 'src/app/components/pinch-zoom/pinch-zoom.component';
 import { News, NewsDetailsResponse } from 'src/app/services/news';
 
 @Component({
@@ -17,6 +18,7 @@ import { News, NewsDetailsResponse } from 'src/app/services/news';
     IonicModule,      // ✅ required for all ion-* components
     FormsModule,      // ✅ required for [(ngModel)]
     CommonModule,
+    PinchZoomComponent
   ]
 })
 export class ViewallnewdetailsComponent  implements OnInit {

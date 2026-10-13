@@ -38,7 +38,7 @@
   <ion-refresher slot="fixed" (ionRefresh)="refreshList($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-
+<app-pinch-zoom>
   <!-- List of activities -->
    <ion-list>
     <ion-item *ngFor="let item of filteredList" button (click)="openDetails(item)">
@@ -50,6 +50,7 @@
       </ion-label>
     </ion-item>
   </ion-list>
+  </app-pinch-zoom>
   </div>
  
 

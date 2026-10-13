@@ -5,6 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { IonicModule, MenuController, ModalController } from '@ionic/angular';
 import { BajanamandaliDialogComponent } from 'src/app/components/bajanamandali-dialog/bajanamandali-dialog.component';
+import { PinchZoomComponent } from 'src/app/components/pinch-zoom/pinch-zoom.component';
 import { InfoDialogComponent } from 'src/app/info-dialog/info-dialog.component';
 import { Bajanamandali } from 'src/app/services/bajanamandali';
 
@@ -17,6 +18,7 @@ import { Bajanamandali } from 'src/app/services/bajanamandali';
     IonicModule,      // ✅ required for all ion-* components
     FormsModule,      // ✅ required for [(ngModel)]
     CommonModule,
+    PinchZoomComponent
   ]
 })
 export class BajanamandalilistComponent implements OnInit   {

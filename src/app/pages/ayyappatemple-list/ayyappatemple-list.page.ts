@@ -5,13 +5,14 @@ import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/stan
 import { Router } from '@angular/router';
 import { Templelist } from 'src/app/services/templelist';
 import { IonicModule, MenuController, ModalController } from '@ionic/angular';
+import { PinchZoomComponent } from 'src/app/components/pinch-zoom/pinch-zoom.component';
 
 @Component({
   selector: 'app-ayyappatemples-list',
   templateUrl: './ayyappatemple-list.page.html',
   styleUrls: ['./ayyappatemple-list.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonicModule]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonicModule,PinchZoomComponent]
 })
 export class AyyappatempleListPage implements OnInit {
  templeList: any[] = [];

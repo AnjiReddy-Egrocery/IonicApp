@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, LoadingController, NavController, ToastController } from '@ionic/angular';
+import { PinchZoomComponent } from 'src/app/components/pinch-zoom/pinch-zoom.component';
 import { Nityapooja, NityaPoojaModel } from 'src/app/services/nityapooja';
 
 @Component({
@@ -14,6 +15,7 @@ import { Nityapooja, NityaPoojaModel } from 'src/app/services/nityapooja';
     IonicModule,      // ✅ required for all ion-* components
     FormsModule,      // ✅ required for [(ngModel)]
     CommonModule,
+    PinchZoomComponent
   ]
 })
 export class NityapoojaComponent  implements OnInit {

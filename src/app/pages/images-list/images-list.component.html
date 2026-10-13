@@ -121,10 +121,10 @@
             <div class="poster-wrapper">
               <img class="poster-image" [src]="baseUrl + item.image">
               <div class="floating-buttons">
-                <ion-button fill="solid" shape="round" color="light" (click)="sharePoster(i, 1)">
+                <ion-button fill="solid" shape="round" class="action-btn" (click)="sharePoster(i, 1)">
                   <ion-icon name="share-social-outline"></ion-icon>
                 </ion-button>
-                <ion-button fill="solid" shape="round" color="light" (click)="downloadPoster(i, 1)">
+                <ion-button fill="solid" shape="round" class="action-btn" (click)="downloadPoster(i, 1)">
                   <ion-icon name="download-outline"></ion-icon>
                 </ion-button>
               </div>
