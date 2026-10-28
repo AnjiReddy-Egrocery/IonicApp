@@ -10,16 +10,17 @@
   width: 30px;  /* adjust to match your design */
   height: 30px;
 }
-
 ion-content {
   --background: transparent;
   /* ❌ padding-bottom ekkuva ivvakandi, only footer size ki chalu */
   --padding-bottom: 32% !important; /* Ionic way */
 }
+
 /* ion-list & ion-item transparent */
 ion-list {
   --background: transparent !important;
   background: transparent !important;
+  
 }
 
 ion-item {
@@ -34,4 +35,34 @@ ion-item {
   margin-top: 10px;
   margin-bottom: 10px;
  
+}
+
+.distance-text {
+  color: #ffb74d !important;
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.direction-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 8px;
+  color: #4caf50;
+  font-size: 11px;
+  cursor: pointer;
+
+  ion-icon {
+    font-size: 28px;
+  }
+}
+
+:host {
+  display: block;
+}
+
+.list-bottom-space {
+  height: 120px;     /* fixed footer kinda last item dachipokunda */
 }

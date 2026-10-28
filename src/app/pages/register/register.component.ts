@@ -47,6 +47,9 @@ export class RegisterPage {
   }
 
   try {
+     console.log('isIOS value in component:', this.isIOS);
+    console.log('isIOS type in component:', typeof this.isIOS);
+    
   const rawRes: any = await this.registerService.register(
     this.firstName,
     this.lastName,

@@ -16,25 +16,25 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content fullscreen class="ion-padding">
-
+<ion-content class="ion-padding">
    <app-pinch-zoom>
   <!-- Title -->
   <h2 class="pooja-title">{{ title }}</h2>
-
+  
   <!-- Image Card -->
   <ion-card class="pooja-card">
     <ion-img [src]="imageUrl" alt="pooja image"></ion-img>
   </ion-card>
 
   <!-- Description (replicates WebView HTML) -->
-
-   <div class="scroll-container">
-    <div class="description-box" [innerHTML]="cleanedDescription"></div>
-   </div>
+<div class="scroll-container">
  
-
+    <div class="description-box" [innerHTML]="cleanedDescription"></div>
+  
+ 
+ </div>
 </app-pinch-zoom>
+
 </ion-content>
 
  <ion-footer slot="fixed" class="custom-footer">

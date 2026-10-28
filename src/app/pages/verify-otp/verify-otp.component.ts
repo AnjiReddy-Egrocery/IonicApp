@@ -22,7 +22,8 @@ export class VerifyOtpComponent implements OnInit {
   showConfirmPassword: boolean = false;
   registerId: string = ''; // 👈 will store registerId from query params
    sentOtp: string = '';     // 👈 store OTP from query params
-  
+  pwd: string = '';
+
   accepted = false;
 
   constructor(private toastCtrl: ToastController,private router: Router,  private alertCtrl: AlertController,
@@ -33,10 +34,12 @@ export class VerifyOtpComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.registerId = params['registerId'];
       this.sentOtp = params['otp'];
+      this.pwd = params['password'];
      
 
       console.log('RegisterId:', this.registerId);
       console.log('Received OTP:', this.sentOtp);
+      console.log('Password:', this.password);
       
     });
   }
@@ -48,10 +51,10 @@ export class VerifyOtpComponent implements OnInit {
   }
 
   console.log('🔹 Sending OTP verification request...');
-  console.log('Register ID:', this.registerId, 'Entered OTP:', this.otp);
+  console.log('Register ID:', this.registerId, 'Entered OTP:', this.otp, 'Password', this.password);
 
   try {
-    const response = await this.verifyOtpService.register(this.registerId, this.otp);
+    const response = await this.verifyOtpService.register(this.registerId, this.otp, this.password );
     console.log('✅ Verify OTP Response:', response);
 
     if (response.status === 'Success' && response.errorCode === '200') {

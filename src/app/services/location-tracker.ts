@@ -113,6 +113,11 @@ getNearbyPlaces(): any[] {
 
     this.annadanamList.forEach((item: any) => {
 
+       // ✅ Only ACTIVE (green marker) annadanam
+      if (!this.isDateActive(item.startingDate, item.endingDate)) {
+        return;
+      }
+
       const distance = this.calculateDistance(
         userLat,
         userLng,
@@ -232,6 +237,34 @@ getNearbyPlaces(): any[] {
     }
 
   }
+
+    /** unix seconds (10 digits) / millis (13 digits) / "yyyy-MM-dd" -> Date */
+  private toDate(v: any): Date | null {
+    if (v === null || v === undefined || v === '') return null;
+    const s = String(v).trim();
+    if (/^\d+$/.test(s)) {
+      const n = parseInt(s, 10);
+      return new Date(s.length <= 10 ? n * 1000 : n);
+    }
+    const m = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (m) return new Date(+m[1], +m[2] - 1, +m[3]);
+    const d = new Date(s);
+    return isNaN(d.getTime()) ? null : d;
+  }
+
+  /** Green marker condition: today is between startingDate and endingDate */
+  private isDateActive(startDate: any, endDate: any): boolean {
+    const start = this.toDate(startDate);
+    const end = this.toDate(endDate);
+    if (!start || !end) return false;
+
+    start.setHours(0, 0, 0, 0);
+    end.setHours(23, 59, 59, 999);
+
+    const now = new Date();
+    return now >= start && now <= end;
+  }
+
     calculateDistance(
     lat1: number,
     lon1: number,

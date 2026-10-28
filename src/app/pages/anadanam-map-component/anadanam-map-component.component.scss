@@ -211,9 +211,10 @@
 }
 :host ::ng-deep .an-card .an-close:active { background: rgba(0, 0, 0, 0.1); }
 
-:host ::ng-deep .an-card .an-loc {
+/* Distance : 120 m / 3.4 km  (info_distance) */
+:host ::ng-deep .an-card .an-distance {
   margin-top: 8px;
-  text-align: center;
+  margin-left: 5px;
   font-size: 14px;
   color: #000;
 }

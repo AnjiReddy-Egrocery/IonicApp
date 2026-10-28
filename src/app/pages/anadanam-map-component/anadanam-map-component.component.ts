@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { Geolocation } from '@capacitor/geolocation';
 import { AnadanamDialogComponent } from 'src/app/components/anadanam-dialog/anadanam-dialog.component';
@@ -17,6 +18,10 @@ const MARKER_H = 42;
 // Android colors for the time text (Color.GREEN / Color.RED)
 const COLOR_GREEN = '#00FF00';
 const COLOR_RED = '#FF0000';
+
+// Android SharedPreferences equivalents
+const ZOOM_KEY = 'anadanam_map_zoom';      // SharedPreferenceHelper.setZoomLevel
+const CACHE_KEY = 'anadanam_map_cache';    // SharedPreferenceHelper.saveTempleData
 
 @Component({
   selector: 'app-anadanam-map-component',
@@ -40,6 +45,14 @@ export class AnadanamMapComponentComponent implements AfterViewInit, OnDestroy {
   private selectedMarker: any = null;
   private CardOverlayClass: any = null;
 
+  // user location (for the "Distance : ..." row)
+  private userLat: number | null = null;
+  private userLng: number | null = null;
+  private distanceEl: HTMLElement | null = null;
+
+  // Android: getArguments().getString("TEMPLE_ID")
+  private selectedTempleId: string | null = null;
+
   // If you copy marker_green.png / marker_red.png from Android into src/assets,
   // put their paths here (e.g. 'assets/marker_green.png'). Empty = built-in SVG pins.
   private readonly MARKER_PNG = { green: '', red: '' };
@@ -48,10 +61,18 @@ export class AnadanamMapComponentComponent implements AfterViewInit, OnDestroy {
     private http: HttpClient,
     private modalCtrl: ModalController,
     private anadanamService: Anadanam,
-    private locationTracker: LocationTracker
+    private locationTracker: LocationTracker,
+    private route: ActivatedRoute
   ) {}
 
   ngAfterViewInit() {
+    // Query param name ni mee routing ki taggattu marchandi
+    this.selectedTempleId = this.route.snapshot.queryParamMap.get('templeId');
+
+    // Android: SharedPreferenceHelper.getZoomLevel()
+    const savedZoom = parseFloat(localStorage.getItem(ZOOM_KEY) || '');
+    if (!isNaN(savedZoom)) this.currentZoomLevel = savedZoom;
+
     this.initMapFirst();
     this.loadMap();
     this.locationTracker.startTracking('annadanam');
@@ -87,8 +108,11 @@ export class AnadanamMapComponentComponent implements AfterViewInit, OnDestroy {
 
     // Tapping anywhere else on the map closes the card
     this.map.addListener('click', () => this.hideCard());
-    this.map.addListener('zoom_changed', () => {
+
+    // Android: setOnCameraIdleListener -> save zoom
+    this.map.addListener('idle', () => {
       this.currentZoomLevel = this.map.getZoom() ?? this.currentZoomLevel;
+      localStorage.setItem(ZOOM_KEY, String(this.currentZoomLevel));
     });
   }
 
@@ -106,14 +130,23 @@ export class AnadanamMapComponentComponent implements AfterViewInit, OnDestroy {
 
       const lat = coordinates.coords.latitude;
       const lng = coordinates.coords.longitude;
+      this.userLat = lat;
+      this.userLng = lng;
 
-      this.map.setCenter({ lat, lng });
+      // selected temple unte map center marchakudadu
+      if (!this.selectedTempleId) {
+        this.map.setCenter({ lat, lng });
+      }
 
+      if (this.userMarker) this.userMarker.setMap(null);
       this.userMarker = new google.maps.Marker({
         position: { lat, lng },
         map: this.map,
         icon: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png'
       });
+
+      // card already open aite distance update
+      if (this.selectedMarker) this.updateDistance(this.selectedMarker);
 
     } catch (err) {
       console.warn('GPS Not available');
@@ -121,18 +154,33 @@ export class AnadanamMapComponentComponent implements AfterViewInit, OnDestroy {
   }
 
   async loadAnadanamList() {
+    // 1) Show cached data immediately (fast), if we have any
     try {
+      const raw = localStorage.getItem(CACHE_KEY);
+      const cached = raw ? JSON.parse(raw) : null;
+      if (Array.isArray(cached) && cached.length) {
+        this.locations = cached;
+        setTimeout(() => this.addMarkers(cached), 200);
+      }
+    } catch { /* ignore */ }
+
+    // 2) ALWAYS refresh from the API, so API changes reach the app
+     try {
       const res = await this.anadanamService.getMapList();
       console.log('API RESPONSE =>', res);
 
       if (res?.errorCode == '200' && Array.isArray(res?.result)) {
-        this.locations = res.result;
-        this.addMarkers(res.result);
+        const data: any[] = res.result;          // <-- local const, closure lo type safe
+
+        localStorage.setItem(CACHE_KEY, JSON.stringify(data));   // update cache
+        this.locations = data;
+        setTimeout(() => this.addMarkers(data), 200);
       } else {
         console.warn('Invalid Response Format:', res);
       }
 
     } catch (err) {
+      // No internet: keep showing the cached markers
       console.error('API Error:', err);
     }
   }
@@ -161,6 +209,13 @@ export class AnadanamMapComponentComponent implements AfterViewInit, OnDestroy {
 
       marker.addListener('click', () => this.showCard(marker, temple, isActive));
       this.markers.push(marker);
+
+      // Android: selectedTempleId match aite card open + zoom 18
+      if (this.selectedTempleId && String(temple.annadhanamId) === String(this.selectedTempleId)) {
+        this.map.setZoom(18);
+        this.map.setCenter({ lat, lng });
+        this.showCard(marker, temple, isActive);
+      }
     });
   }
 
@@ -195,6 +250,10 @@ export class AnadanamMapComponentComponent implements AfterViewInit, OnDestroy {
     this.cardOverlay = new Overlay(marker.getPosition(), card);
     this.cardOverlay.setMap(this.map);
 
+    // Android: updateDistance() + refreshUserLocation()
+    this.updateDistance(marker);
+    this.refreshUserLocation(marker);
+
     // After the card is placed, scroll the map so (card + pin) is centered on screen
     setTimeout(() => this.centerMarkerWithCard(), 80);
   }
@@ -205,6 +264,48 @@ export class AnadanamMapComponentComponent implements AfterViewInit, OnDestroy {
       this.cardOverlay = null;
     }
     this.selectedMarker = null;
+    this.distanceEl = null;
+  }
+
+  /** card open ayinappudu fresh location techukuni distance update */
+  private async refreshUserLocation(marker: any) {
+    try {
+      const c = await Geolocation.getCurrentPosition({
+        enableHighAccuracy: false,
+        timeout: 4000,
+        maximumAge: 60000
+      });
+      this.userLat = c.coords.latitude;
+      this.userLng = c.coords.longitude;
+      if (this.selectedMarker === marker) this.updateDistance(marker);
+    } catch { /* location ledu -> distance hidden */ }
+  }
+
+  /** Android updateDistance(): "Distance : 120 m" / "Distance : 3.4 km" */
+  private updateDistance(marker: any) {
+    const el = this.distanceEl;
+    if (!el) return;
+
+    if (this.userLat === null || this.userLng === null || !marker) {
+      el.style.display = 'none';
+      return;
+    }
+
+    const pos = marker.getPosition();
+    const meters = this.haversine(this.userLat, this.userLng, pos.lat(), pos.lng());
+
+    el.textContent = 'Distance : ' +
+      (meters < 1000 ? `${Math.round(meters)} m` : `${(meters / 1000).toFixed(1)} km`);
+    el.style.display = '';
+  }
+
+  /** Location.distanceBetween equivalent (meters) */
+  private haversine(lat1: number, lng1: number, lat2: number, lng2: number): number {
+    const R = 6371000;
+    const r = (d: number) => d * Math.PI / 180;
+    const a = Math.sin(r(lat2 - lat1) / 2) ** 2 +
+      Math.cos(r(lat1)) * Math.cos(r(lat2)) * Math.sin(r(lng2 - lng1) / 2) ** 2;
+    return 2 * R * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   }
 
   private centerMarkerWithCard() {
@@ -233,9 +334,16 @@ export class AnadanamMapComponentComponent implements AfterViewInit, OnDestroy {
     const card = el('div', 'an-card') as HTMLDivElement;
     const body = el('div', 'an-body');
 
+    // title = Telugu name + ", " + locationenglish (Android bindInfoCard)
+    let titleText: string = temple.annadhanamNameTelugu || '';
+    const locEn = String(temple.locationenglish || '').trim();
+    if (locEn && !locEn.startsWith('http')) {
+      titleText = titleText + ', ' + locEn;
+    }
+
     // title + close
     const head = el('div', 'an-head');
-    head.appendChild(el('div', 'an-title', temple.annadhanamNameTelugu || ''));
+    head.appendChild(el('div', 'an-title', titleText));
     const close = el('button', 'an-close') as HTMLButtonElement;
     close.type = 'button';
     close.setAttribute('aria-label', 'Close');
@@ -245,8 +353,12 @@ export class AnadanamMapComponentComponent implements AfterViewInit, OnDestroy {
     head.appendChild(close);
     body.appendChild(head);
 
-    // location
-    body.appendChild(el('div', 'an-loc', temple.location || ''));
+    // (separate location row Android lo ledu, anduke teesesam)
+
+    // Distance row (info_distance) - location unte matrame chupistundi
+    this.distanceEl = el('div', 'an-distance');
+    this.distanceEl.style.display = 'none';
+    body.appendChild(this.distanceEl);
 
     // అన్నదానం సమయాలు
     body.appendChild(el('div', 'an-times-title', 'అన్నదానం సమయాలు'));
@@ -256,16 +368,18 @@ export class AnadanamMapComponentComponent implements AfterViewInit, OnDestroy {
     dateRow.appendChild(el('div', 'an-cell', 'To : ' + this.formatDate(temple.endingDate)));
     body.appendChild(dateRow);
 
-    // Time text color: RED marker -> always red. GREEN marker -> green only if now is inside start..end time
+    // Time: oka row ("Time : 09:30 AM to 12:00 PM"), aa row matrame colored
+    // RED marker -> always red. GREEN marker -> green only if now is inside start..end time
     const timeColor = isActive && this.isTimeInRange(temple.startTime, temple.endTime) ? COLOR_GREEN : COLOR_RED;
 
     const timeRow = el('div', 'an-row');
-    const sTime = el('div', 'an-cell an-cell-first', 'Start Time: ' + this.formatTime(temple.startTime));
-    const eTime = el('div', 'an-cell', 'End Time: ' + this.formatTime(temple.endTime));
-    sTime.style.color = timeColor;
-    eTime.style.color = timeColor;
-    timeRow.appendChild(sTime);
-    timeRow.appendChild(eTime);
+    const time = el(
+      'div',
+      'an-cell an-cell-first',
+      'Time : ' + this.formatTime(temple.startTime) + ' to ' + this.formatTime(temple.endTime)
+    );
+    time.style.color = timeColor;
+    timeRow.appendChild(time);
     body.appendChild(timeRow);
 
     // Start Navigation button (bottom right)

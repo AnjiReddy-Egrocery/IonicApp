@@ -33,6 +33,12 @@ export class RegisterService {
   console.log('====================');
   console.log('REQUEST URL:', `${this.baseUrl}/userRegistration`);
   console.log('REQUEST DATA:', data);
+
+  // 👇 ee 3 lines kotta ga add cheyyandi
+  console.log('isIOS value:', data.isIOS);
+  console.log('isIOS type:', typeof data.isIOS);
+  console.log('REQUEST DATA (JSON):', JSON.stringify(data));
+
   console.log('====================');
 
   try {

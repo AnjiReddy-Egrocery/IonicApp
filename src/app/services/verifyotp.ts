@@ -14,11 +14,12 @@ export interface UserDataResponse {
 export class Verifyotp {
   private baseUrl = 'https://www.ayyappatelugu.com/APICalls/Users';
 
- async register(registerId: string,  otp: string) {
+ async register(registerId: string,  otp: string, pwd: string) {
   // ✅ Prepare key-value pairs like Postman form-data
   const data: any = {
     registerId: registerId,
     otp: otp,
+    pwd: pwd
    
   };
 
@@ -31,7 +32,7 @@ export class Verifyotp {
     // ✅ Send as multipart/form-data (same as Postman)
     const response = await Http.request({
       method: 'POST',
-      url: `${this.baseUrl}/verifyUserAccount`,
+      url: `${this.baseUrl}/verifyIOSUserAccount`,
       headers: {
         'Content-Type': 'multipart/form-data',
       },

@@ -38,14 +38,15 @@
  <div [ngSwitch]="selectedTab" class="tab-content">
 
     <!-- MAP TAB -->
-    <div *ngSwitchCase="'map'">
+     <div *ngSwitchCase="'map'" class="map-tab">
       <app-anadanam-map-component></app-anadanam-map-component>
     </div>
 
-    <!-- TEMPLES TAB -->
-    <div *ngSwitchCase="'anadanam'">
+    <!-- LIST TAB -->
+    <div *ngSwitchCase="'anadanam'" class="list-tab">
       <app-anadanam-list-component></app-anadanam-list-component>
     </div>
+
 
   </div>
   </ion-content>
